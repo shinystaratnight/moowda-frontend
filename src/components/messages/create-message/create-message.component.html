@@ -1,0 +1,15 @@
+<nz-input-group [nzSuffix]="suffixTemplate"
+                [nzAddOnBefore]="addOnBeforeTemplate"
+                nzSize="large">
+  <input type="text" nz-input placeholder="Type something..."/>
+</nz-input-group>
+<ng-template #addOnBeforeTemplate>
+  <button nz-button nzType="default" nzShape="round" user>
+    <i nz-icon type="plus"></i>
+  </button>
+</ng-template>
+<ng-template #suffixTemplate>
+  <button nz-button nzType="default" nzShape="round" user>
+    <i nz-icon nz-tooltip nzTitle="Send message" type="check"></i>
+  </button>
+</ng-template>

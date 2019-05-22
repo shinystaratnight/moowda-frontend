@@ -16,9 +16,10 @@ nz-footer {
   line-height: 1.5;
   background-color: #7dbcea;
   margin-left: 200px;
-  position: sticky;
+  position: fixed;
   height: 50px;
   bottom: 0;
+  width: 100vw;
 }
 
 nz-sider {
@@ -34,4 +35,5 @@ nz-content {
   overflow: initial;
   background-color: #fff;
   margin-left: 200px;
+  margin-bottom: 50px;
 }

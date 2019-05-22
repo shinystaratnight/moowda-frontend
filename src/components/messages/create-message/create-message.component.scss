@@ -1,0 +1,15 @@
+@import "variables";
+
+:host {
+  width: 100%;
+}
+
+.ant-input {
+  background-color: $background-color;
+  border-radius: 10px;
+}
+
+[message] {
+  margin-left: 5px;
+  font-size: 20px;
+}

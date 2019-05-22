@@ -1,0 +1,26 @@
+<nz-sider [nzBreakpoint]="'sm'" [nzCollapsedWidth]="0"
+          nzCollapsible [(nzCollapsed)]="isCollapsed"
+          [attr.collapsed]="isCollapsed"
+          [nzTrigger]="trigger"
+          [nzWidth]="300">
+  <moo-topics-list></moo-topics-list>
+</nz-sider>
+<ng-template #trigger>
+  <i nz-icon type="up"></i>
+</ng-template>
+<nz-layout>
+  <nz-header>
+    <i trigger nz-icon [type]="'message'"
+       (click)="isCollapsed = !isCollapsed">
+    </i>
+    <button nz-button nzType="default" nzShape="round" user>
+      <i nz-icon type="user"></i>
+    </button>
+  </nz-header>
+  <nz-content [attr.collapsed]="isCollapsed">
+    <moo-messages-list></moo-messages-list>
+  </nz-content>
+  <nz-footer [attr.collapsed]="isCollapsed">
+    <moo-create-message></moo-create-message>
+  </nz-footer>
+</nz-layout>

@@ -1,5 +1,5 @@
 {
-  "name": "moowda-frontend",
+  "name": "moowda",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -20,8 +20,10 @@
     "@angular/platform-browser-dynamic": "~7.2.0",
     "@angular/router": "~7.2.0",
     "core-js": "^2.5.4",
+    "junte-angular": "0.0.13",
     "ng-zorro-antd": "^7.4.1",
     "rxjs": "~6.3.3",
+    "serialize-ts": "^2.5.4",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"
   },

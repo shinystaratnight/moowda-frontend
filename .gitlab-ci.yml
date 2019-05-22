@@ -10,8 +10,9 @@ pages:
     - npm install -g @angular/cli@7.2.0
     - npm install
     - ng build --prod
+    - mv dist/moowda-frontend/* public/
   artifacts:
     paths:
-      - dist/moowda-frontend
+      - public
   only:
     - master

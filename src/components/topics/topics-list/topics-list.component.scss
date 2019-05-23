@@ -1,16 +1,28 @@
 @import "variables";
 
-ul {
-  list-style: none;
-  padding: 20px;
-  margin: 0;
+[nz-menu] {
+  padding: 20px 0;
 
-  li {
+  [nz-menu-item] {
     text-align: start;
-    padding: 15px 0;
+    height: 50px;
+    margin: 0;
+
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+
+      i {
+        font-size: 24px;
+      }
+    }
 
     &:not(:last-child) {
-      border-bottom: 1px $secondary-color solid;
+      div {
+        border-bottom: 1px $secondary-color solid;
+      }
     }
   }
 }

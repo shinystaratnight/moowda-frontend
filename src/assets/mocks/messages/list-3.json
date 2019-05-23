@@ -1,0 +1,35 @@
+{
+  "count": 100,
+  "results": [
+    {
+      "id": 1,
+      "created": "Wed May 12 2019 19:51:49 GMT+0300 (MSK)",
+      "user": {
+        "id": 4,
+        "username": "Iron Man"
+      },
+      "content": "Hello World!",
+      "images": []
+    },
+    {
+      "id": 1,
+      "created": "Wed May 12 2019 19:51:49 GMT+0300 (MSK)",
+      "user": {
+        "id": 5,
+        "username": "Thanos"
+      },
+      "content": "Good bay Iron Man!",
+      "images": []
+    },
+    {
+      "id": 1,
+      "created": "Wed May 12 2019 19:51:49 GMT+0300 (MSK)",
+      "user": {
+        "id": 1,
+        "username": "Me"
+      },
+      "content": "WTF???",
+      "images": []
+    }
+  ]
+}

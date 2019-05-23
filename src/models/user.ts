@@ -1,5 +1,6 @@
-import { Field } from "serialize-ts/dist";
+import { Field, Model } from 'serialize-ts/dist';
 
+@Model()
 export class User {
   @Field()
   id: number;
@@ -7,6 +8,7 @@ export class User {
   username: string;
 }
 
+@Model()
 export class UserCard {
   @Field()
   id: number;

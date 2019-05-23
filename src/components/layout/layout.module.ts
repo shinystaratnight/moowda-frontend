@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { MessagesModule } from 'src/components/messages/messages.module';
 import { TopicsModule } from 'src/components/topics/topics.module';
@@ -17,6 +18,7 @@ import { LayoutComponent } from './layout.component';
   imports: [
     CommonModule,
     NgZorroAntdModule,
+    RouterModule,
 
     TopicsModule,
     MessagesModule

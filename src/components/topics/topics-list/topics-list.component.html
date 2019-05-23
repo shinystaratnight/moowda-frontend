@@ -1,5 +1,8 @@
-<ul>
-  <li *ngFor="let topic of topics">
-    <span>{{topic.title}}</span>
+<ul nz-menu>
+  <li *ngFor="let topic of topics" nz-menu-item (click)="selected.emit(topic.id)">
+    <div>
+      <span>{{topic.title}}</span>
+      <i nz-icon type="message"></i>
+    </div>
   </li>
 </ul>

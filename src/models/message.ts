@@ -1,5 +1,6 @@
-import { Field } from "serialize-ts/dist";
-import { UserCard } from "src/models/user";
+import { ArraySerializer, Field, ModelSerializer, Type } from 'serialize-ts';
+import { Model, PrimitiveSerializer } from 'serialize-ts/dist';
+import { UserCard } from 'src/models/user';
 
 export class Message {
   @Field()
@@ -11,9 +12,11 @@ export class Message {
   @Field()
   content: string;
   @Field()
+  @Type(new ArraySerializer(new PrimitiveSerializer()))
   images: string[];
 }
 
+@Model()
 export class MessageCard {
   @Field()
   id: number;
@@ -24,5 +27,14 @@ export class MessageCard {
   @Field()
   content: string;
   @Field()
+  @Type(new ArraySerializer(new PrimitiveSerializer()))
   images: string[];
+}
+
+export class PagingMessageCard {
+  @Field()
+  count: number;
+  @Field()
+  @Type(new ArraySerializer(new ModelSerializer(MessageCard)))
+  results: MessageCard[];
 }

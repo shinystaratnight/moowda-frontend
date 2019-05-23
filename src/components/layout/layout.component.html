@@ -3,7 +3,7 @@
           [attr.collapsed]="isCollapsed"
           [nzTrigger]="trigger"
           [nzWidth]="300">
-  <moo-topics-list></moo-topics-list>
+  <moo-topics-list (selected)="go($event)"></moo-topics-list>
 </nz-sider>
 <ng-template #trigger>
   <i nz-icon type="up"></i>
@@ -13,7 +13,7 @@
     <moo-header [(isCollapsed)]="isCollapsed"></moo-header>
   </nz-header>
   <nz-content [attr.collapsed]="isCollapsed">
-    <moo-messages-list></moo-messages-list>
+    <router-outlet></router-outlet>
   </nz-content>
   <nz-footer *ngIf="me.logged" [attr.collapsed]="isCollapsed">
     <moo-create-message></moo-create-message>

@@ -9,4 +9,6 @@ export class AppConfig extends Config {
   version = APP_VERSION;
 
   backendEndpoint = 'https://teamprojector.com/api';
+
+  mocksPath = './assets/mocks/'
 }

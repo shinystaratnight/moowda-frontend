@@ -10,5 +10,5 @@ export class AppConfig extends Config {
 
   backendEndpoint = 'https://teamprojector.com/api';
 
-  mocksPath = './assets/mocks/'
+  mocksPath = './assets/mocks'
 }

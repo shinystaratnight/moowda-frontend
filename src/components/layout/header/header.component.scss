@@ -1,0 +1,27 @@
+@import "variables";
+
+:host {
+  background-color: $primary-color;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  align-items: center;
+}
+
+[trigger] {
+  font-size: 24px;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+[user] {
+  background-color: $primary-light-color;
+  border: none;
+}
+
+[nz-menu-item] {
+  align-items: center;
+}

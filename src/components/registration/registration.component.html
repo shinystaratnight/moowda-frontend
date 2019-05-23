@@ -1,0 +1,49 @@
+<form nz-form [formGroup]="registerForm" (ngSubmit)="register()">
+
+  <nz-form-item>
+    <nz-form-control>
+      <nz-input-group [nzPrefix]="prefixEmail">
+        <input nz-input formControlName="email" type="email" placeholder="Email">
+      </nz-input-group>
+      <nz-form-explain *ngIf="registerForm.get('email')?.dirty && registerForm.get('email')?.errors">
+        Please input your Email
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control>
+      <nz-input-group [nzPrefix]="prefixUser">
+        <input nz-input formControlName="username" type="text" placeholder="Username">
+      </nz-input-group>
+      <nz-form-explain *ngIf="registerForm.get('username')?.dirty && registerForm.get('username')?.errors">
+        Please input your Username
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control>
+      <nz-input-group [nzPrefix]="prefixLock">
+        <input type="password" nz-input formControlName="password" placeholder="Password"/>
+      </nz-input-group>
+      <nz-form-explain *ngIf="registerForm.get('password')?.dirty && registerForm.get('password')?.errors">
+        Please input your Password!
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control>
+      <button nz-button class="register-form-button" [nzType]="'primary'"
+              [nzLoading]="loading" type="submit">
+        Registration
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+
+</form>
+
+<ng-template #prefixEmail><i nz-icon type="mail"></i></ng-template>
+<ng-template #prefixUser><i nz-icon type="user"></i></ng-template>
+<ng-template #prefixLock><i nz-icon type="lock"></i></ng-template>

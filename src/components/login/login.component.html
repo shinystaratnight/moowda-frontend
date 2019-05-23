@@ -1,0 +1,41 @@
+<form nz-form [formGroup]="loginForm" (ngSubmit)="login()">
+
+  <nz-form-item>
+    <nz-form-control>
+      <nz-input-group [nzPrefix]="prefixUser">
+        <input nz-input formControlName="username" type="text" placeholder="Username">
+      </nz-input-group>
+      <nz-form-explain *ngIf="loginForm.get('username')?.dirty && loginForm.get('username')?.errors">
+        Please input your Username
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control>
+      <nz-input-group [nzPrefix]="prefixLock">
+        <input type="password" nz-input formControlName="password" placeholder="Password"/>
+      </nz-input-group>
+      <nz-form-explain *ngIf="loginForm.get('password')?.dirty && loginForm.get('password')?.errors">
+        Please input your Password!
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control>
+      <a class="login-form-forgot" class="login-form-forgot" (click)="restore()">
+        Restore password
+      </a>
+      <button nz-button class="login-form-button" [nzType]="'primary'"
+              [nzLoading]="loading" type="submit">
+        Login
+      </button>
+      <a (click)="registration()">register now</a>
+    </nz-form-control>
+  </nz-form-item>
+  
+</form>
+
+<ng-template #prefixUser><i nz-icon type="user"></i></ng-template>
+<ng-template #prefixLock><i nz-icon type="lock"></i></ng-template>

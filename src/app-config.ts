@@ -3,12 +3,23 @@ import { Config } from 'junte-angular';
 
 const APP_VERSION = '1.0.0';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class AppConfig extends Config {
 
   version = APP_VERSION;
 
-  backendEndpoint = 'https://teamprojector.com/api';
+  set backendEndpoint(backendEndpoint: string) {
+    if (!!backendEndpoint) {
+      localStorage.setItem('backendEndpoint', backendEndpoint);
+    } else {
+      localStorage.removeItem('backendEndpoint');
+    }
+  }
 
-  mocksPath = './assets/mocks'
+  get backendEndpoint(): string {
+    return localStorage.backendEndpoint !== undefined
+      ? localStorage.backendEndpoint : this.localMode ? 'http://localhost:4200' : 'https://moowda.com/api';
+  }
+
+  mocksPath = './assets/mocks';
 }

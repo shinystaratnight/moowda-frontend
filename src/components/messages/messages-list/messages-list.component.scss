@@ -8,7 +8,7 @@
   position: fixed;
   top: $header-height;
   height: $header-height;
-  width: 100%;
+  width: calc(100% - #{$sider-width});;
   overflow: auto;
   display: flex;
   justify-content: space-between;

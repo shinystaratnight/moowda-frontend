@@ -12,7 +12,7 @@ nz-empty {
   position: fixed;
   top: $header-height;
   height: $header-height;
-  width: calc(100% - #{$sider-width});;
+  width: calc(100% - #{$sider-width});
   overflow: auto;
   display: flex;
   justify-content: space-between;

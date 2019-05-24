@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { AppConfig } from 'src/app-config';
 import { MeManager } from 'src/managers/me.manager';
-import { Topic } from 'src/models/topic';
 
 @Component({
   selector: 'moo-layout',
@@ -13,7 +12,6 @@ import { Topic } from 'src/models/topic';
 export class LayoutComponent implements OnInit {
 
   collapsed = false;
-  topic: Topic;
 
   constructor(private route: ActivatedRoute,
               private config: AppConfig,

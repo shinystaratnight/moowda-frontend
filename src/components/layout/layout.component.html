@@ -15,6 +15,7 @@
     </nz-header>
   </nz-affix>
   <nz-content [attr.collapsed]="collapsed">
+    <moo-topic-title [attr.collapsed]="collapsed"></moo-topic-title>
     <router-outlet></router-outlet>
   </nz-content>
   <nz-footer *ngIf="me.logged" [attr.collapsed]="collapsed">

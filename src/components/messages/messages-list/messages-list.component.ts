@@ -1,15 +1,10 @@
 import { AfterViewChecked, Component, ElementRef, Inject, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NzModalRef, NzModalService } from 'ng-zorro-antd';
-import { forkJoin } from 'rxjs';
 import { filter, finalize } from 'rxjs/operators';
-import { ShareTopicComponent } from 'src/components/topics/share-topic/share-topic.component';
 import { MeManager } from 'src/managers/me.manager';
 import { MessagesManager } from 'src/managers/messages.manager';
 import { MessageCard } from 'src/models/message';
-import { Topic } from 'src/models/topic';
 import { IMessagesService, messages_service } from 'src/services/messages/interface';
-import { ITopicsService, topics_service } from 'src/services/topics/interface';
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_PAGE_SIZE = 10;
@@ -22,14 +17,12 @@ const DEFAULT_PAGE_SIZE = 10;
 export class MessagesListComponent implements OnInit, AfterViewChecked {
 
   private _id: number;
-  private _modal: NzModalRef;
   private height: number;
 
   messages: MessageCard[] = [];
   page: number = DEFAULT_PAGE;
   pageSize: number = DEFAULT_PAGE_SIZE;
   loading = false;
-  topic: Topic;
 
   @Input() set id(id: number) {
     if (!!id && id !== this._id) {
@@ -42,24 +35,8 @@ export class MessagesListComponent implements OnInit, AfterViewChecked {
     return this._id;
   }
 
-  set modal(modal: NzModalRef) {
-    this._modal = modal;
-
-    modal.afterOpen.subscribe(() => {
-      const component = modal.getContentComponent() as ShareTopicComponent;
-      component.topic = this.topic;
-      component.shared.subscribe(() => this.modal.close());
-    });
-  }
-
-  get modal() {
-    return this._modal;
-  }
-
   constructor(@Inject(messages_service) private messagesService: IMessagesService,
-              @Inject(topics_service) private topicsService: ITopicsService,
               private route: ActivatedRoute,
-              private modalService: NzModalService,
               private messagesManager: MessagesManager,
               private host: ElementRef,
               public me: MeManager) {
@@ -94,20 +71,8 @@ export class MessagesListComponent implements OnInit, AfterViewChecked {
 
   load() {
     this.loading = true;
-    forkJoin(this.topicsService.get(this.id), this.messagesService.list(this.id, this.page, this.pageSize))
+    this.messagesService.list(this.id, this.page, this.pageSize)
       .pipe(finalize(() => this.loading = false))
-      .subscribe(([topic, paging]) => {
-        this.topic = topic;
-        this.messages = paging.results;
-      });
-  }
-
-  share() {
-    this.modal = this.modalService.create({
-      nzTitle: 'Share with friends',
-      nzContent: ShareTopicComponent,
-      nzFooter: null,
-      nzWidth: 'fit-content'
-    });
+      .subscribe(paging => this.messages = paging.results);
   }
 }

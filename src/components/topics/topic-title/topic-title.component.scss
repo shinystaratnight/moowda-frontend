@@ -1,0 +1,28 @@
+@import "variables";
+
+:host {
+  &[collapsed='true'] [topic] {
+    width: 100%;
+  }
+}
+
+[topic] {
+  position: fixed;
+  top: $header-height;
+  height: $header-height;
+  width: calc(100% - #{$sider-width});
+  overflow: auto;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px $background-color solid;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: white;
+  transition: all 0.3s;
+}
+
+@media (max-width: 768px) {
+  [topic] {
+    width: 100%;
+  }
+}

@@ -1,21 +1,21 @@
 <nz-sider [nzBreakpoint]="'sm'" [nzCollapsedWidth]="0"
-          nzCollapsible [(nzCollapsed)]="isCollapsed"
-          [attr.collapsed]="isCollapsed"
+          nzCollapsible [(nzCollapsed)]="collapsed"
+          [attr.collapsed]="collapsed"
           [nzTrigger]="trigger"
           [nzWidth]="300">
-  <moo-topics-list [topic]="topic"></moo-topics-list>
+  <moo-topics-list></moo-topics-list>
 </nz-sider>
 <ng-template #trigger>
   <i nz-icon type="up"></i>
 </ng-template>
 <nz-layout>
   <nz-header>
-    <moo-header [(isCollapsed)]="isCollapsed"></moo-header>
+    <moo-header [(collapsed)]="collapsed"></moo-header>
   </nz-header>
-  <nz-content [attr.collapsed]="isCollapsed">
+  <nz-content [attr.collapsed]="collapsed">
     <router-outlet></router-outlet>
   </nz-content>
-  <nz-footer *ngIf="me.logged" [attr.collapsed]="isCollapsed">
+  <nz-footer *ngIf="me.logged" [attr.collapsed]="collapsed">
     <moo-create-message></moo-create-message>
   </nz-footer>
 </nz-layout>

@@ -32,8 +32,8 @@ export class HeaderComponent {
     return this._modal;
   }
 
-  @Input() isCollapsed: boolean;
-  @Output() isCollapsedChange = new EventEmitter<boolean>();
+  @Input() collapsed: boolean;
+  @Output() collapsedChange = new EventEmitter<boolean>();
 
   constructor(@Inject(users_service) private usersService: IUsersService,
               private config: AppConfig,

@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { TopicsServiceProvider } from 'src/services/topics/provider';
+import { ShareTopicComponent } from './share-topic/share-topic.component';
 import { TopicsListComponent } from './topics-list/topics-list.component';
 
 @NgModule({
   declarations: [
-    TopicsListComponent
+    TopicsListComponent,
+    ShareTopicComponent
   ],
   imports: [
     CommonModule,
@@ -15,7 +17,11 @@ import { TopicsListComponent } from './topics-list/topics-list.component';
     NgZorroAntdModule
   ],
   exports: [
-    TopicsListComponent
+    TopicsListComponent,
+    ShareTopicComponent
+  ],
+  entryComponents: [
+    ShareTopicComponent
   ],
   providers: [
     TopicsServiceProvider

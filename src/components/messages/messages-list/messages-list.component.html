@@ -1,3 +1,9 @@
+<div topic>
+  <span>Topic: {{topic?.title}}</span>
+  <button *ngIf="me.logged" nz-button nzType="default" nzShape="circle" (click)="share()">
+    <i nz-icon type="share-alt"></i>
+  </button>
+</div>
 <ng-container *ngIf="loading">
   <ng-template #indicatorTemplate>
     <i nz-icon type="loading"></i>

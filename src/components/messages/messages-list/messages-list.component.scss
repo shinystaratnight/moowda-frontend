@@ -1,5 +1,11 @@
 @import "variables";
 
+[topic] {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
 [loading] {
   height: 100vh;
   display: flex;

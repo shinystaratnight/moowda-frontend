@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { AppConfig } from 'src/app-config';
 import { MeManager } from 'src/managers/me.manager';
+import { Topic } from 'src/models/topic';
 
 @Component({
   selector: 'moo-layout',
@@ -11,22 +12,16 @@ import { MeManager } from 'src/managers/me.manager';
 })
 export class LayoutComponent implements OnInit {
 
-  isCollapsed = false;
-  topic: number;
+  collapsed = false;
+  topic: Topic;
 
-  constructor(private router: Router,
-              private route: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
               private config: AppConfig,
               public me: MeManager) {
   }
 
   ngOnInit() {
-    this.route.params.pipe(filter(({topic}) => !!topic && this.topic !== topic))
-      .subscribe(({topic}) => {
-        this.topic = +topic || null;
-        if (this.config.device.mobile) {
-          this.isCollapsed = true;
-        }
-      });
+    this.route.params.pipe(filter(({topic}) => !!+topic && this.config.device.mobile))
+      .subscribe(() => this.collapsed = true);
   }
 }

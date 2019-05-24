@@ -93,6 +93,7 @@ export class MessagesListComponent implements OnInit, AfterViewChecked {
   }
 
   load() {
+    this.loading = true;
     forkJoin(this.topicsService.get(this.id), this.messagesService.list(this.id, this.page, this.pageSize))
       .pipe(finalize(() => this.loading = false))
       .subscribe(([topic, paging]) => {

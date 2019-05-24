@@ -1,0 +1,72 @@
+@import "variables";
+
+$sider-width: 300px;
+$footer-height: 70px;
+$header-height: 50px;
+
+nz-layout {
+  background-color: white;
+}
+
+nz-header {
+  height: $header-height;
+  top: 0;
+  position: sticky;
+  padding: 0;
+}
+
+nz-sider {
+  overflow: auto;
+  position: fixed;
+  height: calc(100vh - #{$header-height});
+  left: 0;
+  top: $header-height;
+  background-color: white;
+  box-shadow: 10px 0 10px 0 $shadow-color;
+}
+
+nz-footer {
+  background-color: white;
+  margin-left: calc(#{$sider-width} + 20px);
+  position: fixed;
+  height: $footer-height;
+  bottom: 0;
+  width: calc(100vw - #{$sider-width} - 20px);
+  transition: margin 0.2s;
+  padding: 15px 15px 15px 0;
+  display: flex;
+
+  &[collapsed='true'] {
+    margin-left: 0;
+    width: 100vw;
+    padding: 15px;
+  }
+}
+
+nz-content {
+  overflow: initial;
+  background-color: white;
+  margin-left: $sider-width;
+  margin-bottom: $footer-height;
+  transition: margin 0.2s;
+  padding: 20px;
+
+  &[collapsed='true'] {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  nz-sider[collapsed='false'] {
+    flex: 0 0 100vw !important;
+    width: 100vw !important;
+    min-width: 100vw !important;
+    max-width: 100vw !important;
+  }
+  nz-footer[collapsed='false'] {
+    display: none;
+  }
+  nz-content[collapsed='false'] {
+    display: none;
+  }
+}

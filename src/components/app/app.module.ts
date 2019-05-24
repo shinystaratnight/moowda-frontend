@@ -2,17 +2,20 @@ import { registerLocaleData } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import en from '@angular/common/locales/en';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Config, HttpMockService, HttpService } from "junte-angular";
+import { Config, HttpMockService, HttpService } from 'junte-angular';
 import { en_US, NgZorroAntdModule, NZ_I18N } from 'ng-zorro-antd';
-import { AppConfig } from "src/app-config";
+import { AppConfig } from 'src/app-config';
 
 import { AppRoutingModule } from 'src/components/app/app-routing.module';
 import { AppComponent } from 'src/components/app/app.component';
-import { MessagesModule } from "src/components/messages/messages.module";
-import { TopicsModule } from "src/components/topics/topics.module";
+import { LayoutModule } from 'src/components/layout/layout.module';
+import { LoginModule } from 'src/components/login/login.module';
+import { RegistrationModule } from 'src/components/registration/registration.module';
+import { MeServiceProvider } from 'src/services/me/me.provider';
+import { UsersServiceProvider } from 'src/services/users/provider';
 
 registerLocaleData(en);
 
@@ -27,9 +30,11 @@ registerLocaleData(en);
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
 
-    TopicsModule,
-    MessagesModule
+    LayoutModule,
+    LoginModule,
+    RegistrationModule
   ],
   providers: [
     {
@@ -38,11 +43,13 @@ registerLocaleData(en);
     },
     {
       provide: Config,
-      useClass: AppConfig,
+      useClass: AppConfig
     },
     HttpClient,
     HttpService,
-    HttpMockService
+    HttpMockService,
+    UsersServiceProvider,
+    MeServiceProvider
   ],
   bootstrap: [AppComponent]
 })

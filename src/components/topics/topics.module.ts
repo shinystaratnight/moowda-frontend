@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { TopicsServiceProvider } from "src/services/topics/provider";
+import { RouterModule } from '@angular/router';
+import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { TopicsServiceProvider } from 'src/services/topics/provider';
 import { TopicsListComponent } from './topics-list/topics-list.component';
 
 @NgModule({
@@ -8,7 +10,9 @@ import { TopicsListComponent } from './topics-list/topics-list.component';
     TopicsListComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule,
+    NgZorroAntdModule
   ],
   exports: [
     TopicsListComponent

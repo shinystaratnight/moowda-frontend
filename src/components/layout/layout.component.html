@@ -1,0 +1,21 @@
+<nz-sider [nzBreakpoint]="'sm'" [nzCollapsedWidth]="0"
+          nzCollapsible [(nzCollapsed)]="isCollapsed"
+          [attr.collapsed]="isCollapsed"
+          [nzTrigger]="trigger"
+          [nzWidth]="300">
+  <moo-topics-list (selected)="go($event)"></moo-topics-list>
+</nz-sider>
+<ng-template #trigger>
+  <i nz-icon type="up"></i>
+</ng-template>
+<nz-layout>
+  <nz-header>
+    <moo-header [(isCollapsed)]="isCollapsed"></moo-header>
+  </nz-header>
+  <nz-content [attr.collapsed]="isCollapsed">
+    <router-outlet></router-outlet>
+  </nz-content>
+  <nz-footer *ngIf="me.logged" [attr.collapsed]="isCollapsed">
+    <moo-create-message></moo-create-message>
+  </nz-footer>
+</nz-layout>

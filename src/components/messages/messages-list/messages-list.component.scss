@@ -1,1 +1,49 @@
+@import "variables";
 
+[loading] {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  i {
+    font-size: 20vw;
+    color: $primary-color;
+  }
+}
+
+ul {
+  list-style: none;
+  padding: 10px;
+
+  li {
+    padding: 10px;
+
+    [username] {
+      width: 100%;
+      float: left;
+      margin-bottom: 10px;
+    }
+
+    [content] {
+      float: left;
+      background-color: $primary-color;
+      margin: 0 10vw 3vh 0;
+      padding: 10px;
+      border-radius: 15px;
+    }
+
+    &[me='true'] {
+      [username] {
+        float: right;
+        text-align: right;
+      }
+
+      [content] {
+        float: right;
+        background-color: $background-color;
+        margin: 0 0 3vh 10vw;
+      }
+    }
+  }
+}

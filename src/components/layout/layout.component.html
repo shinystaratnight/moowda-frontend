@@ -9,9 +9,11 @@
   <i nz-icon type="up"></i>
 </ng-template>
 <nz-layout>
-  <nz-header>
-    <moo-header [(collapsed)]="collapsed"></moo-header>
-  </nz-header>
+  <nz-affix [nzOffsetTop]="0">
+    <nz-header>
+      <moo-header [(collapsed)]="collapsed"></moo-header>
+    </nz-header>
+  </nz-affix>
   <nz-content [attr.collapsed]="collapsed">
     <router-outlet></router-outlet>
   </nz-content>

@@ -23,6 +23,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  left: $sider-width;
+  top: $header-height;
+  bottom: $footer-height;
+  right: 0;
+  margin: auto;
 
   i {
     font-size: 20vw;

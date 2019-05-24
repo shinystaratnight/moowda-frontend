@@ -4,18 +4,18 @@
   display: block;
 }
 
-nz-affix {
+[topic] {
+  position: fixed;
+  top: $header-height;
+  height: $header-height;
   width: 100%;
-
-  [topic] {
-    overflow: auto;
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 2px $background-color solid;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: white;
-  }
+  overflow: auto;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px $background-color solid;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: white;
 }
 
 [loading] {
@@ -32,7 +32,7 @@ nz-affix {
 
 ul {
   list-style: none;
-  padding: 20px;
+  padding: $header-height 20px 20px 20px;
 
   li {
     padding: 10px;

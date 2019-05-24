@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { TopicsModule } from 'src/components/topics/topics.module';
 import { MessagesServiceProvider } from 'src/services/messages/provider';
+import { TopicsServiceProvider } from 'src/services/topics/provider';
 import { CreateMessageComponent } from './create-message/create-message.component';
 import { MessagesListComponent } from './messages-list/messages-list.component';
 
@@ -12,14 +14,17 @@ import { MessagesListComponent } from './messages-list/messages-list.component';
   ],
   imports: [
     CommonModule,
-    NgZorroAntdModule
+    NgZorroAntdModule,
+
+    TopicsModule
   ],
   exports: [
     MessagesListComponent,
     CreateMessageComponent
   ],
   providers: [
-    MessagesServiceProvider
+    MessagesServiceProvider,
+    TopicsServiceProvider
   ]
 })
 export class MessagesModule {

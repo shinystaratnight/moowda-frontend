@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { TopicCard } from 'src/models/topic';
@@ -24,7 +24,7 @@ export class TopicsListComponent implements OnInit {
     return this._topics;
   }
 
-  @Input() set topic(topic: number) {
+  set topic(topic: number) {
     this._topic = topic;
     this.load();
   }
@@ -39,7 +39,7 @@ export class TopicsListComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.route.params.subscribe(({topic}) => this.topic = +topic || null);
   }
 
   load() {

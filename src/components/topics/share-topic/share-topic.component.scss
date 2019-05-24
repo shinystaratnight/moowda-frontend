@@ -1,0 +1,17 @@
+@import "variables";
+
+:host {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  width: 30vw;
+}
+
+[whatsapp] {
+  color: $green-color;
+  margin: 15px auto;
+  width: 100px;
+  height: 100px;
+  font-size: 80px;
+  line-height: 1.23;
+}

@@ -5,18 +5,24 @@
   </button>
 </div>
 
-<ng-container *ngIf="loading">
+<ng-container *ngIf="loading; else content">
   <ng-template #indicatorTemplate>
     <i nz-icon type="loading"></i>
   </ng-template>
   <nz-spin nzSimple [nzIndicator]="indicatorTemplate" loading></nz-spin>
 </ng-container>
 
-<ul>
-  <ng-container *ngIf="messages.length">
-    <li *ngFor="let message of messages" [attr.me]="me.user?.id === message.user.id">
-      <span username>{{message.user.username}}</span>
-      <div content>{{message.content}}</div>
-    </li>
+<ng-template #content>
+  <ng-container *ngIf="messages.length; else noData">
+    <ul>
+      <li *ngFor="let message of messages" [attr.me]="me.user?.id === message.user.id">
+        <span username>{{message.user.username}}</span>
+        <div content>{{message.content}}</div>
+      </li>
+    </ul>
   </ng-container>
-</ul>
+</ng-template>
+
+<ng-template #noData>
+  <nz-empty></nz-empty>
+</ng-template>

@@ -28,5 +28,11 @@
     "title": "Fifth cool topic",
     "messages_count": 50,
     "last_message_data": "Wed May 12 2019 19:51:49 GMT+0300 (MSK)"
+  },
+  {
+    "id": 6,
+    "title": "Empty topic",
+    "messages_count": 0,
+    "last_message_data": "Wed May 12 2019 19:51:49 GMT+0300 (MSK)"
   }
 ]

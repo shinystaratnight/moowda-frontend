@@ -24,5 +24,9 @@
 </ng-template>
 
 <ng-template #noData>
-  <nz-empty></nz-empty>
+  <nz-empty [nzNotFoundContent]="contentTpl"></nz-empty>
+</ng-template>
+
+<ng-template #contentTpl>
+  <span> No messages yet </span>
 </ng-template>

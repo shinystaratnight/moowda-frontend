@@ -17,7 +17,7 @@ export class MessagesMockService implements IMessagesService {
       .pipe(map(obj => deserialize(obj, PagingMessageCard)));
   }
 
-  create(id: number, content: string, images: number[]): Observable<Message> {
+  create(id: number, content: string, images: number[] = []): Observable<Message> {
     return this.http.get('messages/get.json')
       .pipe(map(obj => deserialize(obj, Message)));
   }

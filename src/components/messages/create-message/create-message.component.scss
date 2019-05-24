@@ -13,3 +13,14 @@
   margin-left: 5px;
   font-size: 20px;
 }
+
+[add-picture] {
+  background-color: $primary-color;
+  color: white;
+}
+
+[send-message] {
+  color: $primary-color;
+  font-size: 30px;
+  cursor: pointer;
+}

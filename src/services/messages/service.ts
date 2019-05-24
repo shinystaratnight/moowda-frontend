@@ -25,7 +25,7 @@ export class MessagesService implements IMessagesService {
       .pipe(map(obj => deserialize(obj, PagingMessageCard)));
   }
 
-  create(id: number, content: string, images: number[]): Observable<Message> {
+  create(id: number, content: string, images: number[] = []): Observable<Message> {
     return this.http.post(`topics/${id}/messages`)
       .pipe(map(obj => deserialize(obj, Message)));
   }

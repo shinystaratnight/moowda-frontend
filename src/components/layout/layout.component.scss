@@ -41,7 +41,7 @@ nz-content {
   overflow: initial;
   background-color: white;
   margin-left: $sider-width;
-  margin-bottom: $footer-height;
+  padding-bottom: $footer-height;
   transition: margin 0.2s;
 
   &[collapsed='true'] {

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, Input, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, Inject, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { forkJoin } from 'rxjs';
@@ -19,10 +19,11 @@ const DEFAULT_PAGE_SIZE = 10;
   templateUrl: './messages-list.component.html',
   styleUrls: ['./messages-list.component.scss']
 })
-export class MessagesListComponent implements OnInit {
+export class MessagesListComponent implements OnInit, AfterViewChecked {
 
   private _id: number;
   private _modal: NzModalRef;
+  private height: number;
 
   messages: MessageCard[] = [];
   page: number = DEFAULT_PAGE;
@@ -73,7 +74,22 @@ export class MessagesListComponent implements OnInit {
 
     this.messagesManager.message$
       .pipe(filter(message => !!message))
-      .subscribe(message => this.messages.push(new MessageCard(message)));
+      .subscribe(message => {
+        this.messages.push(new MessageCard(message));
+        this.scrollToBottom();
+      });
+  }
+
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom(): void {
+    const height = this.host.nativeElement.parentElement.scrollHeight;
+    if (height !== this.height) {
+      this.host.nativeElement.parentElement.scrollIntoView(false);
+      this.height = height;
+    }
   }
 
   load() {

@@ -1,6 +1,6 @@
-import { Component, EventEmitter, HostListener, Inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IMessagesService, messages_service } from 'src/services/messages/interface';
+import { MessagesManager } from 'src/managers/messages.manager';
 
 @Component({
   selector: 'moo-create-message',
@@ -19,7 +19,7 @@ export class CreateMessageComponent implements OnInit {
     this.send();
   }
 
-  constructor(@Inject(messages_service) private messagesService: IMessagesService,
+  constructor(private messages: MessagesManager,
               private route: ActivatedRoute) {
   }
 
@@ -28,8 +28,6 @@ export class CreateMessageComponent implements OnInit {
   }
 
   send() {
-    console.log('send', this.content);
-    this.messagesService.create(this.id, this.content, this.images)
-      .subscribe();
+    this.messages.send(this.id, this.content, this.images);
   }
 }

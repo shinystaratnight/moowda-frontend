@@ -29,6 +29,12 @@ export class MessageCard {
   @Field()
   @Type(new ArraySerializer(new PrimitiveSerializer()))
   images: string[];
+
+  constructor(message: Message = null) {
+    if (!!message) {
+      Object.assign(this, message);
+    }
+  }
 }
 
 export class PagingMessageCard {

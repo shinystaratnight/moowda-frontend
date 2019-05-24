@@ -1,10 +1,11 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { forkJoin } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { filter, finalize } from 'rxjs/operators';
 import { ShareTopicComponent } from 'src/components/topics/share-topic/share-topic.component';
 import { MeManager } from 'src/managers/me.manager';
+import { MessagesManager } from 'src/managers/messages.manager';
 import { MessageCard } from 'src/models/message';
 import { Topic } from 'src/models/topic';
 import { IMessagesService, messages_service } from 'src/services/messages/interface';
@@ -58,6 +59,8 @@ export class MessagesListComponent implements OnInit {
               @Inject(topics_service) private topicsService: ITopicsService,
               private route: ActivatedRoute,
               private modalService: NzModalService,
+              private messagesManager: MessagesManager,
+              private host: ElementRef,
               public me: MeManager) {
   }
 
@@ -67,6 +70,35 @@ export class MessagesListComponent implements OnInit {
       this.page = +page || DEFAULT_PAGE;
       this.pageSize = +pageSize || DEFAULT_PAGE_SIZE;
     });
+
+    this.messagesManager.message$
+      .pipe(filter(message => !!message))
+      .subscribe(message => {
+        this.messages.push(new MessageCard(message));
+        this.scrollToBottom();
+      });
+  }
+
+  // ngOnChange() {
+  //   this.scrollToBottom();
+  // }
+
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom(): void {
+    const height = this.host.nativeElement.parentElement.scrollHeight;
+
+    console.group('scroll');
+    console.log(this.host);
+    console.log('height: ', height);
+    console.groupEnd();
+
+    try {
+      this.host.nativeElement.parentElement.scrollTop = height;
+    } catch (err) {
+    }
   }
 
   load() {

@@ -13,6 +13,7 @@ nz-header {
   top: 0;
   position: sticky;
   padding: 0;
+  z-index: 1;
 }
 
 nz-sider {
@@ -49,7 +50,6 @@ nz-content {
   margin-left: $sider-width;
   margin-bottom: $footer-height;
   transition: margin 0.2s;
-  padding: 20px;
 
   &[collapsed='true'] {
     margin-left: 0;

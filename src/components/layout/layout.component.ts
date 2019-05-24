@@ -24,7 +24,6 @@ export class LayoutComponent implements OnInit {
     this.route.params.pipe(filter(({topic}) => !!topic && this.topic !== topic))
       .subscribe(({topic}) => {
         this.topic = +topic || null;
-        console.log(this.config.device.mobile);
         if (this.config.device.mobile) {
           this.isCollapsed = true;
         }

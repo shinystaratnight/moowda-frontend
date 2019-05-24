@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Inject, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { TopicCard } from 'src/models/topic';
 import { ITopicsService, topics_service } from 'src/services/topics/interface';
@@ -17,14 +17,14 @@ export class TopicsListComponent implements OnInit {
 
   set topics(topics: TopicCard[]) {
     this._topics = topics;
-    this.selected.emit(this.topic || topics[0].id);
+    this.router.navigate(['/topics', this.topic || topics[0].id], {relativeTo: this.route});
   }
 
   get topics() {
     return this._topics;
   }
 
-  set topic(topic: number) {
+  @Input() set topic(topic: number) {
     this._topic = topic;
     this.load();
   }
@@ -33,14 +33,13 @@ export class TopicsListComponent implements OnInit {
     return this._topic;
   }
 
-  @Output() selected = new EventEmitter<number>();
-
   constructor(@Inject(topics_service) private topicsService: ITopicsService,
+              private router: Router,
               private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(({topic}) => this.topic = +topic || null);
+
   }
 
   load() {

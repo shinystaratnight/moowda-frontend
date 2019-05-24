@@ -3,7 +3,7 @@
           [attr.collapsed]="isCollapsed"
           [nzTrigger]="trigger"
           [nzWidth]="300">
-  <moo-topics-list (selected)="go($event)"></moo-topics-list>
+  <moo-topics-list [topic]="topic"></moo-topics-list>
 </nz-sider>
 <ng-template #trigger>
   <i nz-icon type="up"></i>

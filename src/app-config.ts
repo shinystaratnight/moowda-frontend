@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Config } from 'junte-angular';
 
 const APP_VERSION = '1.0.0';
+const MOBILE_REGEX = /(iPhone|iPad|iPod|Android|webOS|BlackBerry|Windows Phone|Opera Mini)/ig;
 
 @Injectable({providedIn: 'root'})
 export class AppConfig extends Config {
@@ -23,4 +24,8 @@ export class AppConfig extends Config {
 
   mocksPath = './assets/mocks';
   useMocks = true;
+
+  device = {
+    mobile: (() => MOBILE_REGEX.test(navigator.userAgent))()
+  };
 }

@@ -9,5 +9,6 @@
   </button>
 </ng-template>
 <ng-template #suffixTemplate>
-  <i nz-icon nz-tooltip nzTitle="Send message" type="icons:send-message" send-message (click)="send()"></i>
+  <i nz-icon nz-tooltip type="icons:send-message" send-message (click)="send()"
+     (tap)="send()"></i>
 </ng-template>

@@ -73,32 +73,7 @@ export class MessagesListComponent implements OnInit {
 
     this.messagesManager.message$
       .pipe(filter(message => !!message))
-      .subscribe(message => {
-        this.messages.push(new MessageCard(message));
-        this.scrollToBottom();
-      });
-  }
-
-  // ngOnChange() {
-  //   this.scrollToBottom();
-  // }
-
-  ngAfterViewChecked() {
-    this.scrollToBottom();
-  }
-
-  scrollToBottom(): void {
-    const height = this.host.nativeElement.parentElement.scrollHeight;
-
-    console.group('scroll');
-    console.log(this.host);
-    console.log('height: ', height);
-    console.groupEnd();
-
-    try {
-      this.host.nativeElement.parentElement.scrollTop = height;
-    } catch (err) {
-    }
+      .subscribe(message => this.messages.push(new MessageCard(message)));
   }
 
   load() {

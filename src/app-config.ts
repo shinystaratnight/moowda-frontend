@@ -22,4 +22,5 @@ export class AppConfig extends Config {
   }
 
   mocksPath = './assets/mocks';
+  useMocks = true;
 }

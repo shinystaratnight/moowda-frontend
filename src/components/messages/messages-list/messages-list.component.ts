@@ -1,10 +1,10 @@
 import { AfterViewChecked, Component, ElementRef, Inject, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { filter, finalize } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 import { MeManager } from 'src/managers/me.manager';
-import { MessagesManager } from 'src/managers/messages.manager';
-import { MessageCard } from 'src/models/message';
+import { MessageAddedEvent, MessageCard } from 'src/models/message';
 import { IMessagesService, messages_service } from 'src/services/messages/interface';
+import { MessagesSocketService } from 'src/services/messages/socket';
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_PAGE_SIZE = 10;
@@ -37,7 +37,7 @@ export class MessagesListComponent implements OnInit, AfterViewChecked {
 
   constructor(@Inject(messages_service) private messagesService: IMessagesService,
               private route: ActivatedRoute,
-              private messagesManager: MessagesManager,
+              private messagesSocket: MessagesSocketService,
               private host: ElementRef,
               public me: MeManager) {
   }
@@ -49,12 +49,12 @@ export class MessagesListComponent implements OnInit, AfterViewChecked {
       this.pageSize = +pageSize || DEFAULT_PAGE_SIZE;
     });
 
-    this.messagesManager.message$
-      .pipe(filter(message => !!message))
-      .subscribe(message => {
-        this.messages.push(new MessageCard(message));
+    this.messagesSocket.event$.subscribe(event => {
+      if (event instanceof MessageAddedEvent) {
+        this.messages.push(new MessageCard(event.message));
         this.scrollToBottom();
-      });
+      }
+    });
   }
 
   ngAfterViewChecked() {
@@ -70,6 +70,7 @@ export class MessagesListComponent implements OnInit, AfterViewChecked {
   }
 
   load() {
+    this.messagesSocket.topic = this.id;
     this.loading = true;
     this.messagesService.list(this.id, this.page, this.pageSize)
       .pipe(finalize(() => this.loading = false))

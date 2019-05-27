@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Topic, TopicCard } from "src/models/topic";
+import { Topic, TopicCard } from 'src/models/topic';
 
 export interface ITopicsService {
 

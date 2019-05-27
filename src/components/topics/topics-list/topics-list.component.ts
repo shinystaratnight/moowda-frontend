@@ -1,9 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, finalize } from 'rxjs/operators';
-import { TopicsManager } from 'src/managers/topics.manager';
-import { TopicCard } from 'src/models/topic';
+import { finalize } from 'rxjs/operators';
+import { TopicCreatedEvent, TopicItem, TopicMessageAddedEvent } from 'src/models/topic';
 import { ITopicsService, topics_service } from 'src/services/topics/interface';
+import { TopicsSocketService } from 'src/services/topics/socket';
 
 @Component({
   selector: 'moo-topics-list',
@@ -12,37 +12,50 @@ import { ITopicsService, topics_service } from 'src/services/topics/interface';
 })
 export class TopicsListComponent implements OnInit {
 
-  private _topics: TopicCard[] = [];
-  private _topic: number;
+  private _current: number;
+  topics: TopicItem[] = [];
   loading = false;
 
-  set topics(topics: TopicCard[]) {
-    this._topics = topics;
+  @Output() haveMessages = new EventEmitter<boolean>();
+
+  set current(current: number) {
+    this._current = current;
+    const found = this.topics.find(topic => topic.card.id === current);
+
+    if (!!found) {
+      found.newMessages = 0;
+      this.haveMessages.emit(!!this.topics.find(topic => !!topic.newMessages));
+    }
   }
 
-  get topics() {
-    return this._topics;
+  get current() {
+    return this._current;
   }
 
-  set topic(topic: number) {
-    this._topic = topic;
-    this.router.navigate(['/topics', topic], {relativeTo: this.route});
-  }
-
-  get topic() {
-    return this._topic;
-  }
 
   constructor(@Inject(topics_service) private topicsService: ITopicsService,
-              private topicsManager: TopicsManager,
+              private topicsSocket: TopicsSocketService,
               private router: Router,
               private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(({topic}) => this.topic = +topic || null);
-    this.topicsManager.topic$.pipe(filter(topic => !!topic))
-      .subscribe(topic => this.topics.unshift(topic));
+    this.route.params.subscribe(({topic}) => this.current = +topic || null);
+
+    this.topicsSocket.event$.subscribe(event => {
+      if (event instanceof TopicMessageAddedEvent) {
+        if (this.current !== event.topic.id) {
+          const found = this.topics.find(topic => topic.card.id === event.topic.id);
+          if (found.card.messagesCount < event.topic.messagesCount) {
+            found.newMessages = found.card.messagesCount - event.topic.messagesCount;
+            this.haveMessages.emit(true);
+          }
+        }
+      } else if (event instanceof TopicCreatedEvent) {
+        this.topics.unshift(new TopicItem(event.topic, 0));
+      }
+    });
+
     this.load();
   }
 
@@ -51,9 +64,10 @@ export class TopicsListComponent implements OnInit {
     this.topicsService.list()
       .pipe(finalize(() => this.loading = false))
       .subscribe(topics => {
-        this.topics = topics;
-        if (!this.topic) {
-          this.topic = topics[0].id;
+        this.topics = topics.map(card => new TopicItem(card, 0));
+        this.haveMessages.emit(!!this.topics.find(topic => !!topic.newMessages));
+        if (!this.current) {
+          this.router.navigate(['/topics', topics[0].id], {relativeTo: this.route});
         }
       });
   }

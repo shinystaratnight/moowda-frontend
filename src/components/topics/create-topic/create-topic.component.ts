@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { TopicsManager } from 'src/managers/topics.manager';
+import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { Topic } from 'src/models/topic';
+import { ITopicsService, topics_service } from 'src/services/topics/interface';
 
 @Component({
   selector: 'moo-create-topic',
@@ -12,10 +12,10 @@ export class CreateTopicComponent {
   title: string;
   @Output() created = new EventEmitter<Topic>();
 
-  constructor(private topics: TopicsManager) {
+  constructor(@Inject(topics_service) private topicsService: ITopicsService) {
   }
 
   create() {
-    this.topics.create(this.title).subscribe(() => this.created.emit());
+    this.topicsService.create(this.title).subscribe(() => this.created.emit());
   }
 }

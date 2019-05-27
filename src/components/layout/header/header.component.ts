@@ -38,6 +38,8 @@ export class HeaderComponent {
   @Input() collapsed: boolean;
   @Output() collapsedChange = new EventEmitter<boolean>();
 
+  @Input() haveMessages = false;
+
   constructor(@Inject(users_service) private usersService: IUsersService,
               private config: AppConfig,
               private modalService: NzModalService,

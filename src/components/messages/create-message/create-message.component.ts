@@ -1,8 +1,8 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UploadXHRArgs } from 'ng-zorro-antd';
-import { MessagesManager } from 'src/managers/messages.manager';
 import { FileUploadService } from 'src/services/file-upload.service';
+import { IMessagesService, messages_service } from 'src/services/messages/interface';
 
 @Component({
   selector: 'moo-create-message',
@@ -35,7 +35,7 @@ export class CreateMessageComponent implements OnInit {
     this.send();
   }
 
-  constructor(private messages: MessagesManager,
+  constructor(@Inject(messages_service) private messagesService: IMessagesService,
               private route: ActivatedRoute,
               private upload: FileUploadService) {
   }
@@ -46,9 +46,8 @@ export class CreateMessageComponent implements OnInit {
   }
 
   send() {
-    console.log(this.images);
-    this.messages.send(this.id, this.content, this.images.map(image => image['id']));
-    this.content = '';
+    this.messagesService.create(this.id, this.content, this.images.map(image => image['id']))
+      .subscribe(() => this.content = '');
   }
 
   request = (item: UploadXHRArgs) => {

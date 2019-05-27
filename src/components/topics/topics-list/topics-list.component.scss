@@ -27,9 +27,14 @@
       }
     }
 
-    &.active {
+    &[active='true'] {
       background-color: $secondary-color;
       top: -1px;
+      color: white;
+
+      div [nz-icon] {
+        color: white;
+      }
     }
   }
 }

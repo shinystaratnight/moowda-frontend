@@ -1,0 +1,15 @@
+@import "variables";
+
+:host {
+  display: block;
+  padding-top: 20px;
+}
+
+[start-topic] {
+  background-color: $purple-color;
+  width: 50%;
+  color: white;
+  height: 35px;
+  border: none;
+  margin: 25px 25%;
+}

@@ -1,3 +1,5 @@
+@import "variables";
+
 [nz-form] {
   max-width: 300px;
   padding-top: 20px;
@@ -7,6 +9,10 @@
   float: right;
 }
 
-.login-form-button {
-  width: 100%;
+[login] {
+  background-color: $purple-color;
+  width: 50%;
+  height: 35px;
+  color: white;
+  margin: 0 25%;
 }

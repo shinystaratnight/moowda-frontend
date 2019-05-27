@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { AppConfig } from 'src/app-config';
 import { MeManager } from 'src/managers/me.manager';
+import { TopicItem } from 'src/models/topic';
 
 @Component({
   selector: 'moo-layout',
@@ -12,6 +13,8 @@ import { MeManager } from 'src/managers/me.manager';
 export class LayoutComponent implements OnInit {
 
   collapsed = false;
+  topics: TopicItem[] = [];
+  haveMessages = false;
 
   constructor(private route: ActivatedRoute,
               private config: AppConfig,

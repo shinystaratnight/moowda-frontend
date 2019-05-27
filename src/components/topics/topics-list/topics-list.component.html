@@ -1,8 +1,14 @@
 <ul nz-menu>
-  <li *ngFor="let t of topics" nz-menu-item [routerLink]="['/topics', t.id]" [attr.active]="topic === t.id">
-    <div>
-      <span>{{t.title}}</span>
+  <li *ngFor="let topic of topics" nz-menu-item
+      [routerLink]="['/topics', topic.card.id]"
+      [attr.active]="current === topic.card.id">
+    <div topic>
+      <span>{{topic.card.title}}</span>
       <i nz-icon type="icons:message"></i>
+      <ng-container *ngIf="!!topic.newMessages">
+        <div new-messages>{{topic.newMessages}}</div>
+        <div have-messages></div>
+      </ng-container>
     </div>
   </li>
 </ul>

@@ -28,4 +28,19 @@ export class AppConfig extends Config {
   device = {
     mobile: (() => MOBILE_REGEX.test(navigator.userAgent))()
   };
+
+  wsEndpointPrefix: string = 'ws';
+
+  get wsEndpoint() {
+    return localStorage.backendEndpoint !== undefined
+      ? localStorage.backendEndpoint : this.localMode ? 'wss://localhost:4200' : 'wss://moowda.com/api';
+  }
+
+  set wsEndpoint(wsEndpoint: string) {
+    if (wsEndpoint) {
+      localStorage.setItem('wsEndpoint', wsEndpoint);
+    } else {
+      localStorage.removeItem('wsEndpoint');
+    }
+  }
 }

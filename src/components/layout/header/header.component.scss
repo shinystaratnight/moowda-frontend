@@ -16,6 +16,17 @@
   color: white;
   cursor: pointer;
   transition: color 0.3s;
+  position: relative;
+
+  [have-messages] {
+    position: absolute;
+    right: 10px;
+    top: 20px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: $dark-purple-color;
+  }
 }
 
 [user] {

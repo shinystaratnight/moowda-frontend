@@ -1,7 +1,7 @@
 <ul nz-menu>
-  <li *ngFor="let topic of topics" nz-menu-item [routerLink]="['/topics', topic.id]" [routerLinkActive]="'active'">
+  <li *ngFor="let t of topics" nz-menu-item [routerLink]="['/topics', t.id]" [attr.active]="topic === t.id">
     <div>
-      <span>{{topic.title}}</span>
+      <span>{{t.title}}</span>
       <i nz-icon type="icons:message"></i>
     </div>
   </li>

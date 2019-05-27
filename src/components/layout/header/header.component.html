@@ -1,27 +1,34 @@
 <i trigger nz-icon type="icons:message"
    (click)="collapsedChange.emit(!collapsed)">
 </i>
-<nz-dropdown [nzTrigger]="'click'">
-  <button nz-button nzType="default" nzShape="circle" user
-          nz-dropdown>
-    <i nz-icon type="user"></i>
+<div>
+  <button nz-button nzType="default" nzShape="round"
+          nz-dropdown start-topic (click)="create()">
+    <i nz-icon type="icons:message"></i>
+    START TOPIC
   </button>
-  <ul nz-menu nzSelectable>
-    <ng-container *ngIf="me.logged; else noLogged">
-      <li nz-menu-item (click)="logout()">
-        <i nz-icon type="user-delete"></i>Logout
-      </li>
-    </ng-container>
-    <ng-template #noLogged>
-      <li nz-menu-item (click)="login()">
-        <i nz-icon type="login"></i>Login
-      </li>
-      <li nz-menu-item (click)="registration()">
-        <i nz-icon type="user-add"></i>Register
-      </li>
-      <li nz-menu-item (click)="restore()">
-        <i nz-icon type="unlock"></i>Restore password
-      </li>
-    </ng-template>
-  </ul>
-</nz-dropdown>
+  <nz-dropdown [nzTrigger]="'click'">
+    <button nz-button nzType="default" nzShape="circle" user
+            nz-dropdown>
+      <i nz-icon type="user"></i>
+    </button>
+    <ul nz-menu nzSelectable>
+      <ng-container *ngIf="me.logged; else noLogged">
+        <li nz-menu-item (click)="logout()">
+          <i nz-icon type="user-delete"></i>Logout
+        </li>
+      </ng-container>
+      <ng-template #noLogged>
+        <li nz-menu-item (click)="login()">
+          <i nz-icon type="login"></i>Login
+        </li>
+        <li nz-menu-item (click)="registration()">
+          <i nz-icon type="user-add"></i>Register
+        </li>
+        <li nz-menu-item (click)="restore()">
+          <i nz-icon type="unlock"></i>Restore password
+        </li>
+      </ng-template>
+    </ul>
+  </nz-dropdown>
+</div>

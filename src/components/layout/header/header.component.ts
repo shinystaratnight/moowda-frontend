@@ -3,6 +3,7 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { AppConfig } from 'src/app-config';
 import { LoginComponent } from 'src/components/login/login.component';
 import { RegistrationComponent } from 'src/components/registration/registration.component';
+import { CreateTopicComponent } from 'src/components/topics/create-topic/create-topic.component';
 import { MeManager } from 'src/managers/me.manager';
 import { IUsersService, users_service } from 'src/services/users/interface';
 
@@ -24,6 +25,8 @@ export class HeaderComponent {
         component.logged.subscribe(() => this.modal.close());
       } else if (component instanceof RegistrationComponent) {
         component.registered.subscribe(() => this.modal.close());
+      } else if (component instanceof CreateTopicComponent) {
+        component.created.subscribe(() => this.modal.close());
       }
     });
   }
@@ -64,6 +67,16 @@ export class HeaderComponent {
     this.modal = this.modalService.create({
       nzTitle: '',
       nzContent: RegistrationComponent,
+      nzFooter: null,
+      nzWidth: 'fit-content'
+    });
+  }
+
+  create() {
+    this.modalService.closeAll();
+    this.modal = this.modalService.create({
+      nzTitle: '',
+      nzContent: CreateTopicComponent,
       nzFooter: null,
       nzWidth: 'fit-content'
     });

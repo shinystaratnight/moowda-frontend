@@ -27,8 +27,8 @@
       <a class="login-form-forgot" class="login-form-forgot" (click)="restore()">
         Restore password
       </a>
-      <button nz-button class="login-form-button" [nzType]="'primary'"
-              [nzLoading]="loading" type="submit">
+      <button nz-button class="login-form-button" nzType="round"
+              [nzLoading]="loading" type="submit" login>
         Login
       </button>
       <a (click)="registration()">register now</a>

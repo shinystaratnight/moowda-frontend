@@ -4,6 +4,32 @@
   width: 100%;
 }
 
+::ng-deep {
+  .upload-list-inline .ant-upload-list {
+    display: flex;
+    position: absolute;
+    bottom: 45px;
+    left: 0;
+
+    .ant-upload-list-item {
+      float: left;
+      width: 65px;
+      margin-right: 5px;
+      color: white;
+      background-color: white;
+
+      .ant-upload-list-item-name {
+        display: none;
+      }
+
+      .anticon-close {
+        background-color: white;
+        color: $primary-color;
+      }
+    }
+  }
+}
+
 .ant-input {
   background-color: $background-color;
   border-radius: 10px;

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MessagesManager } from 'src/managers/messages.manager';
 
@@ -12,8 +12,6 @@ export class CreateMessageComponent implements OnInit {
   content: string;
   images: number[] = [];
   id: number;
-
-  @Output() sent = new EventEmitter<any>();
 
   @HostListener('keydown.enter') onEnter() {
     this.send();
@@ -29,5 +27,6 @@ export class CreateMessageComponent implements OnInit {
 
   send() {
     this.messages.send(this.id, this.content, this.images);
+    this.content = '';
   }
 }

@@ -14,7 +14,7 @@
       <moo-header [(collapsed)]="collapsed"></moo-header>
     </nz-header>
   </nz-affix>
-  <nz-content [attr.collapsed]="collapsed">
+  <nz-content [attr.collapsed]="collapsed" [attr.logged]="me.logged">
     <moo-topic-title [attr.collapsed]="collapsed"></moo-topic-title>
     <router-outlet></router-outlet>
   </nz-content>

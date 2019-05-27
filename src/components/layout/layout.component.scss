@@ -45,11 +45,15 @@ nz-content {
   overflow: initial;
   background-color: white;
   margin-left: $sider-width;
-  padding-bottom: $footer-height;
+  padding-bottom: 120px;
   transition: margin 0.2s;
 
   &[collapsed='true'] {
     margin-left: 0;
+  }
+
+  &[logged='false'] {
+    padding-bottom: 0;
   }
 }
 

@@ -4,9 +4,14 @@
   <input type="text" nz-input placeholder="Type something..." [(ngModel)]="content"/>
 </nz-input-group>
 <ng-template #addOnBeforeTemplate>
-  <button nz-button nzType="default" nzShape="circle" add-picture>
-    <i nz-icon type="plus"></i>
-  </button>
+  <nz-upload class="upload-list-inline"
+             nzListType="picture"
+             [(nzFileList)]="images"
+             [nzCustomRequest]="request">
+    <button nz-button nzType="default" nzShape="circle" add-picture>
+      <i nz-icon type="plus"></i>
+    </button>
+  </nz-upload>
 </ng-template>
 <ng-template #suffixTemplate>
   <i nz-icon nz-tooltip type="icons:send-message" send-message (click)="send()"></i>

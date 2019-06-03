@@ -1,18 +1,79 @@
-image: node:8.11.1
+image: docker:18
+variables:
+  DOCKER_DRIVER: overlay
+  DOCKER_TEST_IMAGE: $CI_REGISTRY_IMAGE:_${CI_COMMIT_REF_NAME}
+  DOCKER_PROD_IMAGE: $$CI_REGISTRY_IMAGE:prod
+  DOCKER_DEV_IMAGE: $CI_REGISTRY_IMAGE:dev
+  GIT_STRATEGY: none
 
-pages:
+services:
+  - docker:dind
+
+stages:
+  - build
+  - docker
+  - publish
+  - deploy
+
+build:
+  image: node:8
+  stage: build
+  variables:
+    GIT_DEPTH: 5
+    GIT_STRATEGY: fetch
+  before_script:
+    - npm install
+  script:
+    - npm run build
+  artifacts:
+    paths:
+    - dist/
   cache:
     paths:
       - node_modules/
 
-  stage: deploy
+docker:
+  stage: docker
+  variables:
+    GIT_DEPTH: 5
+    GIT_STRATEGY: fetch
   script:
-    - npm install -g @angular/cli@7.2.0
-    - npm install
-    - ng build --prod --baseHref=/moowda/frontend/
-    - mv dist/moowda/* public/
-  artifacts:
-    paths:
-      - public
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
+    - docker build --pull -t $DOCKER_TEST_IMAGE -f docker/Dockerfile .
+    - docker push $DOCKER_TEST_IMAGE
+
+publish_dev:
+  stage: publish
+  dependencies: []
+  script:
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
+  - docker pull $DOCKER_TEST_IMAGE
+  - docker tag $DOCKER_TEST_IMAGE $DOCKER_DEV_IMAGE
+  - docker push $DOCKER_DEV_IMAGE
   only:
-    - master
+  - master
+
+publish_prod:
+  stage: publish
+  dependencies: []
+  script:
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
+  - docker pull $DOCKER_TEST_IMAGE
+  - docker tag $DOCKER_TEST_IMAGE $DOCKER_PROD_IMAGE
+  - docker push $DOCKER_PROD_IMAGE
+  only:
+  - prod
+
+deploy_dev:
+  image: junte/ssh-agent
+  stage: deploy
+  dependencies: []
+  variables:
+    SSH_PRIVATE_KEY: $SSH_DEV_PRIVATE_KEY
+  script:
+  - ssh deploy@${DEV_HOST} "/opt/deploy/deploy.sh"
+  environment:
+    name: dev
+    url: https://${DEV_HOST}
+  only:
+  - master

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { TopicsModule } from 'src/components/topics/topics.module';
-import { MessagesServiceProvider } from 'src/services/messages/provider';
+import { MessagesServiceProvider, messagesSocketServiceProvider } from 'src/services/messages/provider';
 import { TopicsServiceProvider } from 'src/services/topics/provider';
 import { CreateMessageComponent } from './create-message/create-message.component';
 import { MessagesListComponent } from './messages-list/messages-list.component';
@@ -26,7 +26,8 @@ import { MessagesListComponent } from './messages-list/messages-list.component';
   ],
   providers: [
     MessagesServiceProvider,
-    TopicsServiceProvider
+    TopicsServiceProvider,
+    messagesSocketServiceProvider
   ]
 })
 export class MessagesModule {

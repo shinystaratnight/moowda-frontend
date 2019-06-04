@@ -3,7 +3,6 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { AppConfig } from 'src/app-config';
 import { LoginComponent } from 'src/components/login/login.component';
 import { RegistrationComponent } from 'src/components/registration/registration.component';
-import { CreateTopicComponent } from 'src/components/topics/create-topic/create-topic.component';
 import { MeManager } from 'src/managers/me.manager';
 import { IUsersService, users_service } from 'src/services/users/interface';
 
@@ -25,8 +24,6 @@ export class HeaderComponent {
         component.logged.subscribe(() => this.modal.close());
       } else if (component instanceof RegistrationComponent) {
         component.registered.subscribe(() => this.modal.close());
-      } else if (component instanceof CreateTopicComponent) {
-        component.created.subscribe(() => this.modal.close());
       }
     });
   }
@@ -37,6 +34,8 @@ export class HeaderComponent {
 
   @Input() collapsed: boolean;
   @Output() collapsedChange = new EventEmitter<boolean>();
+
+  @Input() haveMessages = false;
 
   constructor(@Inject(users_service) private usersService: IUsersService,
               private config: AppConfig,

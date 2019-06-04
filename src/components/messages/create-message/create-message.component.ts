@@ -1,6 +1,8 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MessagesManager } from 'src/managers/messages.manager';
+import { UploadXHRArgs } from 'ng-zorro-antd';
+import { FileUploadService } from 'src/services/file-upload.service';
+import { IMessagesService, messages_service } from 'src/services/messages/interface';
 
 @Component({
   selector: 'moo-create-message',
@@ -10,23 +12,45 @@ import { MessagesManager } from 'src/managers/messages.manager';
 export class CreateMessageComponent implements OnInit {
 
   content: string;
-  images: number[] = [];
+  images: any[] = [];
   id: number;
+  defaultFileList = [
+    {
+      uid: -1,
+      name: 'xxx.png',
+      status: 'done',
+      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+      thumbUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
+    },
+    {
+      uid: -2,
+      name: 'yyy.png',
+      status: 'done',
+      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+      thumbUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
+    }
+  ];
 
   @HostListener('keydown.enter') onEnter() {
     this.send();
   }
 
-  constructor(private messages: MessagesManager,
-              private route: ActivatedRoute) {
+  constructor(@Inject(messages_service) private messagesService: IMessagesService,
+              private route: ActivatedRoute,
+              private upload: FileUploadService) {
   }
 
   ngOnInit() {
     this.route.params.subscribe(({topic}) => this.id = +topic || null);
+    this.images = this.defaultFileList;
   }
 
   send() {
-    this.messages.send(this.id, this.content, this.images);
-    this.content = '';
+    this.messagesService.create(this.id, this.content, this.images.map(image => image['id']))
+      .subscribe(() => this.content = '');
   }
+
+  request = (item: UploadXHRArgs) => {
+    return this.upload.uploadFile('images', item.file, item.onProgress, item.onSuccess, item.onError);
+  };
 }

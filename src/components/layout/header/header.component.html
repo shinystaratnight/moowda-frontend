@@ -1,6 +1,9 @@
-<i trigger nz-icon type="icons:message"
-   (click)="collapsedChange.emit(!collapsed)">
-</i>
+<div trigger>
+  <i nz-icon type="icons:message"
+     (click)="collapsedChange.emit(!collapsed)">
+  </i>
+  <div *ngIf="haveMessages" have-messages></div>
+</div>
 <div>
   <nz-dropdown [nzTrigger]="'click'">
     <button nz-button nzType="default" nzShape="circle" user

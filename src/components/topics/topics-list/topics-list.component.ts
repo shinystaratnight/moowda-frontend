@@ -2,8 +2,6 @@ import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { finalize } from 'rxjs/operators';
-import { LoginComponent } from 'src/components/login/login.component';
-import { RegistrationComponent } from 'src/components/registration/registration.component';
 import { CreateTopicComponent } from 'src/components/topics/create-topic/create-topic.component';
 import { TopicCreatedEvent, TopicItem, TopicMessageAddedEvent } from 'src/models/topic';
 import { ITopicsService, topics_service } from 'src/services/topics/interface';
@@ -28,11 +26,7 @@ export class TopicsListComponent implements OnInit {
 
     modal.afterOpen.subscribe(() => {
       const component = modal.getContentComponent();
-      if (component instanceof LoginComponent) {
-        component.logged.subscribe(() => this.modal.close());
-      } else if (component instanceof RegistrationComponent) {
-        component.registered.subscribe(() => this.modal.close());
-      } else if (component instanceof CreateTopicComponent) {
+      if (component instanceof CreateTopicComponent) {
         component.created.subscribe(() => this.modal.close());
       }
     });
@@ -55,7 +49,6 @@ export class TopicsListComponent implements OnInit {
   get current() {
     return this._current;
   }
-
 
   constructor(@Inject(topics_service) private topicsService: ITopicsService,
               private topicsSocket: TopicsSocketService,

@@ -1,4 +1,7 @@
-import { Field, Name } from "serialize-ts/dist";
+import { Field, Name } from 'serialize-ts/dist';
+
+const TOPIC_MESSAGE_ADDED = 'topic_message_added';
+const TOPIC_CREATED = 'topic_created';
 
 export class Topic {
   @Field()
@@ -8,9 +11,6 @@ export class Topic {
   @Field()
   @Name('messages_count')
   messagesCount: number;
-  @Field()
-  @Name('last_message_data')
-  lastMessageDate: string;
 }
 
 export class TopicCard {
@@ -21,7 +21,46 @@ export class TopicCard {
   @Field()
   @Name('messages_count')
   messagesCount: number;
-  @Field()
-  @Name('last_message_data')
-  lastMessageDate: string;
+}
+
+
+export class TopicItem {
+  constructor(public card: TopicCard,
+              public newMessages: number) {
+  }
+}
+
+export class TopicEvent {
+  __type__: string;
+
+  static create(data: any): TopicEvent {
+    switch (data.__type__) {
+      case TOPIC_MESSAGE_ADDED:
+        return new TopicMessageAddedEvent(data.topic as Topic);
+      case TOPIC_CREATED:
+        return new TopicCreatedEvent(data.topic as Topic);
+      default:
+        throw Error('Wrong type of event');
+    }
+  }
+}
+
+export class TopicMessageAddedEvent extends TopicEvent {
+
+  topic: Topic;
+
+  constructor(topic: Topic) {
+    super();
+    this.topic = topic;
+  }
+}
+
+export class TopicCreatedEvent extends TopicEvent {
+
+  topic: Topic;
+
+  constructor(topic: Topic) {
+    super();
+    this.topic = topic;
+  }
 }

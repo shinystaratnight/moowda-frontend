@@ -1,9 +1,13 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, finalize } from 'rxjs/operators';
-import { TopicsManager } from 'src/managers/topics.manager';
-import { TopicCard } from 'src/models/topic';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd';
+import { finalize } from 'rxjs/operators';
+import { LoginComponent } from 'src/components/login/login.component';
+import { RegistrationComponent } from 'src/components/registration/registration.component';
+import { CreateTopicComponent } from 'src/components/topics/create-topic/create-topic.component';
+import { TopicCreatedEvent, TopicItem, TopicMessageAddedEvent } from 'src/models/topic';
 import { ITopicsService, topics_service } from 'src/services/topics/interface';
+import { TopicsSocketService } from 'src/services/topics/socket';
 
 @Component({
   selector: 'moo-topics-list',
@@ -12,37 +16,71 @@ import { ITopicsService, topics_service } from 'src/services/topics/interface';
 })
 export class TopicsListComponent implements OnInit {
 
-  private _topics: TopicCard[] = [];
-  private _topic: number;
+  private _current: number;
+  private _modal: NzModalRef;
+  topics: TopicItem[] = [];
   loading = false;
 
-  set topics(topics: TopicCard[]) {
-    this._topics = topics;
+  @Output() haveMessages = new EventEmitter<boolean>();
+
+  set modal(modal: NzModalRef) {
+    this._modal = modal;
+
+    modal.afterOpen.subscribe(() => {
+      const component = modal.getContentComponent();
+      if (component instanceof LoginComponent) {
+        component.logged.subscribe(() => this.modal.close());
+      } else if (component instanceof RegistrationComponent) {
+        component.registered.subscribe(() => this.modal.close());
+      } else if (component instanceof CreateTopicComponent) {
+        component.created.subscribe(() => this.modal.close());
+      }
+    });
   }
 
-  get topics() {
-    return this._topics;
+  get modal() {
+    return this._modal;
   }
 
-  set topic(topic: number) {
-    this._topic = topic;
-    this.router.navigate(['/topics', topic], {relativeTo: this.route});
+  set current(current: number) {
+    this._current = current;
+    const found = this.topics.find(topic => topic.card.id === current);
+
+    if (!!found) {
+      found.newMessages = 0;
+      this.haveMessages.emit(!!this.topics.find(topic => !!topic.newMessages));
+    }
   }
 
-  get topic() {
-    return this._topic;
+  get current() {
+    return this._current;
   }
+
 
   constructor(@Inject(topics_service) private topicsService: ITopicsService,
-              private topicsManager: TopicsManager,
+              private topicsSocket: TopicsSocketService,
+              private modalService: NzModalService,
               private router: Router,
               private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(({topic}) => this.topic = +topic || null);
-    this.topicsManager.topic$.pipe(filter(topic => !!topic))
-      .subscribe(topic => this.topics.unshift(topic));
+    this.route.params.subscribe(({topic}) => this.current = +topic || null);
+
+    this.topicsSocket.event$.subscribe(event => {
+      if (event instanceof TopicMessageAddedEvent) {
+        if (this.current !== event.topic.id) {
+          const found = this.topics.find(topic => topic.card.id === event.topic.id);
+          if (found.card.messagesCount < event.topic.messagesCount) {
+            found.newMessages = found.card.messagesCount - event.topic.messagesCount;
+            this.haveMessages.emit(true);
+          }
+        }
+      } else if (event instanceof TopicCreatedEvent) {
+        this.topics.unshift(new TopicItem(event.topic, 0));
+      }
+    });
+
     this.load();
   }
 
@@ -51,11 +89,22 @@ export class TopicsListComponent implements OnInit {
     this.topicsService.list()
       .pipe(finalize(() => this.loading = false))
       .subscribe(topics => {
-        this.topics = topics;
-        if (!this.topic) {
-          this.topic = topics[0].id;
+        this.topics = topics.map(card => new TopicItem(card, 10));
+        this.haveMessages.emit(!!this.topics.find(topic => !!topic.newMessages));
+        if (!this.current) {
+          this.router.navigate(['/topics', topics[0].id], {relativeTo: this.route});
         }
       });
+  }
+
+  create() {
+    this.modalService.closeAll();
+    this.modal = this.modalService.create({
+      nzTitle: '',
+      nzContent: CreateTopicComponent,
+      nzFooter: null,
+      nzWidth: 'fit-content'
+    });
   }
 
 }

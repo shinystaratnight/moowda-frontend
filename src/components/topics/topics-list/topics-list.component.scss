@@ -1,7 +1,19 @@
 @import "variables";
 
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+[start-topic] {
+  background-color: $purple-color;
+  color: white;
+  border: none;
+  margin: 10px;
+}
+
 [nz-menu] {
-  padding: 20px 0;
+  padding-bottom: 20px;
 
   [nz-menu-item] {
     text-align: start;

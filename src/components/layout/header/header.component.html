@@ -2,11 +2,6 @@
    (click)="collapsedChange.emit(!collapsed)">
 </i>
 <div>
-  <button nz-button nzType="default" nzShape="round"
-          nz-dropdown start-topic (click)="create()">
-    <i nz-icon type="icons:message"></i>
-    START TOPIC
-  </button>
   <nz-dropdown [nzTrigger]="'click'">
     <button nz-button nzType="default" nzShape="circle" user
             nz-dropdown>

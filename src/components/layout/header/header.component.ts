@@ -71,15 +71,4 @@ export class HeaderComponent {
       nzWidth: 'fit-content'
     });
   }
-
-  create() {
-    this.modalService.closeAll();
-    this.modal = this.modalService.create({
-      nzTitle: '',
-      nzContent: CreateTopicComponent,
-      nzFooter: null,
-      nzWidth: 'fit-content'
-    });
-  }
-
 }

@@ -1,7 +1,5 @@
-<div trigger>
-  <i nz-icon type="icons:message"
-     (click)="collapsedChange.emit(!collapsed)">
-  </i>
+<div messages>
+  <i nz-icon type="icons:message"></i>
   <div *ngIf="haveMessages" have-messages></div>
 </div>
 <div>

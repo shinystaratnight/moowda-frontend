@@ -19,6 +19,15 @@
   padding: 10px 20px;
   background-color: white;
   transition: all 0.3s;
+
+  [trigger] {
+    font-size: 30px;
+    padding: 0 10px;
+    color: $primary-color;
+    transition: all 0.3s;
+    position: relative;
+    cursor: pointer;
+  }
 }
 
 @media (max-width: 768px) {

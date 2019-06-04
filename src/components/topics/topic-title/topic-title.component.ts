@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { ShareTopicComponent } from 'src/components/topics/share-topic/share-topic.component';
@@ -18,6 +18,9 @@ export class TopicTitleComponent implements OnInit {
 
   topic: Topic;
 
+  @Input() collapsed: boolean;
+  @Output() collapsedChange = new EventEmitter<boolean>();
+  
   @Input() set id(id: number) {
     if (!!id && id !== this._id) {
       this._id = id;

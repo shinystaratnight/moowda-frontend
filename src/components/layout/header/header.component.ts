@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { AppConfig } from 'src/app-config';
 import { LoginComponent } from 'src/components/login/login.component';
@@ -31,9 +31,6 @@ export class HeaderComponent {
   get modal() {
     return this._modal;
   }
-
-  @Input() collapsed: boolean;
-  @Output() collapsedChange = new EventEmitter<boolean>();
 
   @Input() haveMessages = false;
 

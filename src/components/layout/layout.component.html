@@ -11,11 +11,11 @@
 <nz-layout>
   <nz-affix [nzOffsetTop]="0">
     <nz-header>
-      <moo-header [(collapsed)]="collapsed" [haveMessages]="haveMessages"></moo-header>
+      <moo-header [haveMessages]="haveMessages"></moo-header>
     </nz-header>
   </nz-affix>
   <nz-content [attr.collapsed]="collapsed" [attr.logged]="me.logged">
-    <moo-topic-title [attr.collapsed]="collapsed"></moo-topic-title>
+    <moo-topic-title [attr.collapsed]="collapsed" [(collapsed)]="collapsed"></moo-topic-title>
     <router-outlet></router-outlet>
   </nz-content>
   <nz-footer *ngIf="me.logged" [attr.collapsed]="collapsed">

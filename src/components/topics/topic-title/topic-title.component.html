@@ -1,4 +1,6 @@
 <div topic>
+  <i nz-icon [type]="collapsed ? 'caret-right' : 'caret-left'" (click)="collapsedChange.emit(!collapsed)" trigger>
+  </i>
   <span>Topic: {{topic?.title}}</span>
   <button *ngIf="me.logged" nz-button nzType="default" nzShape="circle" (click)="share()">
     <i nz-icon type="share-alt"></i>

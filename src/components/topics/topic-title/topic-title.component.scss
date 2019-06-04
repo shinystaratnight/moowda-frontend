@@ -1,12 +1,6 @@
 @import "variables";
 
 :host {
-  &[collapsed='true'] [topic] {
-    width: 100%;
-  }
-}
-
-[topic] {
   position: fixed;
   top: $header-height;
   height: $header-height;
@@ -16,18 +10,29 @@
   justify-content: space-between;
   border-bottom: 2px $background-color solid;
   align-items: center;
-  padding: 10px 20px;
   background-color: white;
   transition: all 0.3s;
 
-  [trigger] {
-    font-size: 30px;
-    padding: 0 10px;
-    color: $primary-color;
-    transition: all 0.3s;
-    position: relative;
-    cursor: pointer;
+  &[collapsed='true'] {
+    width: 100%;
   }
+}
+
+[trigger] {
+  font-size: 30px;
+  padding: 0 10px;
+  color: $primary-color;
+  transition: all 0.3s;
+  position: relative;
+  cursor: pointer;
+}
+
+[topic] {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  width: 100%;
 }
 
 @media (max-width: 768px) {

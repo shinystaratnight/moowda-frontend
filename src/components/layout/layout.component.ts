@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { AppConfig } from 'src/app-config';
 import { MeManager } from 'src/managers/me.manager';
@@ -17,12 +17,13 @@ export class LayoutComponent implements OnInit {
   haveMessages = false;
 
   constructor(private route: ActivatedRoute,
+              private router: Router,
               private config: AppConfig,
               public me: MeManager) {
   }
 
   ngOnInit() {
-    this.route.params.pipe(filter(({topic}) => !!+topic && this.config.device.mobile))
+    this.router.events.pipe(filter(event => event instanceof NavigationEnd && this.config.device.mobile))
       .subscribe(() => this.collapsed = true);
   }
 }

@@ -1,6 +1,7 @@
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UploadXHRArgs } from 'ng-zorro-antd';
+import { MessageCreate } from 'src/models/message';
 import { FileUploadService } from 'src/services/file-upload.service';
 import { IMessagesService, messages_service } from 'src/services/messages/interface';
 
@@ -14,22 +15,6 @@ export class CreateMessageComponent implements OnInit {
   content: string;
   images: any[] = [];
   id: number;
-  defaultFileList = [
-    {
-      uid: -1,
-      name: 'xxx.png',
-      status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-      thumbUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
-    },
-    {
-      uid: -2,
-      name: 'yyy.png',
-      status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-      thumbUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
-    }
-  ];
 
   @HostListener('keydown.enter') onEnter() {
     this.send();
@@ -42,12 +27,16 @@ export class CreateMessageComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(({topic}) => this.id = +topic || null);
-    this.images = this.defaultFileList;
   }
 
   send() {
-    this.messagesService.create(this.id, this.content, this.images.map(image => image['id']))
-      .subscribe(() => this.content = '');
+    this.messagesService.create(this.id, new MessageCreate({
+      content: this.content,
+      images: this.images.map(image => image['response'].id)
+    })).subscribe(() => {
+      this.content = '';
+      this.images = [];
+    });
   }
 
   request = (item: UploadXHRArgs) => {

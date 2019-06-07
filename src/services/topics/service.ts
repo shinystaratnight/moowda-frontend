@@ -3,8 +3,8 @@ import { HttpService } from 'junte-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { deserialize } from 'serialize-ts';
-import { Topic, TopicCard } from "src/models/topic";
-import { ITopicsService } from "src/services/topics/interface";
+import { Topic, TopicCard } from 'src/models/topic';
+import { ITopicsService } from 'src/services/topics/interface';
 
 @Injectable({providedIn: 'root'})
 export class TopicsService implements ITopicsService {
@@ -23,7 +23,7 @@ export class TopicsService implements ITopicsService {
   }
 
   create(title: string): Observable<Topic> {
-    return this.http.post<Topic>(`topics/`)
+    return this.http.post<Topic>('topics', {title: title})
       .pipe(map(obj => deserialize(obj, Topic)));
   }
 }

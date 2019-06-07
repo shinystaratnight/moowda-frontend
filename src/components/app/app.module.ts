@@ -15,6 +15,7 @@ import { LayoutModule } from 'src/components/layout/layout.module';
 import { LoginModule } from 'src/components/login/login.module';
 import { RegistrationModule } from 'src/components/registration/registration.module';
 import { MeServiceProvider } from 'src/services/me/me.provider';
+import { MessagesSocketService } from 'src/services/messages/socket';
 import { UsersServiceProvider } from 'src/services/users/provider';
 
 registerLocaleData(en);
@@ -43,13 +44,14 @@ registerLocaleData(en);
     },
     {
       provide: Config,
-      useClass: AppConfig
+      useExisting: AppConfig
     },
     HttpClient,
     HttpService,
     HttpMockService,
     UsersServiceProvider,
-    MeServiceProvider
+    MeServiceProvider,
+    MessagesSocketService
   ],
   bootstrap: [AppComponent]
 })

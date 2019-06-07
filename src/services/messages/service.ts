@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { HttpService } from 'junte-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { deserialize } from 'serialize-ts';
-import { Message, PagingMessageCard } from 'src/models/message';
+import { deserialize, serialize } from 'serialize-ts';
+import { Message, MessageCreate, PagingMessageCard } from 'src/models/message';
 import { IMessagesService } from 'src/services/messages/interface';
 
 @Injectable({providedIn: 'root'})
@@ -25,8 +25,8 @@ export class MessagesService implements IMessagesService {
       .pipe(map(obj => deserialize(obj, PagingMessageCard)));
   }
 
-  create(id: number, content: string, images: number[] = []): Observable<Message> {
-    return this.http.post(`topics/${id}/messages`)
+  create(id: number, message: MessageCreate): Observable<Message> {
+    return this.http.post(`topics/${id}/messages`, serialize(message))
       .pipe(map(obj => deserialize(obj, Message)));
   }
 }

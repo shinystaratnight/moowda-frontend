@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Inject, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { ShareTopicComponent } from 'src/components/topics/share-topic/share-topic.component';
@@ -15,12 +15,12 @@ export class TopicTitleComponent implements OnInit {
 
   private _id: number;
   private _modal: NzModalRef;
+  private _topic: Topic;
 
-  topic: Topic;
-
-  @Input() collapsed: boolean;
+  @HostBinding('style.display') display = 'none';
   @Output() collapsedChange = new EventEmitter<boolean>();
-  
+  @Input() collapsed: boolean;
+
   @Input() set id(id: number) {
     if (!!id && id !== this._id) {
       this._id = id;
@@ -30,6 +30,17 @@ export class TopicTitleComponent implements OnInit {
 
   get id() {
     return this._id;
+  }
+
+  set topic(topic: Topic) {
+    if (!!topic) {
+      this._topic = topic;
+      this.display = 'flex';
+    }
+  }
+
+  get topic() {
+    return this._topic;
   }
 
   set modal(modal: NzModalRef) {

@@ -32,6 +32,7 @@ ul {
 
   li {
     padding: 10px;
+    display: block;
 
     [username] {
       width: 100%;
@@ -41,10 +42,24 @@ ul {
 
     [content] {
       float: left;
-      background-color: $primary-color;
-      margin: 0 10vw 3vh 0;
-      padding: 10px;
-      border-radius: 15px;
+      margin: 0 10vw 2vh 0;
+
+      [text] {
+        background-color: $primary-color;
+        border-radius: 15px;
+        padding: 10px;
+      }
+
+      [images] {
+        display: flex;
+        flex-direction: column;
+
+        img {
+          padding: 10px;
+          max-width: calc(100vw - 10vw - #{$sider-width} - 20px);
+          max-height: calc(100vw - 10vw - #{$sider-width} - 20px);
+        }
+      }
     }
 
     &[me='true'] {
@@ -55,8 +70,11 @@ ul {
 
       [content] {
         float: right;
-        background-color: $background-color;
-        margin: 0 0 3vh 10vw;
+        margin: 0 0 2vh 10vw;
+
+        [text] {
+          background-color: $background-color;
+        }
       }
     }
   }

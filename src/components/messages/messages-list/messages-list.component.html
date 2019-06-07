@@ -8,9 +8,14 @@
 <ng-template #content>
   <ng-container *ngIf="messages.length; else noData">
     <ul>
-      <li *ngFor="let message of messages" [attr.me]="me.user?.id === message.user.id">
+      <li *ngFor="let message of messages" [attr.me]="me.user?.id === message.user.id" #messageView>
         <span username>{{message.user.username}}</span>
-        <div content>{{message.content}}</div>
+        <div content>
+          <div text>{{message.content}}</div>
+          <div *ngIf="!!message.images.length" images>
+            <img *ngFor="let image of message.images" [src]="image.image.url"/>
+          </div>
+        </div>
       </li>
     </ul>
   </ng-container>

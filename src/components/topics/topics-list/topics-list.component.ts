@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd';
-import { finalize } from 'rxjs/operators';
+import { filter, finalize } from 'rxjs/operators';
 import { CreateTopicComponent } from 'src/components/topics/create-topic/create-topic.component';
+import { MeManager } from 'src/managers/me.manager';
 import { TopicCreatedEvent, TopicItem, TopicMessageAddedEvent } from 'src/models/topic';
 import { ITopicsService, topics_service } from 'src/services/topics/interface';
 import { TopicsSocketService } from 'src/services/topics/socket';
@@ -54,7 +55,8 @@ export class TopicsListComponent implements OnInit {
               private topicsSocket: TopicsSocketService,
               private modalService: NzModalService,
               private router: Router,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              public me: MeManager) {
   }
 
   ngOnInit() {
@@ -70,7 +72,7 @@ export class TopicsListComponent implements OnInit {
           }
         }
       } else if (event instanceof TopicCreatedEvent) {
-        this.topics.unshift(new TopicItem(event.topic, 0));
+        this.topics.unshift(new TopicItem(event.topic));
       }
     });
 
@@ -80,9 +82,9 @@ export class TopicsListComponent implements OnInit {
   load() {
     this.loading = true;
     this.topicsService.list()
-      .pipe(finalize(() => this.loading = false))
+      .pipe(finalize(() => this.loading = false), filter(topics => !!topics.length))
       .subscribe(topics => {
-        this.topics = topics.map(card => new TopicItem(card, 10));
+        this.topics = topics.map(card => new TopicItem(card));
         this.haveMessages.emit(!!this.topics.find(topic => !!topic.newMessages));
         if (!this.current) {
           this.router.navigate(['/topics', topics[0].id], {relativeTo: this.route});

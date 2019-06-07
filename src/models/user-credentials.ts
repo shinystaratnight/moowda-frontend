@@ -1,5 +1,6 @@
-import { Field } from "serialize-ts/dist";
+import { Field, Model } from 'serialize-ts/dist';
 
+@Model()
 export class LoginCredentials {
   @Field()
   username: string;
@@ -13,6 +14,7 @@ export class LoginCredentials {
   }
 }
 
+@Model()
 export class RegistrationCredentials {
   @Field()
   email: string;

@@ -3,7 +3,7 @@ import { HttpMockService } from 'junte-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { deserialize } from 'serialize-ts';
-import { Topic, TopicCard } from "src/models/topic";
+import { Topic, TopicCard } from 'src/models/topic';
 import { ITopicsService } from './interface';
 
 @Injectable({providedIn: 'root'})
@@ -14,7 +14,7 @@ export class TopicsMockService implements ITopicsService {
 
   list(): Observable<TopicCard[]> {
     return this.http.get<TopicCard[]>('topics/list.json')
-      .pipe(map(arr => arr.map(el => deserialize(el, TopicCard))))
+      .pipe(map(arr => arr.map(el => deserialize(el, TopicCard))));
   }
 
   get(id: number): Observable<Topic> {

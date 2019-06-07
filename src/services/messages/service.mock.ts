@@ -21,4 +21,8 @@ export class MessagesMockService implements IMessagesService {
     return this.http.get('messages/get.json')
       .pipe(map(obj => deserialize(obj, Message)));
   }
+
+  read(id: number, message: number): Observable<any> {
+    return this.http.get('topics/get.json');
+  }
 }

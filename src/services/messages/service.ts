@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { deserialize, serialize } from 'serialize-ts';
 import { Message, MessageCreate, PagingMessageCard } from 'src/models/message';
+import { Topic } from 'src/models/topic';
 import { IMessagesService } from 'src/services/messages/interface';
 
 @Injectable({providedIn: 'root'})
@@ -28,5 +29,9 @@ export class MessagesService implements IMessagesService {
   create(id: number, message: MessageCreate): Observable<Message> {
     return this.http.post(`topics/${id}/messages`, serialize(message))
       .pipe(map(obj => deserialize(obj, Message)));
+  }
+
+  read(id: number, message: number): Observable<any> {
+    return this.http.post<Topic>(`topics/${id}/messages/${message}/read`);
   }
 }

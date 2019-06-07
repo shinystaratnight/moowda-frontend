@@ -3,6 +3,9 @@ import { Config } from 'junte-angular';
 
 const APP_VERSION = '1.0.0';
 const MOBILE_REGEX = /(iPhone|iPad|iPod|Android|webOS|BlackBerry|Windows Phone|Opera Mini)/ig;
+const BACKEND_ENDPOINT = 'http://moowda.com/api';
+const WS_ENDPOINT = 'ws://moowda.com';
+const MOCKS_PATH = './assets/mocks';
 
 @Injectable({providedIn: 'root'})
 export class AppConfig extends Config {
@@ -19,11 +22,10 @@ export class AppConfig extends Config {
 
   get backendEndpoint(): string {
     return localStorage.backendEndpoint !== undefined
-      ? localStorage.backendEndpoint : this.localMode ? 'http://localhost:4200' : 'https://moowda.com/api';
+      ? localStorage.backendEndpoint : BACKEND_ENDPOINT;
   }
 
-  mocksPath = './assets/mocks';
-  useMocks = true;
+  mocksPath = MOCKS_PATH;
 
   device = {
     mobile: (() => MOBILE_REGEX.test(navigator.userAgent))()
@@ -33,7 +35,7 @@ export class AppConfig extends Config {
 
   get wsEndpoint() {
     return localStorage.backendEndpoint !== undefined
-      ? localStorage.backendEndpoint : this.localMode ? 'wss://localhost:4200' : 'wss://moowda.com/api';
+      ? localStorage.backendEndpoint : WS_ENDPOINT;
   }
 
   set wsEndpoint(wsEndpoint: string) {

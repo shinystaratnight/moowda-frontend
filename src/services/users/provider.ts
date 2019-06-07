@@ -1,4 +1,4 @@
-import { Config, HttpMockService, HttpService } from 'junte-angular';
+import { HttpMockService, HttpService } from 'junte-angular';
 import { AppConfig } from 'src/app-config';
 import { users_service } from './interface';
 import { UsersService } from './service';
@@ -15,5 +15,5 @@ export function UsersServiceFactory(httpService: HttpService,
 export const UsersServiceProvider = {
   provide: users_service,
   useFactory: UsersServiceFactory,
-  deps: [HttpService, HttpMockService, Config]
+  deps: [HttpService, HttpMockService, AppConfig]
 };

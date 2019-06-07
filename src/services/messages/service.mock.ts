@@ -3,7 +3,7 @@ import { HttpMockService } from 'junte-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { deserialize } from 'serialize-ts';
-import { Message, PagingMessageCard } from 'src/models/message';
+import { Message, MessageCreate, PagingMessageCard } from 'src/models/message';
 import { IMessagesService } from './interface';
 
 @Injectable({providedIn: 'root'})
@@ -17,7 +17,7 @@ export class MessagesMockService implements IMessagesService {
       .pipe(map(obj => deserialize(obj, PagingMessageCard)));
   }
 
-  create(id: number, content: string, images: number[] = []): Observable<Message> {
+  create(id: number, message: MessageCreate): Observable<Message> {
     return this.http.get('messages/get.json')
       .pipe(map(obj => deserialize(obj, Message)));
   }

@@ -1,12 +1,12 @@
 import { InjectionToken } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Message, PagingMessageCard } from 'src/models/message';
+import { Message, MessageCreate, PagingMessageCard } from 'src/models/message';
 
 export interface IMessagesService {
 
   list(id: number, page: number, pageSize: number): Observable<PagingMessageCard>;
 
-  create(id: number, content: string, images?: number[]): Observable<Message>;
+  create(id: number, message: MessageCreate): Observable<Message>;
 
 }
 

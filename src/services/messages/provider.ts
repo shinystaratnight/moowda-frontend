@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { Config, HttpMockService, HttpService } from 'junte-angular';
+import { HttpMockService, HttpService } from 'junte-angular';
 import { AppConfig } from 'src/app-config';
 import { MessagesSocketService } from 'src/services/messages/socket';
 import { messages_service } from './interface';
@@ -17,7 +17,7 @@ export function MessagesServiceFactory(httpService: HttpService,
 export const MessagesServiceProvider = {
   provide: messages_service,
   useFactory: MessagesServiceFactory,
-  deps: [HttpService, HttpMockService, Config]
+  deps: [HttpService, HttpMockService, AppConfig]
 };
 
 export function messagesSocketServiceFactory(injector: Injector, config: AppConfig) {

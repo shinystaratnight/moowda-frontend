@@ -32,7 +32,7 @@ export class RegistrationComponent {
   register() {
     if (validate(this.registerForm)) {
       this.loading = true;
-      this.usersService.registration(this.registerForm.value as RegistrationCredentials)
+      this.usersService.registration(new RegistrationCredentials(this.registerForm.value))
         .pipe(finalize(() => this.loading = false))
         .subscribe(authorization => {
             this.config.authorization = authorization;

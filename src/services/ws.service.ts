@@ -30,7 +30,7 @@ export class WsService<T> {
   }
 
   connect(url: string, authorization: Authorization = null) {
-    console.log(`connecting to ${url}`);
+    // console.log(`connecting to ${url}`);
     this.url = url;
     this.authorization = authorization;
     this.open();
@@ -38,7 +38,7 @@ export class WsService<T> {
 
   close() {
     if (!!this.socket) {
-      console.log('close ws');
+      // console.log('close ws');
       this.socket.close();
       this.socket = null;
     }
@@ -46,10 +46,7 @@ export class WsService<T> {
 
   private open() {
     this.close();
-    if (this.config.localMode) {
-      return;
-    }
-    console.log('open ws');
+    // console.log('open ws');
     this.socket = new WebSocket(this.getRequestUrl(this.url, this.authorization ? this.authorization.token : null));
     this.state = WsState.opening;
     this.bindEvents();
@@ -57,20 +54,20 @@ export class WsService<T> {
 
   private bindEvents() {
     this.socket.onmessage = (e: any) => {
-      console.log('get message');
-      console.log(e);
+      // console.log('get message');
+      // console.log(e);
       this.onMessage.emit(JSON.parse(e.data) as T);
     };
 
     this.socket.onopen = () => {
-      console.log('opened ws');
+      // console.log('opened ws');
       this.state = WsState.opened;
       this.onOpen.emit();
     };
 
     this.socket.onclose = (event: CloseEvent) => {
-      console.log('closed');
-      console.log(event);
+      // console.log('closed');
+      // console.log(event);
       this.state = WsState.closed;
       this.onClose.emit();
       if (event.code !== CLOSE_NORMAL) {

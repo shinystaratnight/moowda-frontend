@@ -26,15 +26,15 @@ export class TopicCard {
 
 export class TopicItem {
   constructor(public card: TopicCard,
-              public newMessages: number) {
+              public newMessages: number = 0) {
   }
 }
 
 export class TopicEvent {
-  __type__: string;
+  type: string;
 
   static create(data: any): TopicEvent {
-    switch (data.__type__) {
+    switch (data.type) {
       case TOPIC_MESSAGE_ADDED:
         return new TopicMessageAddedEvent(data.topic as Topic);
       case TOPIC_CREATED:

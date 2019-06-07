@@ -51,7 +51,7 @@ export class LoginComponent {
   login() {
     if (validate(this.loginForm)) {
       this.loading = true;
-      this.usersService.login(this.loginForm.value as LoginCredentials)
+      this.usersService.login(new LoginCredentials(this.loginForm.value))
         .pipe(finalize(() => this.loading = false))
         .subscribe(authorization => {
             this.config.authorization = authorization;

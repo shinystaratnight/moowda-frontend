@@ -24,17 +24,16 @@
 
   <nz-form-item>
     <nz-form-control>
-      <a class="login-form-forgot" class="login-form-forgot" (click)="restore()">
-        Restore password
-      </a>
-      <button nz-button class="login-form-button" nzType="round"
-              [nzLoading]="loading" type="submit" login>
+      <a (click)="restore()" restore> Restore password</a>
+
+      <button nz-button nzType="round" [nzLoading]="loading" type="submit" login>
         Login
       </button>
-      <a (click)="registration()">register now</a>
+
+      <a (click)="registration()">Register now</a>
     </nz-form-control>
   </nz-form-item>
-  
+
 </form>
 
 <ng-template #prefixUser><i nz-icon type="user"></i></ng-template>

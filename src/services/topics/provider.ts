@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { Config, HttpMockService, HttpService } from 'junte-angular';
+import { HttpMockService, HttpService } from 'junte-angular';
 import { AppConfig } from 'src/app-config';
 import { TopicsSocketService } from 'src/services/topics/socket';
 import { topics_service } from './interface';
@@ -17,7 +17,7 @@ export function TopicsServiceFactory(httpService: HttpService,
 export const TopicsServiceProvider = {
   provide: topics_service,
   useFactory: TopicsServiceFactory,
-  deps: [HttpService, HttpMockService, Config]
+  deps: [HttpService, HttpMockService, AppConfig]
 };
 
 export function topicsSocketServiceFactory(injector: Injector, config: AppConfig) {

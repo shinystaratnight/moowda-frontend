@@ -1,5 +1,16 @@
-import { AfterViewChecked, Component, ElementRef, Inject, Input, OnInit } from '@angular/core';
+import {
+  AfterViewChecked,
+  Component,
+  ElementRef,
+  Inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChildren
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { MeManager } from 'src/managers/me.manager';
 import { MessageAddedEvent, MessageCard } from 'src/models/message';
@@ -14,15 +25,18 @@ const DEFAULT_PAGE_SIZE = 10;
   templateUrl: './messages-list.component.html',
   styleUrls: ['./messages-list.component.scss']
 })
-export class MessagesListComponent implements OnInit, AfterViewChecked {
+export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   private _id: number;
   private height: number;
+  private subscriptions = new Subscription();
 
   messages: MessageCard[] = [];
   page: number = DEFAULT_PAGE;
   pageSize: number = DEFAULT_PAGE_SIZE;
   loading = false;
+
+  @ViewChildren('messageView') messageViews: QueryList<any>;
 
   @Input() set id(id: number) {
     if (!!id && id !== this._id) {
@@ -49,16 +63,20 @@ export class MessagesListComponent implements OnInit, AfterViewChecked {
       this.pageSize = +pageSize || DEFAULT_PAGE_SIZE;
     });
 
-    this.messagesSocket.event$.subscribe(event => {
+    this.subscriptions.add(this.messagesSocket.event$.subscribe(event => {
       if (event instanceof MessageAddedEvent) {
         this.messages.push(new MessageCard(event.message));
         this.scrollToBottom();
       }
-    });
+    }));
   }
 
   ngAfterViewChecked() {
-    this.scrollToBottom();
+    setTimeout(() => this.scrollToBottom());
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 
   scrollToBottom(): void {

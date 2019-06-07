@@ -1,4 +1,4 @@
-import { HttpClient, HttpEvent, HttpEventType, HttpRequest, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Authorization } from 'junte-angular';
 import { Subscription } from 'rxjs';
@@ -12,34 +12,30 @@ export class FileUploadService implements OnDestroy {
 
   constructor(private http: HttpClient,
               private config: AppConfig) {
-    this.subscriptions.push(config.authorization$.subscribe(accessToken => this.authorization = accessToken));
+    this.subscriptions.push(config.authorization$.subscribe(authorization => this.authorization = authorization));
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach(s => s.unsubscribe());
   }
 
-  private addAccessTokenIfNeed(req: HttpRequest<FormData>) {
-    if (this.authorization) {
-      req.headers.append('Authorization', `${this.authorization.type} ${this.authorization.token}`);
-    }
-  }
-
   uploadFile(path: string, file: any, onProgress: Function, onSuccess: Function, onError: Function): Subscription {
     const url = `${this.config.backendEndpoint}/${path}`;
     const formData = new FormData();
-    const options = {reportProgress: true, withCredentials: true};
+    const options = {reportProgress: true, withCredentials: true, headers: new HttpHeaders()};
+    if (!!this.authorization) {
+      options.headers = options.headers.append('Authorization', `${this.authorization.type} ${this.authorization.token}`);
+    }
 
     formData.append('file', file);
     const req = new HttpRequest('POST', url, formData, options);
-    this.addAccessTokenIfNeed(req);
 
     return this.http.request(req).subscribe(
       (event: HttpEvent<{}>) => {
         if (event.type === HttpEventType.UploadProgress) {
           if (event.total > 0) {
             (event as any).percent = (event.loaded / event.total) * 100;
-            console.log(event);
+            // console.log(event);
           }
           onProgress(event, file);
         } else if (event instanceof HttpResponse) {

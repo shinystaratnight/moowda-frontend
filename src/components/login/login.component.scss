@@ -5,7 +5,7 @@
   padding-top: 20px;
 }
 
-.login-form-forgot {
+[restore] {
   float: right;
 }
 
@@ -15,4 +15,12 @@
   height: 35px;
   color: white;
   margin: 0 25%;
+}
+
+.ant-form-item {
+  margin-bottom: 10px;
+}
+
+.ant-form-item-control {
+  line-height: 30px;
 }

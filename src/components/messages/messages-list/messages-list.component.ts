@@ -66,6 +66,7 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
     this.subscriptions.add(this.messagesSocket.event$.subscribe(event => {
       if (event instanceof MessageAddedEvent) {
         this.messages.push(new MessageCard(event.message));
+        this.messagesService.read(this.id, event.message.id).subscribe();
         this.scrollToBottom();
       }
     }));
@@ -92,6 +93,9 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
     this.loading = true;
     this.messagesService.list(this.id, this.page, this.pageSize)
       .pipe(finalize(() => this.loading = false))
-      .subscribe(paging => this.messages = paging.results);
+      .subscribe(paging => {
+        this.messages = paging.results;
+        this.messagesService.read(this.id, this.messages[this.messages.length - 1].id).subscribe();
+      });
   }
 }

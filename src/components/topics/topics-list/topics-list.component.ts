@@ -4,7 +4,7 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { filter, finalize } from 'rxjs/operators';
 import { CreateTopicComponent } from 'src/components/topics/create-topic/create-topic.component';
 import { MeManager } from 'src/managers/me.manager';
-import { TopicCreatedEvent, TopicItem, TopicMessageAddedEvent } from 'src/models/topic';
+import { TopicCard, TopicCreatedEvent, TopicMessageAddedEvent } from 'src/models/topic';
 import { ITopicsService, topics_service } from 'src/services/topics/interface';
 import { TopicsSocketService } from 'src/services/topics/socket';
 
@@ -17,7 +17,7 @@ export class TopicsListComponent implements OnInit {
 
   private _current: number;
   private _modal: NzModalRef;
-  topics: TopicItem[] = [];
+  topics: TopicCard[] = [];
   loading = false;
 
   @Output() haveMessages = new EventEmitter<boolean>();
@@ -39,11 +39,11 @@ export class TopicsListComponent implements OnInit {
 
   set current(current: number) {
     this._current = current;
-    const found = this.topics.find(topic => topic.card.id === current);
+    const found = this.topics.findIndex(topic => topic.id === current);
 
-    if (!!found) {
-      found.newMessages = 0;
-      this.haveMessages.emit(!!this.topics.find(topic => !!topic.newMessages));
+    if (found > -1) {
+      this.topics[found].unreadMessagesCount = 0;
+      this.haveMessages.emit(!!this.topics.find(topic => !!topic.unreadMessagesCount));
     }
   }
 
@@ -65,14 +65,11 @@ export class TopicsListComponent implements OnInit {
     this.topicsSocket.event$.subscribe(event => {
       if (event instanceof TopicMessageAddedEvent) {
         if (this.current !== event.topic.id) {
-          const found = this.topics.find(topic => topic.card.id === event.topic.id);
-          if (found.card.messagesCount < event.topic.messagesCount) {
-            found.newMessages = found.card.messagesCount - event.topic.messagesCount;
-            this.haveMessages.emit(true);
-          }
+          const found = this.topics.findIndex(topic => topic.id === event.topic.id);
+          this.topics[found] = event.topic;
         }
       } else if (event instanceof TopicCreatedEvent) {
-        this.topics.unshift(new TopicItem(event.topic));
+        this.topics.push(event.topic);
       }
     });
 
@@ -84,8 +81,8 @@ export class TopicsListComponent implements OnInit {
     this.topicsService.list()
       .pipe(finalize(() => this.loading = false), filter(topics => !!topics.length))
       .subscribe(topics => {
-        this.topics = topics.map(card => new TopicItem(card));
-        this.haveMessages.emit(!!this.topics.find(topic => !!topic.newMessages));
+        this.topics = topics;
+        this.haveMessages.emit(!!this.topics.find(topic => !!topic.unreadMessagesCount));
         if (!this.current) {
           this.router.navigate(['/topics', topics[0].id], {relativeTo: this.route});
         }

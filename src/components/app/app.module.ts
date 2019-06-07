@@ -16,6 +16,7 @@ import { LoginModule } from 'src/components/login/login.module';
 import { RegistrationModule } from 'src/components/registration/registration.module';
 import { MeServiceProvider } from 'src/services/me/me.provider';
 import { MessagesSocketService } from 'src/services/messages/socket';
+import { TopicsSocketService } from 'src/services/topics/socket';
 import { UsersServiceProvider } from 'src/services/users/provider';
 
 registerLocaleData(en);
@@ -51,7 +52,8 @@ registerLocaleData(en);
     HttpMockService,
     UsersServiceProvider,
     MeServiceProvider,
-    MessagesSocketService
+    MessagesSocketService,
+    TopicsSocketService
   ],
   bootstrap: [AppComponent]
 })

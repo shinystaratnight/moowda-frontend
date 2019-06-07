@@ -21,13 +21,9 @@ export class TopicCard {
   @Field()
   @Name('messages_count')
   messagesCount: number;
-}
-
-
-export class TopicItem {
-  constructor(public card: TopicCard,
-              public newMessages: number = 0) {
-  }
+  @Field()
+  @Name('unread_messages_count')
+  unreadMessagesCount: number;
 }
 
 export class TopicEvent {
@@ -36,9 +32,9 @@ export class TopicEvent {
   static create(data: any): TopicEvent {
     switch (data.type) {
       case TOPIC_MESSAGE_ADDED:
-        return new TopicMessageAddedEvent(data.topic as Topic);
+        return new TopicMessageAddedEvent(data.topic as TopicCard);
       case TOPIC_CREATED:
-        return new TopicCreatedEvent(data.topic as Topic);
+        return new TopicCreatedEvent(data.topic as TopicCard);
       default:
         throw Error('Wrong type of event');
     }
@@ -47,9 +43,9 @@ export class TopicEvent {
 
 export class TopicMessageAddedEvent extends TopicEvent {
 
-  topic: Topic;
+  topic: TopicCard;
 
-  constructor(topic: Topic) {
+  constructor(topic: TopicCard) {
     super();
     this.topic = topic;
   }
@@ -57,9 +53,9 @@ export class TopicMessageAddedEvent extends TopicEvent {
 
 export class TopicCreatedEvent extends TopicEvent {
 
-  topic: Topic;
+  topic: TopicCard;
 
-  constructor(topic: Topic) {
+  constructor(topic: TopicCard) {
     super();
     this.topic = topic;
   }

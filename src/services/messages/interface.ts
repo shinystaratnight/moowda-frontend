@@ -8,6 +8,7 @@ export interface IMessagesService {
 
   create(id: number, message: MessageCreate): Observable<Message>;
 
+  read(id: number, message: number): Observable<any>;
 }
 
 export let messages_service = new InjectionToken('messages_service');

@@ -35,6 +35,7 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
   page: number = DEFAULT_PAGE;
   pageSize: number = DEFAULT_PAGE_SIZE;
   loading = false;
+  colors = [];
 
   @ViewChildren('messageView') messageViews: QueryList<any>;
 
@@ -95,7 +96,15 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
       .pipe(finalize(() => this.loading = false))
       .subscribe(paging => {
         this.messages = paging.results;
-        this.messagesService.read(this.id, this.messages[this.messages.length - 1].id).subscribe();
+
+        this.messages.forEach(message => {
+          if (!this.colors[message.user.id]) {
+            this.colors[message.user.id] = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
+          }
+        });
+        if (!!this.messages.length) {
+          this.messagesService.read(this.id, this.messages[this.messages.length - 1].id).subscribe();
+        }
       });
   }
 }

@@ -14,6 +14,8 @@ import { AppComponent } from 'src/components/app/app.component';
 import { LayoutModule } from 'src/components/layout/layout.module';
 import { LoginModule } from 'src/components/login/login.module';
 import { RegistrationModule } from 'src/components/registration/registration.module';
+import { RestoreModule } from 'src/components/restore/restore.module';
+import { AppHttpService } from 'src/services/http.service';
 import { MeServiceProvider } from 'src/services/me/me.provider';
 import { MessagesSocketService } from 'src/services/messages/socket';
 import { TopicsSocketService } from 'src/services/topics/socket';
@@ -36,7 +38,8 @@ registerLocaleData(en);
 
     LayoutModule,
     LoginModule,
-    RegistrationModule
+    RegistrationModule,
+    RestoreModule
   ],
   providers: [
     {
@@ -47,8 +50,11 @@ registerLocaleData(en);
       provide: Config,
       useExisting: AppConfig
     },
+    {
+      provide: HttpService,
+      useExisting: AppHttpService
+    },
     HttpClient,
-    HttpService,
     HttpMockService,
     UsersServiceProvider,
     MeServiceProvider,

@@ -29,6 +29,10 @@
     margin: 0;
     cursor: pointer;
 
+    &:focus {
+      outline: none;
+    }
+
     [topic] {
       display: flex;
       align-items: center;
@@ -71,7 +75,7 @@
 
     &[active='true'] {
       background-color: $secondary-color;
-      top: -1px;
+      outline: 1px $secondary-color solid;
       color: white;
 
       [topic] {

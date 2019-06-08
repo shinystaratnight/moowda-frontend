@@ -23,9 +23,37 @@ export class RegistrationCredentials {
   @Field()
   password: string;
 
-  constructor(defs: LoginCredentials = null) {
+  constructor(defs: RegistrationCredentials = null) {
     if (!!defs) {
       Object.assign(this, defs);
     }
   }
 }
+
+@Model()
+export class RestoreRequestCredentials {
+  @Field()
+  email: string;
+
+  constructor(defs: RestoreRequestCredentials = null) {
+    if (!!defs) {
+      Object.assign(this, defs);
+    }
+  }
+}
+
+@Model()
+export class RestorePasswordCredentials {
+  @Field()
+  password: string;
+
+  @Field()
+  hash: string;
+
+  constructor(defs: RestorePasswordCredentials = null) {
+    if (!!defs) {
+      Object.assign(this, defs);
+    }
+  }
+}
+

@@ -5,6 +5,7 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { finalize } from 'rxjs/operators';
 import { AppConfig } from 'src/app-config';
 import { RegistrationComponent } from 'src/components/registration/registration.component';
+import { RestoreRequestComponent } from 'src/components/restore/restore-request/restore-request.component';
 import { LoginCredentials } from 'src/models/user-credentials';
 import { IUsersService, users_service } from 'src/services/users/interface';
 
@@ -24,6 +25,8 @@ export class LoginComponent {
       const component = modal.getContentComponent();
       if (component instanceof RegistrationComponent) {
         component.registered.subscribe(() => this.modal.close());
+      } else if (component instanceof RestoreRequestComponent) {
+        component.requested.subscribe(() => this.modal.close());
       }
     });
   }
@@ -33,7 +36,6 @@ export class LoginComponent {
   }
 
   loading: boolean;
-  error: Error;
 
   loginForm: FormGroup = this.builder.group({
     username: [null, [Validators.required]],
@@ -54,15 +56,20 @@ export class LoginComponent {
       this.usersService.login(new LoginCredentials(this.loginForm.value))
         .pipe(finalize(() => this.loading = false))
         .subscribe(authorization => {
-            this.config.authorization = authorization;
-            this.logged.emit();
-          },
-          error => this.error = error);
+          this.config.authorization = authorization;
+          this.logged.emit();
+        });
     }
   }
 
   restore() {
-
+    this.modalService.closeAll();
+    this.modal = this.modalService.create({
+      nzTitle: '',
+      nzContent: RestoreRequestComponent,
+      nzFooter: null,
+      nzWidth: 'fit-content'
+    });
   }
 
   registration() {

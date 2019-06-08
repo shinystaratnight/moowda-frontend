@@ -14,7 +14,6 @@ import { IUsersService, users_service } from 'src/services/users/interface';
 export class RegistrationComponent {
 
   loading: boolean;
-  error: Error;
 
   registerForm: FormGroup = this.builder.group({
     email: [null, [Validators.required]],
@@ -35,10 +34,9 @@ export class RegistrationComponent {
       this.usersService.registration(new RegistrationCredentials(this.registerForm.value))
         .pipe(finalize(() => this.loading = false))
         .subscribe(authorization => {
-            this.config.authorization = authorization;
-            this.registered.emit();
-          },
-          error => this.error = error);
+          this.config.authorization = authorization;
+          this.registered.emit();
+        });
     }
   }
 }

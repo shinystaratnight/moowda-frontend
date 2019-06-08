@@ -3,7 +3,12 @@ import { Authorization, HttpService } from 'junte-angular';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { deserialize, serialize } from 'serialize-ts';
-import { LoginCredentials, RegistrationCredentials } from 'src/models/user-credentials';
+import {
+  LoginCredentials,
+  RegistrationCredentials,
+  RestorePasswordCredentials,
+  RestoreRequestCredentials
+} from 'src/models/user-credentials';
 import { IUsersService } from './interface';
 
 @Injectable({providedIn: 'root'})
@@ -24,5 +29,14 @@ export class UsersService implements IUsersService {
 
   logout(): Observable<any> {
     return of(null);
+  }
+
+  restoreRequest(credentials: RestoreRequestCredentials): Observable<any> {
+    return this.http.post<any>('restore-request', serialize(credentials));
+  }
+
+  restorePassword(credentials: RestorePasswordCredentials): Observable<Authorization> {
+    return this.http.post<any>(`restore`, serialize(credentials))
+      .pipe(map(obj => deserialize(obj, Authorization)));
   }
 }

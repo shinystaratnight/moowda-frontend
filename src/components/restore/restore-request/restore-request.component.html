@@ -1,0 +1,25 @@
+<form nz-form [formGroup]="restoreForm" (ngSubmit)="restore()">
+
+  <nz-form-item>
+    <nz-form-control>
+      <nz-input-group [nzPrefix]="prefixEmail">
+        <input nz-input formControlName="email" type="email" placeholder="Email">
+      </nz-input-group>
+      <nz-form-explain *ngIf="restoreForm.get('email')?.dirty && restoreForm.get('email')?.errors">
+        Please input your Email
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control>
+      <button nz-button class="restore-form-button" [nzType]="'primary'"
+              [nzLoading]="loading" type="submit">
+        Restore
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+
+</form>
+
+<ng-template #prefixEmail><i nz-icon type="mail"></i></ng-template>

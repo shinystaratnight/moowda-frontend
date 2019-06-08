@@ -9,7 +9,7 @@
   <ng-container *ngIf="messages.length; else noData">
     <ul>
       <li *ngFor="let message of messages" [attr.me]="me.user?.id === message.user.id" #messageView>
-        <span username>{{message.user.username}}</span>
+        <span username [ngStyle]="{'color': colors[message.user.id]}">{{message.user.username}}</span>
         <div content>
           <div text>{{message.content}}</div>
           <div *ngIf="!!message.images.length" images>

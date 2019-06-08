@@ -53,7 +53,7 @@ export class MessagesSocketService {
     this.bindEvents();
 
     combineLatest(this.topic$, this.authorization$)
-      .pipe(filter(([topic, authorization]) => topic > 0 && !!authorization))
+      .pipe(filter(([topic]) => topic > 0))
       .subscribe(() => this.requestService.connect(`topics/${this.topic}/events`, this.authorization));
   }
 

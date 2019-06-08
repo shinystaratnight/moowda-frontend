@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from 'src/components/layout/layout.component';
 import { MessagesListComponent } from 'src/components/messages/messages-list/messages-list.component';
+import { RestoreComponent } from 'src/components/restore/restore.component';
 
 const routes: Routes = [
   {
@@ -22,11 +23,18 @@ const routes: Routes = [
   {
     path: 'topics',
     component: LayoutComponent
+  },
+  {
+    path: 'restore/:hash',
+    component: RestoreComponent
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
+  imports: [RouterModule.forRoot(routes, {
+    onSameUrlNavigation: 'reload',
+    paramsInheritanceStrategy: 'always'
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

@@ -1,7 +1,6 @@
 import { EventEmitter, Injectable, InjectionToken, Injector } from '@angular/core';
 import { Authorization } from 'junte-angular';
 import { BehaviorSubject } from 'rxjs';
-import { filter } from 'rxjs/operators';
 import { AppConfig } from 'src/app-config';
 import { Topic, TopicEvent } from 'src/models/topic';
 import { WsService, WsState } from 'src/services/ws.service';
@@ -39,8 +38,7 @@ export class TopicsSocketService {
       .get(token) as WsService<Topic>;
     this.bindEvents();
 
-    this.authorization$.pipe(filter(authorization => !!authorization))
-      .subscribe(() => this.requestService.connect('topics/events', this.authorization));
+    this.authorization$.subscribe(() => this.requestService.connect('topics/events', this.authorization));
   }
 
   private bindEvents() {

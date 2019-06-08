@@ -3,7 +3,12 @@ import { Authorization, HttpMockService } from 'junte-angular';
 import { Observable, of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 import { deserialize } from 'serialize-ts';
-import { LoginCredentials, RegistrationCredentials } from 'src/models/user-credentials';
+import {
+  LoginCredentials,
+  RegistrationCredentials,
+  RestorePasswordCredentials,
+  RestoreRequestCredentials
+} from 'src/models/user-credentials';
 import { IUsersService } from './interface';
 
 @Injectable({providedIn: 'root'})
@@ -24,5 +29,14 @@ export class UsersMockService implements IUsersService {
 
   logout(): Observable<any> {
     return of(null);
+  }
+
+  restoreRequest(credentials: RestoreRequestCredentials): Observable<any> {
+    return of(null);
+  }
+
+  restorePassword(credentials: RestorePasswordCredentials): Observable<Authorization> {
+    return of({type: 'mock', token: 'mock'})
+      .pipe(map(src => deserialize(src, Authorization)), delay(500));
   }
 }

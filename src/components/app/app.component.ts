@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpService } from 'junte-angular';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd';
+import { filter } from 'rxjs/operators';
 import { AppConfig } from 'src/app-config';
 import { LoginComponent } from 'src/components/login/login.component';
 
@@ -17,7 +20,9 @@ export class AppComponent implements OnInit {
 
     modal.afterOpen.subscribe(() => {
       const component = modal.getContentComponent();
-      component.logged.subscribe(() => this.modal.close());
+      if (component instanceof LoginComponent) {
+        component.logged.subscribe(() => this.modal.close());
+      }
     });
   }
 
@@ -26,7 +31,10 @@ export class AppComponent implements OnInit {
   }
 
   constructor(private modalService: NzModalService,
-              private config: AppConfig) {
+              private config: AppConfig,
+              private route: ActivatedRoute,
+              private router: Router,
+              private http: HttpService) {
   }
 
   ngOnInit() {
@@ -41,5 +49,15 @@ export class AppComponent implements OnInit {
         });
       });
     }
+
+    this.http.error$.pipe(filter(error => !!error))
+      .subscribe(error => {
+        error.reasons.forEach(reason => {
+          this.modalService.error({
+            nzTitle: 'Error',
+            nzContent: reason.message
+          });
+        });
+      });
   }
 }

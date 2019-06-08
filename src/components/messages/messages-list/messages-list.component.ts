@@ -67,7 +67,9 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
     this.subscriptions.add(this.messagesSocket.event$.subscribe(event => {
       if (event instanceof MessageAddedEvent) {
         this.messages.push(new MessageCard(event.message));
-        this.messagesService.read(this.id, event.message.id).subscribe();
+        if (this.me.logged) {
+          this.messagesService.read(this.id, event.message.id).subscribe();
+        }
         this.scrollToBottom();
       }
     }));
@@ -82,10 +84,12 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
   }
 
   scrollToBottom(): void {
-    const height = this.host.nativeElement.parentElement.scrollHeight;
-    if (height !== this.height) {
-      this.host.nativeElement.parentElement.scrollIntoView(false);
-      this.height = height;
+    if (!!this.host.nativeElement.parentElement) {
+      const height = this.host.nativeElement.parentElement.scrollHeight;
+      if (height !== this.height) {
+        this.host.nativeElement.parentElement.scrollIntoView(false);
+        this.height = height;
+      }
     }
   }
 
@@ -102,7 +106,7 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
             this.colors[message.user.id] = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
           }
         });
-        if (!!this.messages.length) {
+        if (!!this.messages.length && this.me.logged) {
           this.messagesService.read(this.id, this.messages[this.messages.length - 1].id).subscribe();
         }
       });

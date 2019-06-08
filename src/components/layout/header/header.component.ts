@@ -3,6 +3,7 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { AppConfig } from 'src/app-config';
 import { LoginComponent } from 'src/components/login/login.component';
 import { RegistrationComponent } from 'src/components/registration/registration.component';
+import { RestoreRequestComponent } from 'src/components/restore/restore-request/restore-request.component';
 import { MeManager } from 'src/managers/me.manager';
 import { IUsersService, users_service } from 'src/services/users/interface';
 
@@ -55,7 +56,13 @@ export class HeaderComponent {
   }
 
   restore() {
-
+    this.modalService.closeAll();
+    this.modal = this.modalService.create({
+      nzTitle: '',
+      nzContent: RestoreRequestComponent,
+      nzFooter: null,
+      nzWidth: 'fit-content'
+    });
   }
 
   registration() {

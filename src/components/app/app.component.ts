@@ -52,11 +52,10 @@ export class AppComponent implements OnInit {
 
     this.http.error$.pipe(filter(error => !!error))
       .subscribe(error => {
-        error.reasons.forEach(reason => {
-          this.modalService.error({
-            nzTitle: 'Error',
-            nzContent: reason.message
-          });
+        const content = !!error.reasons.length ? error.reasons[error.reasons.length - 1].message : null;
+        this.modalService.error({
+          nzTitle: 'Error',
+          nzContent: content
         });
       });
   }

@@ -1,15 +1,31 @@
 @import "variables";
 
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
   padding-top: 20px;
+  min-height: 250px;
+  min-width: 230px;
+
+  @media (max-width: 768px) {
+    width: 100vw;
+    height: 100vh;
+  }
+}
+
+input {
+  margin: auto;
+  border: 0;
+  border-bottom: 1px solid $gray-light-color;
+
+  &:focus {
+    outline: 0;
+  }
 }
 
 [start-topic] {
   background-color: $purple-color;
-  width: 50%;
   color: white;
   height: 35px;
   border: none;
-  margin: 25px 25%;
 }

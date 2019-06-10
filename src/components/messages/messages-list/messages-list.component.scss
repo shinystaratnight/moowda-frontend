@@ -37,15 +37,16 @@ ul {
     [username] {
       width: 100%;
       float: left;
-      margin-bottom: 10px;
     }
 
     [content] {
       float: left;
-      margin: 0 10vw 2vh 0;
+      margin: 0 0 2vh 0;
+      max-width: 100%;
+      word-break: break-word;
 
       [text] {
-        background-color: $primary-color;
+        background-color: $primary-light-color;
         border-radius: 15px;
         padding: 10px;
       }
@@ -56,8 +57,11 @@ ul {
 
         img {
           padding: 10px;
-          max-width: calc(100vw - 10vw - #{$sider-width} - 20px);
-          max-height: calc(100vw - 10vw - #{$sider-width} - 20px);
+          //max-width: calc(100vw - 10vw - #{$sider-width} - 20px);
+          //max-height: calc(100vw - 10vw - #{$sider-width} - 20px);
+          max-width: 100%;
+          width: 500px;
+          height: auto;
         }
       }
     }

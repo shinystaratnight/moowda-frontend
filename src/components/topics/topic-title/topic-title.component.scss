@@ -3,7 +3,6 @@
 :host {
   position: fixed;
   top: $header-height;
-  height: $header-height;
   width: calc(100% - #{$sider-width});
   overflow: auto;
   display: flex;
@@ -19,7 +18,7 @@
 }
 
 [trigger] {
-  font-size: 30px;
+  font-size: 26px;
   padding: 0 10px;
   color: $primary-color;
   transition: all 0.3s;
@@ -31,12 +30,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
-  width: 100%;
-}
+  padding: 10px 20px 10px 0;
+  width: calc(100% - 52px);
 
-@media (max-width: 768px) {
-  [topic] {
-    width: 100%;
+  [title] {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  [share] {
+    min-width: 32px;
   }
 }

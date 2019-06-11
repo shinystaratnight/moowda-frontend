@@ -3,7 +3,7 @@
 :host {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  padding-bottom: 50px;
 }
 
 [start-topic] {
@@ -20,9 +20,6 @@
 }
 
 [nz-menu] {
-  padding-bottom: 20px;
-  height: 100vh;
-
   [nz-menu-item] {
     text-align: start;
     height: 50px;
@@ -39,6 +36,7 @@
       justify-content: space-between;
       height: 100%;
       position: relative;
+      border-bottom: 1px $secondary-color solid;
 
       [title] {
         white-space: nowrap;
@@ -71,12 +69,6 @@
         height: 10px;
         border-radius: 50%;
         background-color: $dark-purple-color;
-      }
-    }
-
-    &:not(:last-child) {
-      [topic] {
-        border-bottom: 1px $secondary-color solid;
       }
     }
 

@@ -51,10 +51,6 @@ nz-content {
   &[collapsed='true'] {
     margin-left: 0;
   }
-
-  &[logged='false'] {
-    padding-bottom: 0;
-  }
 }
 
 @media (max-width: 768px) {

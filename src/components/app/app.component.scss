@@ -1,0 +1,17 @@
+@media (max-width: 768px) {
+  ::ng-deep.ant-modal-wrap {
+    display: flex;
+
+    .ant-modal {
+      top: auto;
+      bottom: auto;
+      margin-top: auto;
+      margin-bottom: auto;
+      padding: 8px 0;
+
+      .ant-modal-body {
+        display: flex;
+      }
+    }
+  }
+}

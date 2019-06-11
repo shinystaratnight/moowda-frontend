@@ -1,6 +1,7 @@
 import { Component, EventEmitter, HostBinding, Inject, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd';
+import { AppConfig } from 'src/app-config';
 import { ShareTopicComponent } from 'src/components/topics/share-topic/share-topic.component';
 import { MeManager } from 'src/managers/me.manager';
 import { Topic } from 'src/models/topic';
@@ -60,6 +61,7 @@ export class TopicTitleComponent implements OnInit {
   constructor(@Inject(topics_service) private topicsService: ITopicsService,
               private modalService: NzModalService,
               private route: ActivatedRoute,
+              public config: AppConfig,
               public me: MeManager) {
   }
 

@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd';
-import { filter, finalize } from 'rxjs/operators';
+import { debounceTime, filter, finalize } from 'rxjs/operators';
+import { LoginComponent } from 'src/components/login/login.component';
 import { CreateTopicComponent } from 'src/components/topics/create-topic/create-topic.component';
+import { PLATFORM_DELAY } from 'src/consts';
 import { MeManager } from 'src/managers/me.manager';
 import { TopicCard, TopicCreatedEvent, TopicMessageAddedEvent } from 'src/models/topic';
 import { ITopicsService, topics_service } from 'src/services/topics/interface';
@@ -29,6 +31,12 @@ export class TopicsListComponent implements OnInit {
       const component = modal.getContentComponent();
       if (component instanceof CreateTopicComponent) {
         component.created.subscribe(() => this.modal.close());
+      } else if (component instanceof LoginComponent) {
+        component.logged.pipe(debounceTime(PLATFORM_DELAY))
+          .subscribe(() => {
+            this.modal.close();
+            this.create();
+          });
       }
     });
   }
@@ -76,6 +84,15 @@ export class TopicsListComponent implements OnInit {
     this.load();
   }
 
+  private openModal(content: any) {
+    this.modal = this.modalService.create({
+      nzTitle: '',
+      nzContent: content,
+      nzFooter: null,
+      nzWidth: 'fit-content'
+    });
+  }
+
   load() {
     this.loading = true;
     this.topicsService.list()
@@ -91,12 +108,7 @@ export class TopicsListComponent implements OnInit {
 
   create() {
     this.modalService.closeAll();
-    this.modal = this.modalService.create({
-      nzTitle: '',
-      nzContent: CreateTopicComponent,
-      nzFooter: null,
-      nzWidth: 'fit-content'
-    });
+    this.openModal(this.me.logged ? CreateTopicComponent : LoginComponent);
   }
 
 }

@@ -1,4 +1,4 @@
-<i nz-icon [type]="collapsed ? 'arrow-right' : 'arrow-left'"
+<i nz-icon [type]="(collapsed && !config.device.mobile) ? 'arrow-right' : 'arrow-left'"
    (click)="collapsedChange.emit(!collapsed)" trigger>
 </i>
 <div topic>

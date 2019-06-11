@@ -2,7 +2,9 @@ import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NzModalRef, NzModalService, UploadXHRArgs } from 'ng-zorro-antd';
 import { debounceTime } from 'rxjs/operators';
+import { AppConfig } from 'src/app-config';
 import { LoginComponent } from 'src/components/login/login.component';
+import { ImagePreviewComponent } from 'src/components/messages/create-message/image-preview/image-preview.component';
 import { PLATFORM_DELAY } from 'src/consts';
 import { MeManager } from 'src/managers/me.manager';
 import { MessageCreate } from 'src/models/message';
@@ -20,6 +22,7 @@ export class CreateMessageComponent implements OnInit {
 
   content: string;
   images: any[] = [];
+  image: UploadXHRArgs;
   id: number;
 
   set modal(modal: NzModalRef) {
@@ -29,10 +32,7 @@ export class CreateMessageComponent implements OnInit {
       const component = modal.getContentComponent();
       if (component instanceof LoginComponent) {
         component.logged.pipe(debounceTime(PLATFORM_DELAY))
-          .subscribe(() => {
-            this.modal.close();
-            this.send();
-          });
+          .subscribe(() => this.modal.close());
       }
     });
   }
@@ -48,12 +48,23 @@ export class CreateMessageComponent implements OnInit {
   constructor(@Inject(messages_service) private messagesService: IMessagesService,
               private route: ActivatedRoute,
               private me: MeManager,
+              private config: AppConfig,
               private modalService: NzModalService,
               private upload: FileUploadService) {
   }
 
   ngOnInit() {
     this.route.params.subscribe(({topic}) => this.id = +topic || null);
+  }
+
+  login() {
+    this.modalService.closeAll();
+    this.modal = this.modalService.create({
+      nzTitle: '',
+      nzContent: LoginComponent,
+      nzFooter: null,
+      nzWidth: 'fit-content'
+    });
   }
 
   send() {
@@ -67,19 +78,45 @@ export class CreateMessageComponent implements OnInit {
       });
     } else {
       // setTimeout needed for avoid error from modal service
-      setTimeout(() => {
-        this.modalService.closeAll();
-        this.modal = this.modalService.create({
-          nzTitle: '',
-          nzContent: LoginComponent,
-          nzFooter: null,
-          nzWidth: 'fit-content'
-        });
+      setTimeout(() => this.login());
+      this.modal.afterOpen.subscribe(() => {
+        this.modal.getContentComponent().logged
+          .pipe(debounceTime(PLATFORM_DELAY))
+          .subscribe(() => this.send());
       });
     }
   }
 
-  request = (item: UploadXHRArgs) => {
+  request = item => {
+    this.image = item;
+    if (!this.me.logged) {
+      return null;
+    }
+
     return this.upload.uploadFile('images', item.file, item.onProgress, item.onSuccess, item.onError);
+  };
+
+  checkAuth = () => {
+    if (!this.me.logged) {
+      this.login();
+      this.modal.afterOpen.subscribe(() => {
+        this.modal.getContentComponent().logged
+          .pipe(debounceTime(PLATFORM_DELAY))
+          .subscribe(() => this.request(this.image));
+      });
+    }
+
+    return () => this.me.logged;
+  };
+
+  preview = file => {
+    this.modalService.closeAll();
+    this.modal = this.modalService.create({
+      nzTitle: '',
+      nzContent: ImagePreviewComponent,
+      nzComponentParams: {image: file['response'].url},
+      nzFooter: null,
+      nzWidth: 'fit-content'
+    });
   };
 }

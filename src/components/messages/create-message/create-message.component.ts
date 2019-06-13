@@ -4,7 +4,7 @@ import { NzModalRef, NzModalService, UploadXHRArgs } from 'ng-zorro-antd';
 import { debounceTime } from 'rxjs/operators';
 import { AppConfig } from 'src/app-config';
 import { LoginComponent } from 'src/components/login/login.component';
-import { ImagePreviewComponent } from 'src/components/messages/create-message/image-preview/image-preview.component';
+import { ImagePreviewComponent } from 'src/components/messages/image-preview/image-preview.component';
 import { PLATFORM_DELAY } from 'src/consts';
 import { MeManager } from 'src/managers/me.manager';
 import { MessageCreate } from 'src/models/message';
@@ -78,11 +78,13 @@ export class CreateMessageComponent implements OnInit {
       });
     } else {
       // setTimeout needed for avoid error from modal service
-      setTimeout(() => this.login());
-      this.modal.afterOpen.subscribe(() => {
-        this.modal.getContentComponent().logged
-          .pipe(debounceTime(PLATFORM_DELAY))
-          .subscribe(() => this.send());
+      setTimeout(() => {
+        this.login();
+        this.modal.afterOpen.subscribe(() => {
+          this.modal.getContentComponent().logged
+            .pipe(debounceTime(PLATFORM_DELAY))
+            .subscribe(() => this.send());
+        });
       });
     }
   }

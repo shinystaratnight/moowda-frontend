@@ -10,8 +10,10 @@ import {
   ViewChildren
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NzModalService } from 'ng-zorro-antd';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { ImagePreviewComponent } from 'src/components/messages/image-preview/image-preview.component';
 import { MeManager } from 'src/managers/me.manager';
 import { MessageAddedEvent, MessageCard } from 'src/models/message';
 import { IMessagesService, messages_service } from 'src/services/messages/interface';
@@ -54,6 +56,7 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
               private route: ActivatedRoute,
               private messagesSocket: MessagesSocketService,
               private host: ElementRef,
+              private modalService: NzModalService,
               public me: MeManager) {
   }
 
@@ -111,5 +114,16 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
           this.messagesService.read(this.id, this.messages[this.messages.length - 1].id).subscribe();
         }
       });
+  }
+
+  preview(url: string) {
+    this.modalService.closeAll();
+    this.modalService.create({
+      nzTitle: '',
+      nzContent: ImagePreviewComponent,
+      nzComponentParams: {image: url},
+      nzFooter: null,
+      nzWidth: 'fit-content'
+    });
   }
 }

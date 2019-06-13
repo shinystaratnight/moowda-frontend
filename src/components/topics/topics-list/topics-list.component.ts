@@ -101,7 +101,7 @@ export class TopicsListComponent implements OnInit {
         this.topics = topics;
         this.haveMessages.emit(!!this.topics.find(topic => !!topic.unreadMessagesCount));
         if (!this.current) {
-          this.router.navigate(['/topics', topics[0].id], {relativeTo: this.route});
+          this.router.navigate([topics[0].id], {relativeTo: this.route});
         }
       });
   }

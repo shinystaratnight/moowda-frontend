@@ -13,6 +13,7 @@ import { AppRoutingModule } from 'src/components/app/app-routing.module';
 import { AppComponent } from 'src/components/app/app.component';
 import { LayoutModule } from 'src/components/layout/layout.module';
 import { LoginModule } from 'src/components/login/login.module';
+import { OutletModule } from 'src/components/outlet/outlet.module';
 import { RegistrationModule } from 'src/components/registration/registration.module';
 import { RestoreModule } from 'src/components/restore/restore.module';
 import { AppHttpService } from 'src/services/http.service';
@@ -39,7 +40,8 @@ registerLocaleData(en);
     LayoutModule,
     LoginModule,
     RegistrationModule,
-    RestoreModule
+    RestoreModule,
+    OutletModule
   ],
   providers: [
     {

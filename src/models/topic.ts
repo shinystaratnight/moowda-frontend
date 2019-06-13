@@ -1,4 +1,4 @@
-import { Field, Name } from 'serialize-ts/dist';
+import { deserialize, Field, Name } from 'serialize-ts/dist';
 
 const TOPIC_MESSAGE_ADDED = 'topic_message_added';
 const TOPIC_CREATED = 'topic_created';
@@ -32,9 +32,9 @@ export class TopicEvent {
   static create(data: any): TopicEvent {
     switch (data.type) {
       case TOPIC_MESSAGE_ADDED:
-        return new TopicMessageAddedEvent(data.topic as TopicCard);
+        return new TopicMessageAddedEvent(deserialize(data.topic, TopicCard));
       case TOPIC_CREATED:
-        return new TopicCreatedEvent(data.topic as TopicCard);
+        return new TopicCreatedEvent(deserialize(data.topic, TopicCard));
       default:
         throw Error('Wrong type of event');
     }

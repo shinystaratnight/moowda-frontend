@@ -1,5 +1,5 @@
 import { ArraySerializer, Field, ModelSerializer, Type } from 'serialize-ts';
-import { Model, PrimitiveSerializer } from 'serialize-ts/dist';
+import { deserialize, Model, PrimitiveSerializer } from 'serialize-ts/dist';
 import { CurrentImage } from 'src/models/image';
 import { UserCard } from 'src/models/user';
 
@@ -54,7 +54,7 @@ export class MessageEvent {
   static create(data: any): MessageEvent {
     switch (data.type) {
       case MESSAGE_ADDED:
-        return new MessageAddedEvent(data.message as Message);
+        return new MessageAddedEvent(deserialize(data.message, Message));
       default:
         throw Error('Wrong type of event');
     }

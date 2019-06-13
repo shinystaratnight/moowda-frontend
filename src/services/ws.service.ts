@@ -72,8 +72,8 @@ export class WsService<T> {
       this.onClose.emit();
       if (event.code !== CLOSE_NORMAL) {
         this.state = WsState.error;
-        console.log('error');
-        console.log(`code ${event.code} try to reopen`);
+        // console.log('error');
+        // console.log(`code ${event.code} try to reopen`);
         setTimeout(() => this.open(), REOPEN_INTERVAL);
         this.onError.emit();
       }

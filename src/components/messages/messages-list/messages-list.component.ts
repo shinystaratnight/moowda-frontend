@@ -81,6 +81,7 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
+    this.messagesSocket.close();
   }
 
   scrollToBottom(): void {

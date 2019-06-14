@@ -6,7 +6,7 @@
 </div>
 <ul nz-menu>
   <li *ngFor="let topic of topics" nz-menu-item
-      [routerLink]="['/topics', topic.id]"
+      [routerLink]="['..', topic.id]"
       [attr.active]="current === topic.id">
     <div topic>
       <span title>{{topic.title}}</span>

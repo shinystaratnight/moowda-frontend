@@ -9,6 +9,10 @@
 [start-topic] {
   display: flex;
   border-right: 1px $gray-light-color solid;
+  position: fixed;
+  width: 350px;
+  background-color: white;
+  z-index: 1;
 
   [nz-button] {
     height: 30px;
@@ -20,6 +24,8 @@
 }
 
 [nz-menu] {
+  padding-top: 50px;
+
   [nz-menu-item] {
     text-align: start;
     height: 50px;
@@ -87,5 +93,14 @@
         }
       }
     }
+  }
+}
+
+@media (max-width: 768px) {
+  [start-topic] {
+    flex: 0 0 100vw !important;
+    width: 100vw !important;
+    min-width: 100vw !important;
+    max-width: 100vw !important;
   }
 }

@@ -13,14 +13,13 @@ export class CreateTopicComponent {
   @Output() created = new EventEmitter<Topic>();
 
   @HostBinding('style.height') get height() {
-    const vh = window.innerHeight * 0.01;
-    return `calc(var(${vh}px, 1vh) * 100)`;
+    return `${window.innerHeight - 64}px`;
   }
 
   constructor(@Inject(topics_service) private topicsService: ITopicsService) {
   }
 
-  create(): void {
-    this.topicsService.create(this.title).subscribe(topic => this.created.emit(topic));
+  create() {
+    this.topicsService.create(this.title).subscribe(() => this.created.emit());
   }
 }

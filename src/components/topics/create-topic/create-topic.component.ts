@@ -1,4 +1,5 @@
 import { Component, EventEmitter, HostBinding, Inject, Output } from '@angular/core';
+import { AppConfig } from 'src/app-config';
 import { Topic } from 'src/models/topic';
 import { ITopicsService, topics_service } from 'src/services/topics/interface';
 
@@ -13,10 +14,11 @@ export class CreateTopicComponent {
   @Output() created = new EventEmitter<Topic>();
 
   @HostBinding('style.height') get height() {
-    return `${window.innerHeight - 64}px`;
+    return this.config.device.mobile ? `${window.innerHeight - 80}px` : 'auto';
   }
 
-  constructor(@Inject(topics_service) private topicsService: ITopicsService) {
+  constructor(@Inject(topics_service) private topicsService: ITopicsService,
+              private config: AppConfig) {
   }
 
   create() {

@@ -30,7 +30,10 @@ export class TopicsListComponent implements OnInit {
     modal.afterOpen.subscribe(() => {
       const component = modal.getContentComponent();
       if (component instanceof CreateTopicComponent) {
-        component.created.subscribe(() => this.modal.close());
+        component.created.subscribe(topic => {
+          this.modal.close();
+          this.router.navigate(['..', topic.id], {relativeTo: this.route});
+        });
       } else if (component instanceof LoginComponent) {
         component.logged.pipe(debounceTime(PLATFORM_DELAY))
           .subscribe(() => {
@@ -101,7 +104,7 @@ export class TopicsListComponent implements OnInit {
         this.topics = topics;
         this.haveMessages.emit(!!this.topics.find(topic => !!topic.unreadMessagesCount));
         if (!this.current) {
-          this.router.navigate(['/topics', topics[0].id], {relativeTo: this.route});
+          this.router.navigate([topics[0].id], {relativeTo: this.route});
         }
       });
   }

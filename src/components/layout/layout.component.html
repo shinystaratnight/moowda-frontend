@@ -3,7 +3,9 @@
           [attr.collapsed]="collapsed"
           [nzTrigger]="trigger"
           [nzWidth]="350">
-  <moo-topics-list (haveMessages)="haveMessages = $event"></moo-topics-list>
+  <moo-topics-list (haveMessages)="haveMessages = $event"
+                   [attr.collapsed]="collapsed">
+  </moo-topics-list>
 </nz-sider>
 <ng-template #trigger>
   <i nz-icon type="up"></i>

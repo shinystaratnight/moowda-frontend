@@ -28,7 +28,7 @@ export class AppConfig extends Config {
   mocksPath = MOCKS_PATH;
 
   device = {
-    mobile: (() => MOBILE_REGEX.test(navigator.userAgent))()
+    mobile: (() => window.innerWidth <= 768)()
   };
 
   wsEndpointPrefix: string = 'ws';

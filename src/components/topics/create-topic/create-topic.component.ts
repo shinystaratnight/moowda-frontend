@@ -16,6 +16,6 @@ export class CreateTopicComponent {
   }
 
   create() {
-    this.topicsService.create(this.title).subscribe(() => this.created.emit());
+    this.topicsService.create(this.title).subscribe(topic => this.created.emit(topic));
   }
 }

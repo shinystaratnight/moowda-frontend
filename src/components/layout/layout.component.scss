@@ -7,7 +7,7 @@
   justify-content: center;
   z-index: 10;
   top: $header-height;
-  width: 100vw;
+  width: $sider-width;
   [primary] {
     margin: $gutter-small 0 0 0;
   }
@@ -70,6 +70,10 @@
 }
 
 @media (max-width: $mobile) {
+  [start-topic] {
+    width: 100vw;
+  }
+
   [sider][collapsed='false'] {
     flex: 0 0 100vw !important;
     width: 100vw !important;

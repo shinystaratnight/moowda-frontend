@@ -1,5 +1,4 @@
 import { Inject, Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { AppConfig } from 'src/app-config';
@@ -34,15 +33,13 @@ export class MeManager {
   }
 
   constructor(@Inject(me_service) private meService: IMeService,
-              private config: AppConfig,
-              private router: Router) {
+              private config: AppConfig) {
 
     this.config.authorization$.subscribe(token => {
       if (!!token) {
         this.meService.getMe().subscribe(user => this.user = user, () => this.user = null);
       } else {
         this.user = null;
-        this.router.navigate(['/']);
       }
     });
 

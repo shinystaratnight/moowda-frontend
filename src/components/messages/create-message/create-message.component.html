@@ -8,7 +8,6 @@
              nzListType="picture"
              [(nzFileList)]="images"
              [nzPreview]="preview"
-             [nzFileType] = "'image / png, image / jpeg, image / gif'"
              [nzBeforeUpload]="checkAuth"
              [nzCustomRequest]="request">
     <button nz-button nzType="default" nzShape="circle" add-picture>

@@ -3,6 +3,8 @@ import { AppConfig } from 'src/app-config';
 import { Topic } from 'src/models/topic';
 import { ITopicsService, topics_service } from 'src/services/topics/interface';
 
+const MOBILE_HEADER_HEIGHT = 80;
+
 @Component({
   selector: 'moo-create-topic',
   templateUrl: './create-topic.component.html',
@@ -14,7 +16,7 @@ export class CreateTopicComponent {
   @Output() created = new EventEmitter<Topic>();
 
   @HostBinding('style.height') get height() {
-    return this.config.device.mobile ? `${window.innerHeight - 80}px` : 'auto';
+    return this.config.device.mobile ? `${window.innerHeight - MOBILE_HEADER_HEIGHT}px` : 'auto';
   }
 
   constructor(@Inject(topics_service) private topicsService: ITopicsService,

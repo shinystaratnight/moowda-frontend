@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NzModalRef, NzModalService } from 'ng-zorro-antd';
+import { NzModalService } from 'ng-zorro-antd';
 import { debounceTime, filter, finalize } from 'rxjs/operators';
 import { LoginComponent } from 'src/components/login/login.component';
 import { CreateTopicComponent } from 'src/components/topics/create-topic/create-topic.component';
@@ -18,35 +18,10 @@ import { TopicsSocketService } from 'src/services/topics/socket';
 export class TopicsListComponent implements OnInit {
 
   private _current: number;
-  private _modal: NzModalRef;
   topics: TopicCard[] = [];
   loading = false;
 
   @Output() haveMessages = new EventEmitter<boolean>();
-
-  set modal(modal: NzModalRef) {
-    this._modal = modal;
-
-    modal.afterOpen.subscribe(() => {
-      const component = modal.getContentComponent();
-      if (component instanceof CreateTopicComponent) {
-        component.created.subscribe(topic => {
-          this.modal.close();
-          this.router.navigate(['..', topic.id], {relativeTo: this.route});
-        });
-      } else if (component instanceof LoginComponent) {
-        component.logged.pipe(debounceTime(PLATFORM_DELAY))
-          .subscribe(() => {
-            this.modal.close();
-            this.create();
-          });
-      }
-    });
-  }
-
-  get modal() {
-    return this._modal;
-  }
 
   set current(current: number) {
     this._current = current;
@@ -71,7 +46,10 @@ export class TopicsListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(({topic}) => this.current = +topic || null);
+    this.route.params.subscribe(({topic}) => {
+      this.current = +topic || null;
+      this.load();
+    });
 
     this.topicsSocket.event$.subscribe(event => {
       if (event instanceof TopicMessageAddedEvent) {
@@ -82,17 +60,6 @@ export class TopicsListComponent implements OnInit {
       } else if (event instanceof TopicCreatedEvent) {
         this.topics.unshift(event.topic);
       }
-    });
-
-    this.load();
-  }
-
-  private openModal(content: any) {
-    this.modal = this.modalService.create({
-      nzTitle: '',
-      nzContent: content,
-      nzFooter: null,
-      nzWidth: 'fit-content'
     });
   }
 
@@ -108,10 +75,4 @@ export class TopicsListComponent implements OnInit {
         }
       });
   }
-
-  create() {
-    this.modalService.closeAll();
-    this.openModal(this.me.logged ? CreateTopicComponent : LoginComponent);
-  }
-
 }

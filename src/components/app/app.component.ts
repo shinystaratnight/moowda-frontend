@@ -22,7 +22,10 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.http.error$.pipe(filter(error => !!error))
       .subscribe(error => {
-        const content = !!error.reasons.length ? error.reasons[error.reasons.length - 1].message : null;
+        const messages = error.reasons.map(reason => reason.message);
+        const real = messages.filter(message => message.length > 1);
+        const content = !!real.length ? messages[messages.length - 1] : messages.join('');
+
         this.modalService.error({
           nzTitle: 'Error',
           nzContent: content

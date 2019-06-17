@@ -2,7 +2,7 @@
 
 :host {
   display: block;
-  padding-top: 50px;
+  padding-top: calc(60px + 2 * #{$line-height-base}em);
 }
 
 [nodata] {
@@ -26,7 +26,7 @@
 
 ul {
   list-style: none;
-  padding: $header-height $gutter-big $gutter-big $gutter-big;
+  padding: $gutter-big;
 
   li {
     padding: $gutter-small;
@@ -55,6 +55,7 @@ ul {
 
     &[me='true'] {
       text-align: right;
+
       [content] {
         margin: 0 0 2vh 10vw;
 

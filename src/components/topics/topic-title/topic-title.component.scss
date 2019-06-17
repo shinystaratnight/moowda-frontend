@@ -4,7 +4,7 @@ $title-line-height: $line-height-base;
 
 :host {
   position: fixed;
-  top: $header-height;
+  top: calc(#{$header-height} + 60px);
   width: calc(100% - #{$sider-width});
   overflow: auto;
   flex-direction: column;

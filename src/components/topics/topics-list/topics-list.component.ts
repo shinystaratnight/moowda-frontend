@@ -63,32 +63,6 @@ export class TopicsListComponent implements OnInit {
     });
   }
 
-  private openModal(component: any) {
-    this.modalService.closeAll();
-    const modal = this.modalService.create({
-      nzTitle: '',
-      nzContent: component,
-      nzFooter: null,
-      nzWidth: 'fit-content'
-    });
-
-    modal.afterOpen.subscribe(() => {
-      const component = modal.getContentComponent();
-      if (component instanceof CreateTopicComponent) {
-        component.created.subscribe(topic => {
-          modal.close();
-          this.router.navigate(['..', topic.id], {relativeTo: this.route});
-        });
-      } else if (component instanceof LoginComponent) {
-        component.logged.pipe(debounceTime(PLATFORM_DELAY))
-          .subscribe(() => {
-            modal.close();
-            this.create();
-          });
-      }
-    });
-  }
-
   load() {
     this.loading = true;
     this.topicsService.list()
@@ -101,10 +75,4 @@ export class TopicsListComponent implements OnInit {
         }
       });
   }
-
-  create() {
-    this.modalService.closeAll();
-    this.openModal(this.me.logged ? CreateTopicComponent : LoginComponent);
-  }
-
 }

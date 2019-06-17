@@ -42,7 +42,7 @@ export class LayoutComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private config: AppConfig,
+              public config: AppConfig,
               private modalService: NzModalService,
               public me: MeManager) {
   }

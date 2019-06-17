@@ -1,8 +1,12 @@
 import { Component, EventEmitter, HostBinding, Inject, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd';
+import { debounceTime } from 'rxjs/operators';
 import { AppConfig } from 'src/app-config';
+import { LoginComponent } from 'src/components/login/login.component';
+import { CreateTopicComponent } from 'src/components/topics/create-topic/create-topic.component';
 import { ShareTopicComponent } from 'src/components/topics/share-topic/share-topic.component';
+import { PLATFORM_DELAY } from 'src/consts';
 import { MeManager } from 'src/managers/me.manager';
 import { Topic } from 'src/models/topic';
 import { ITopicsService, topics_service } from 'src/services/topics/interface';
@@ -48,9 +52,24 @@ export class TopicTitleComponent implements OnInit {
     this._modal = modal;
 
     modal.afterOpen.subscribe(() => {
-      const component = modal.getContentComponent() as ShareTopicComponent;
-      component.topic = this.topic;
-      component.shared.subscribe(() => this.modal.close());
+      const component = modal.getContentComponent();
+      if (component instanceof CreateTopicComponent) {
+        component.created.subscribe(topic => {
+          this.modal.close();
+          if (!!topic) {
+            this.router.navigate(['..', topic.id], {relativeTo: this.route});
+          }
+        });
+      } else if (component instanceof LoginComponent) {
+        component.logged.pipe(debounceTime(PLATFORM_DELAY))
+          .subscribe(() => {
+            this.modal.close();
+            this.create();
+          });
+      } else if (component instanceof ShareTopicComponent) {
+        component.topic = this.topic;
+        component.shared.subscribe(() => this.modal.close());
+      }
     });
   }
 
@@ -61,6 +80,7 @@ export class TopicTitleComponent implements OnInit {
   constructor(@Inject(topics_service) private topicsService: ITopicsService,
               private modalService: NzModalService,
               private route: ActivatedRoute,
+              private router: Router,
               public config: AppConfig,
               public me: MeManager) {
   }
@@ -80,5 +100,19 @@ export class TopicTitleComponent implements OnInit {
       nzFooter: null,
       nzWidth: 'fit-content'
     });
+  }
+
+  private openModal(content: any) {
+    this.modal = this.modalService.create({
+      nzTitle: '',
+      nzContent: content,
+      nzFooter: null,
+      nzWidth: 'fit-content'
+    });
+  }
+
+  create() {
+    this.modalService.closeAll();
+    this.openModal(this.me.logged ? CreateTopicComponent : LoginComponent);
   }
 }

@@ -14,7 +14,7 @@
     .ant-upload-list-item {
       float: left;
       width: 65px;
-      margin-right: 5px;
+      margin-right: $gutter-tiny;
       color: white;
       background-color: white;
 
@@ -28,16 +28,14 @@
       }
     }
   }
+  .ant-input-group-addon {
+    border-radius: $corner-small;
+  }
 }
 
-.ant-input {
+[input] {
   background-color: $background-color;
-  border-radius: 10px;
-}
-
-[message] {
-  margin-left: 5px;
-  font-size: 20px;
+  border-radius: $corner-small;
 }
 
 [add-picture] {
@@ -47,6 +45,6 @@
 
 [send-message] {
   color: $primary-color;
-  font-size: 30px;
+  font-size: $font-size-large;
   cursor: pointer;
 }

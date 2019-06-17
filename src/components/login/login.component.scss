@@ -1,31 +1,17 @@
 @import "variables";
 
-[nz-form] {
-  max-width: 300px;
-  padding-top: 20px;
+form {
+  padding-top: $gutter-big;
+  & > :not(:last-child) {
+    margin-bottom: $gutter-tiny;
+  }
 }
 
-[restore] {
-  float: right;
+[link] {
+  display: block;
+  font-size: $font-size-small;
   color: $primary-light-color;
+  text-align: right;
 }
 
-[register] {
-  color: $primary-light-color;
-}
 
-[login] {
-  background-color: $purple-color;
-  width: 50%;
-  height: 35px;
-  color: white;
-  margin: 0 25%;
-}
-
-.ant-form-item {
-  margin-bottom: 10px;
-}
-
-.ant-form-item-control {
-  line-height: 30px;
-}

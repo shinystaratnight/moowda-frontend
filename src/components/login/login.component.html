@@ -16,6 +16,7 @@
       <nz-input-group [nzPrefix]="prefixLock">
         <input type="password" nz-input formControlName="password" placeholder="Password"/>
       </nz-input-group>
+      <a (click)="restore()" link> Restore password</a>
       <nz-form-explain *ngIf="loginForm.get('password')?.dirty && loginForm.get('password')?.errors">
         Please input your Password!
       </nz-form-explain>
@@ -24,15 +25,22 @@
 
   <nz-form-item>
     <nz-form-control>
-      <a (click)="restore()" restore> Restore password</a>
-
-      <button nz-button nzType="round" [nzLoading]="loading" type="submit" login>
-        Log in
+      <button primary nz-button nzBlock nzType="round" [nzLoading]="loading" type="submit">
+        Login
       </button>
-
-      <a (click)="registration()" register>Register now</a>
     </nz-form-control>
   </nz-form-item>
+
+
+  <nz-form-item>
+    <nz-form-control>
+
+      <button primary nz-button nzBlock nzType="round" [nzLoading]="loading" (click)="registration()" type="submit">
+        Register now
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+
 
 </form>
 

@@ -3,9 +3,11 @@
 :host {
   display: flex;
   flex-direction: column;
-  padding-top: 20px;
+  justify-content: center;
+  align-items: stretch;
   min-height: 250px;
   min-width: 230px;
+  padding: 50px;
 
   @media (max-width: 768px) {
     width: 100vw;
@@ -13,18 +15,13 @@
 }
 
 input {
-  margin: auto;
   border: 0;
   border-bottom: 1px solid $gray-light-color;
+  font-size: $font-size-big;
+  margin-bottom: $gutter-huge;
 
   &:focus {
     outline: 0;
   }
 }
 
-[start-topic] {
-  background-color: $purple-color;
-  color: white;
-  height: 35px;
-  border: none;
-}

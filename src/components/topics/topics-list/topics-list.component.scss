@@ -3,31 +3,15 @@
 :host {
   display: flex;
   flex-direction: column;
-  padding-bottom: 50px;
 }
 
-[start-topic] {
-  display: flex;
-  border-right: 1px $gray-light-color solid;
-  position: fixed;
-  width: 350px;
-  background-color: white;
-  z-index: 1;
-
-  [nz-button] {
-    height: 30px;
-    background-color: $purple-color;
-    color: white;
-    border: none;
-    margin: 10px auto;
-  }
+[primary] {
+  margin: $gutter-small auto;
 }
 
-[nz-menu] {
-  padding-top: 50px;
-
-  [nz-menu-item] {
-    text-align: start;
+ul {
+  border: 0;
+  [item] {
     height: 50px;
     margin: 0;
     cursor: pointer;
@@ -36,13 +20,18 @@
       outline: none;
     }
 
+    &:not(:last-child) {
+      [topic] {
+        border-bottom: 1px $secondary-color solid;
+      }
+    }
+
     [topic] {
       display: flex;
       align-items: center;
       justify-content: space-between;
       height: 100%;
       position: relative;
-      border-bottom: 1px $secondary-color solid;
 
       [title] {
         white-space: nowrap;
@@ -50,44 +39,47 @@
         overflow: hidden;
       }
 
-      [nz-icon] {
-        min-width: auto;
+      [message] {
+        position: relative;
+        line-height: 0;
+      }
+
+      [icon] {
         font-size: 32px;
         color: $gray-color;
+        margin: 0;
       }
 
       [new-messages] {
         position: absolute;
-        right: 12px;
-        width: 30px;
-        font-size: 12px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        font-size: $font-size-small;
         color: white;
-        text-align: center;
-        display: flex;
-        justify-content: center;
       }
 
       [have-messages] {
         position: absolute;
-        right: 10px;
-        top: 10px;
+        right: 0;
+        top: 0;
         width: 10px;
         height: 10px;
         border-radius: 50%;
-        background-color: $dark-purple-color;
+        background-color: $purple-dark-color;
       }
     }
 
     &[active='true'] {
-      background-color: $secondary-color;
+      background-color: $primary-color;
       outline: 1px $secondary-color solid;
       color: white;
 
       [topic] {
-        [nz-icon] {
+        border: 0;
+        [icon] {
           color: white;
         }
-
         [new-messages] {
           color: $gray-color;
         }

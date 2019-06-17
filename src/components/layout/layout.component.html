@@ -10,16 +10,22 @@
 <ng-template #trigger>
   <i nz-icon type="up"></i>
 </ng-template>
+<div start-topic [style.top]="hide ? '0' : '50px'">
+  <button primary nz-button nzType="default" nzShape="round" (click)="create()">
+    <i nz-icon type="icons:message"></i>
+    START TOPIC
+  </button>
+</div>
 <nz-layout>
   <nz-affix [nzOffsetTop]="0">
-    <nz-header header [style.opacity]="hide ? '0' : '1'">
+    <nz-header header [style.display]="hide ? 'none' : 'block'">
       <moo-header [haveMessages]="haveMessages"></moo-header>
     </nz-header>
   </nz-affix>
   <nz-content [attr.collapsed]="collapsed" content>
     <moo-topic-title [attr.collapsed]="collapsed"
                      [(collapsed)]="collapsed"
-                     [style.top]="hide ? '0' : '50px'">
+                     [style.top]="hide ? '50px' : '100px'">
     </moo-topic-title>
     <router-outlet></router-outlet>
   </nz-content>

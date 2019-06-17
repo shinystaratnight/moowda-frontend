@@ -50,7 +50,6 @@ export class TopicTitleComponent implements OnInit {
   constructor(@Inject(topics_service) private topicsService: ITopicsService,
               private modalService: NzModalService,
               private route: ActivatedRoute,
-              private router: Router,
               public config: AppConfig,
               public me: MeManager) {
   }
@@ -70,20 +69,7 @@ export class TopicTitleComponent implements OnInit {
 
     modal.afterOpen.subscribe(() => {
       const component = modal.getContentComponent();
-      if (component instanceof CreateTopicComponent) {
-        component.created.subscribe(topic => {
-          modal.close();
-          if (!!topic) {
-            this.router.navigate(['..', topic.id], {relativeTo: this.route});
-          }
-        });
-      } else if (component instanceof LoginComponent) {
-        component.logged.pipe(debounceTime(PLATFORM_DELAY))
-          .subscribe(() => {
-            modal.close();
-            this.create();
-          });
-      } else if (component instanceof ShareTopicComponent) {
+      if (component instanceof ShareTopicComponent) {
         component.topic = this.topic;
         component.shared.subscribe(() => modal.close());
       }
@@ -96,9 +82,5 @@ export class TopicTitleComponent implements OnInit {
 
   share() {
     this.openModal(ShareTopicComponent, 'Share with friends');
-  }
-
-  create() {
-    this.openModal(this.me.logged ? CreateTopicComponent : LoginComponent);
   }
 }

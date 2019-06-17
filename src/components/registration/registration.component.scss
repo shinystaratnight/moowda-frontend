@@ -1,18 +1,10 @@
 @import "variables";
 
-[nz-form] {
-  max-width: 300px;
-  padding-top: 20px;
+form {
+  padding-top: $gutter-big;
+  & > :not(:last-child) {
+    margin-bottom: $gutter-tiny;
+  }
 }
 
-.register-form-button {
-  width: 100%;
-}
 
-.ant-form-item {
-  margin-bottom: 10px;
-}
-
-[registration] {
-  background-color: $purple-color;
-}

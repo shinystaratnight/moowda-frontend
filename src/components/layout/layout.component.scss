@@ -1,15 +1,11 @@
 @import "variables";
 
-nz-layout {
-  background-color: white;
-}
-
-nz-header {
+[header] {
   height: $header-height;
   padding: 0;
 }
 
-nz-sider {
+[sider] {
   overflow: auto;
   position: fixed;
   height: calc(100vh - #{$header-height});
@@ -17,35 +13,35 @@ nz-sider {
   top: $header-height;
   background-color: white;
   box-shadow: 10px 0 10px 0 $shadow-color;
+  z-index: 1;
 
   ::ng-deep.ant-layout-sider-zero-width-trigger {
     display: none;
   }
 }
 
-nz-footer {
+[footer] {
   background-color: white;
-  margin-left: calc(#{$sider-width} + 20px);
+  margin-left: calc(#{$sider-width} + #{$gutter-big});
   position: fixed;
   height: $footer-height;
   bottom: 0;
-  width: calc(100vw - #{$sider-width} - 20px);
+  width: calc(100vw - #{$sider-width} - #{$gutter-big});
   transition: margin 0.2s;
-  padding: 15px 15px 15px 0;
+  padding: $gutter-normal $gutter-normal $gutter-normal 0;
   display: flex;
 
   &[collapsed='true'] {
     margin-left: 0;
-    width: 100vw;
-    padding: 15px;
+    width: 100%;
+    padding: $gutter-normal;
   }
 }
 
-nz-content {
-  overflow: initial;
+[content] {
   background-color: white;
   margin-left: $sider-width;
-  padding-bottom: 120px;
+  padding-bottom: calc(#{$footer-height} + #{$gutter-big});
   transition: margin 0.2s;
 
   &[collapsed='true'] {
@@ -53,17 +49,17 @@ nz-content {
   }
 }
 
-@media (max-width: 768px) {
-  nz-sider[collapsed='false'] {
+@media (max-width: $mobile) {
+  [sider][collapsed='false'] {
     flex: 0 0 100vw !important;
     width: 100vw !important;
     min-width: 100vw !important;
     max-width: 100vw !important;
   }
-  nz-footer[collapsed='false'] {
+  [footer][collapsed='false'] {
     display: none;
   }
-  nz-content[collapsed='false'] {
+  [content][collapsed='false'] {
     display: none;
   }
 }

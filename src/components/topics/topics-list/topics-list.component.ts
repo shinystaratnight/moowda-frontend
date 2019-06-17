@@ -80,7 +80,7 @@ export class TopicsListComponent implements OnInit {
           this.topics[found] = event.topic;
         }
       } else if (event instanceof TopicCreatedEvent) {
-        this.topics.push(event.topic);
+        this.topics.unshift(event.topic);
       }
     });
 

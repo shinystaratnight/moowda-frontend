@@ -4,11 +4,31 @@ $shadow-color: #F1F1F1;
 $secondary-color: #E8C6E7;
 $background-color: #F2F2F2;
 $gray-color: #C2C2C2;
+$gray-dark-color: #494949;
 $gray-light-color: #E8E8E8;
 $green-color: #0B8D32;
 $purple-color: #958BEE;
-$dark-purple-color: #A130D5;
+$purple-dark-color: #A130D5;
 
 $sider-width: 350px;
 $footer-height: 70px;
 $header-height: 50px;
+
+$gutter-tiny: 5px;
+$gutter-small: 10px;
+$gutter-normal: 15px;
+$gutter-big: 20px;
+$gutter-large: 25px;
+$gutter-huge: 30px;
+
+$corner-small: 10px;
+$corner-normal: 15px;
+
+$font-size-small: .857rem;
+$font-size-normal: .875rem;
+$font-size-big: 1.25rem;
+$font-size-large: 1.875rem;
+
+$line-height-base: 1.5;
+
+$mobile: 768px;

@@ -2,7 +2,7 @@
           nzCollapsible [(nzCollapsed)]="collapsed"
           [attr.collapsed]="collapsed"
           [nzTrigger]="trigger"
-          [nzWidth]="350">
+          [nzWidth]="350" sider>
   <moo-topics-list (haveMessages)="haveMessages = $event"
                    [attr.collapsed]="collapsed">
   </moo-topics-list>
@@ -12,15 +12,15 @@
 </ng-template>
 <nz-layout>
   <nz-affix [nzOffsetTop]="0">
-    <nz-header>
+    <nz-header header>
       <moo-header [haveMessages]="haveMessages"></moo-header>
     </nz-header>
   </nz-affix>
-  <nz-content [attr.collapsed]="collapsed">
+  <nz-content [attr.collapsed]="collapsed" content>
     <moo-topic-title [attr.collapsed]="collapsed" [(collapsed)]="collapsed"></moo-topic-title>
     <router-outlet></router-outlet>
   </nz-content>
-  <nz-footer [attr.collapsed]="collapsed">
+  <nz-footer [attr.collapsed]="collapsed" footer>
     <moo-create-message></moo-create-message>
   </nz-footer>
 </nz-layout>

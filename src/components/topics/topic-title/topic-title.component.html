@@ -1,9 +1,20 @@
-<i nz-icon [type]="(collapsed && !config.device.mobile) ? 'arrow-right' : 'arrow-left'"
-   (click)="collapsedChange.emit(!collapsed)" trigger>
-</i>
-<div topic>
-  <span title>Topic: {{topic?.title}}</span>
-  <button *ngIf="me.logged" nz-button nzType="default" nzShape="circle" (click)="share()" share>
+<button primary nz-button nzType="default" nzShape="round" (click)="create()">
+  <i nz-icon type="icons:message"></i>
+  START TOPIC
+</button>
+
+<div nz-row nzType="flex" nzJustify="space-between" nzAlign="middle" topic>
+  <div nz-row nzType="flex" nzAlign="middle" topic-title>
+    <i nz-icon [type]="(collapsed && !config.device.mobile) ? 'arrow-right' : 'arrow-left'"
+       (click)="collapsedChange.emit(!collapsed)" trigger>
+    </i>
+    <span title>Topic: {{topic?.title}}</span>
+  </div>
+
+
+  <button *ngIf="me.logged" nz-button nzType="default" nzShape="circle" (click)="share()">
     <i nz-icon type="share-alt"></i>
   </button>
+
+
 </div>

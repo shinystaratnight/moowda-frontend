@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { validate } from 'junte-angular';
-import { NzModalRef, NzModalService } from 'ng-zorro-antd';
+import { NzModalService } from 'ng-zorro-antd';
 import { finalize } from 'rxjs/operators';
 import { AppConfig } from 'src/app-config';
 import { RegistrationComponent } from 'src/components/registration/registration.component';
@@ -15,25 +15,6 @@ import { IUsersService, users_service } from 'src/services/users/interface';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-
-  private _modal: NzModalRef;
-
-  set modal(modal: NzModalRef) {
-    this._modal = modal;
-
-    modal.afterOpen.subscribe(() => {
-      const component = modal.getContentComponent();
-      if (component instanceof RegistrationComponent) {
-        component.registered.subscribe(() => this.modal.close());
-      } else if (component instanceof RestoreRequestComponent) {
-        component.requested.subscribe(() => this.modal.close());
-      }
-    });
-  }
-
-  get modal() {
-    return this._modal;
-  }
 
   loading: boolean;
 
@@ -50,6 +31,25 @@ export class LoginComponent {
               private config: AppConfig) {
   }
 
+  private openModal(component: any) {
+    this.modalService.closeAll();
+    const modal = this.modalService.create({
+      nzTitle: '',
+      nzContent: component,
+      nzFooter: null,
+      nzWidth: 'fit-content'
+    });
+
+    modal.afterOpen.subscribe(() => {
+      const component = modal.getContentComponent();
+      if (component instanceof RegistrationComponent) {
+        component.registered.subscribe(() => modal.close());
+      } else if (component instanceof RestoreRequestComponent) {
+        component.requested.subscribe(() => modal.close());
+      }
+    });
+  }
+
   login() {
     if (validate(this.loginForm)) {
       this.loading = true;
@@ -63,22 +63,10 @@ export class LoginComponent {
   }
 
   restore() {
-    this.modalService.closeAll();
-    this.modal = this.modalService.create({
-      nzTitle: '',
-      nzContent: RestoreRequestComponent,
-      nzFooter: null,
-      nzWidth: 'fit-content'
-    });
+    this.openModal(RestoreRequestComponent);
   }
 
   registration() {
-    this.modalService.closeAll();
-    this.modal = this.modalService.create({
-      nzTitle: '',
-      nzContent: RegistrationComponent,
-      nzFooter: null,
-      nzWidth: 'fit-content'
-    });
+    this.openModal(RegistrationComponent);
   }
 }

@@ -30,9 +30,7 @@ export class RestorePasswordComponent {
   }
 
   passwordConfirming(control: AbstractControl): { invalid: boolean } {
-    if (!this.restoreForm || control.value !== this.restoreForm.get('password').value) {
-      return {invalid: true};
-    }
+    return {invalid: !this.restoreForm || control.value !== this.restoreForm.get('password').value};
   }
 
   restore() {
@@ -41,8 +39,7 @@ export class RestorePasswordComponent {
       this.usersService.restorePassword(new RestorePasswordCredentials({
         password: this.restoreForm.get('password').value,
         hash: this.hash
-      }))
-        .pipe(finalize(() => this.loading = false))
+      })).pipe(finalize(() => this.loading = false))
         .subscribe(authorization => {
           this.restored.emit();
           this.config.authorization = authorization;

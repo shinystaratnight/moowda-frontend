@@ -1,5 +1,5 @@
 import { Component, Inject, Input } from '@angular/core';
-import { NzModalRef, NzModalService } from 'ng-zorro-antd';
+import { NzModalService } from 'ng-zorro-antd';
 import { AppConfig } from 'src/app-config';
 import { LoginComponent } from 'src/components/login/login.component';
 import { RegistrationComponent } from 'src/components/registration/registration.component';
@@ -13,26 +13,6 @@ import { IUsersService, users_service } from 'src/services/users/interface';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-
-  private _modal: NzModalRef;
-
-  set modal(modal: NzModalRef) {
-    this._modal = modal;
-
-    modal.afterOpen.subscribe(() => {
-      const component = modal.getContentComponent();
-      if (component instanceof LoginComponent) {
-        component.logged.subscribe(() => this.modal.close());
-      } else if (component instanceof RegistrationComponent) {
-        component.registered.subscribe(() => this.modal.close());
-      }
-    });
-  }
-
-  get modal() {
-    return this._modal;
-  }
-
   @Input() haveMessages = false;
 
   constructor(@Inject(users_service) private usersService: IUsersService,
@@ -41,37 +21,38 @@ export class HeaderComponent {
               public me: MeManager) {
   }
 
+  private openModal(component: any) {
+    this.modalService.closeAll();
+    const modal = this.modalService.create({
+      nzTitle: '',
+      nzContent: component,
+      nzFooter: null,
+      nzWidth: 'fit-content'
+    });
+
+    modal.afterOpen.subscribe(() => {
+      const component = modal.getContentComponent();
+      if (component instanceof LoginComponent) {
+        component.logged.subscribe(() => modal.close());
+      } else if (component instanceof RegistrationComponent) {
+        component.registered.subscribe(() => modal.close());
+      }
+    });
+  }
+
   logout() {
     this.usersService.logout().subscribe(() => this.config.authorization = null);
   }
 
   login() {
-    this.modalService.closeAll();
-    this.modal = this.modalService.create({
-      nzTitle: '',
-      nzContent: LoginComponent,
-      nzFooter: null,
-      nzWidth: 'fit-content'
-    });
+    this.openModal(LoginComponent);
   }
 
   restore() {
-    this.modalService.closeAll();
-    this.modal = this.modalService.create({
-      nzTitle: '',
-      nzContent: RestoreRequestComponent,
-      nzFooter: null,
-      nzWidth: 'fit-content'
-    });
+    this.openModal(RestoreRequestComponent);
   }
 
   registration() {
-    this.modalService.closeAll();
-    this.modal = this.modalService.create({
-      nzTitle: '',
-      nzContent: RegistrationComponent,
-      nzFooter: null,
-      nzWidth: 'fit-content'
-    });
+    this.openModal(RegistrationComponent);
   }
 }

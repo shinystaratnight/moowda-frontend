@@ -3,7 +3,6 @@ import {
   Component,
   ElementRef,
   Inject,
-  Input,
   OnDestroy,
   OnInit,
   QueryList,
@@ -29,7 +28,7 @@ const DEFAULT_PAGE_SIZE = 10;
 })
 export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestroy {
 
-  private _id: number;
+  private _topic: number;
   private height: number;
   private subscriptions = new Subscription();
 
@@ -41,15 +40,15 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
 
   @ViewChildren('messageView') messageViews: QueryList<any>;
 
-  @Input() set id(id: number) {
-    if (!!id && id !== this._id) {
-      this._id = id;
+  set topic(topic: number) {
+    if (!!topic && topic !== this._topic) {
+      this._topic = topic;
       this.load();
     }
   }
 
-  get id() {
-    return this._id;
+  get topic() {
+    return this._topic;
   }
 
   constructor(@Inject(messages_service) private messagesService: IMessagesService,
@@ -62,16 +61,17 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
 
   ngOnInit() {
     this.route.params.subscribe(({topic, page, 'page_size': pageSize}) => {
-      this.id = +topic || null;
+      this.topic = +topic || null;
       this.page = +page || DEFAULT_PAGE;
       this.pageSize = +pageSize || DEFAULT_PAGE_SIZE;
     });
 
     this.subscriptions.add(this.messagesSocket.event$.subscribe(event => {
       if (event instanceof MessageAddedEvent) {
+        this.setColor(event.message.user.id);
         this.messages.push(new MessageCard(event.message));
         if (this.me.logged) {
-          this.messagesService.read(this.id, event.message.id).subscribe();
+          this.messagesService.read(this.topic, event.message.id).subscribe();
         }
         this.scrollToBottom();
       }
@@ -87,7 +87,7 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
     this.messagesSocket.close();
   }
 
-  scrollToBottom(): void {
+  scrollToBottom() {
     if (!!this.host.nativeElement.parentElement) {
       const height = this.host.nativeElement.parentElement.scrollHeight;
       if (height !== this.height) {
@@ -97,21 +97,23 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
     }
   }
 
+  setColor(id: number) {
+    if (!this.colors[id]) {
+      this.colors[id] = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
+    }
+  }
+
   load() {
-    this.messagesSocket.topic = this.id;
+    this.messagesSocket.topic = this.topic;
     this.loading = true;
-    this.messagesService.list(this.id, this.page, this.pageSize)
+    this.messagesService.list(this.topic, this.page, this.pageSize)
       .pipe(finalize(() => this.loading = false))
       .subscribe(paging => {
         this.messages = paging.results;
 
-        this.messages.forEach(message => {
-          if (!this.colors[message.user.id]) {
-            this.colors[message.user.id] = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
-          }
-        });
+        this.messages.forEach(message => this.setColor(message.user.id));
         if (!!this.messages.length && this.me.logged) {
-          this.messagesService.read(this.id, this.messages[this.messages.length - 1].id).subscribe();
+          this.messagesService.read(this.topic, this.messages[this.messages.length - 1].id).subscribe();
         }
       });
   }

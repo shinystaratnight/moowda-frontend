@@ -18,28 +18,11 @@ import { IMessagesService, messages_service } from 'src/services/messages/interf
 })
 export class CreateMessageComponent implements OnInit {
 
-  private _modal: NzModalRef;
-
+  private modal: NzModalRef;
   content: string;
   images: any[] = [];
   image: UploadXHRArgs;
   id: number;
-
-  set modal(modal: NzModalRef) {
-    this._modal = modal;
-
-    modal.afterOpen.subscribe(() => {
-      const component = modal.getContentComponent();
-      if (component instanceof LoginComponent) {
-        component.logged.pipe(debounceTime(PLATFORM_DELAY))
-          .subscribe(() => this.modal.close());
-      }
-    });
-  }
-
-  get modal() {
-    return this._modal;
-  }
 
   @HostListener('keydown.enter') onEnter() {
     this.send();
@@ -57,35 +40,45 @@ export class CreateMessageComponent implements OnInit {
     this.route.params.subscribe(({topic}) => this.id = +topic || null);
   }
 
-  login() {
+  private openModal(component: any, params: any = {}) {
     this.modalService.closeAll();
     this.modal = this.modalService.create({
       nzTitle: '',
-      nzContent: LoginComponent,
+      nzContent: component,
+      nzComponentParams: params,
       nzFooter: null,
       nzWidth: 'fit-content'
     });
   }
 
+  login(send: boolean = false) {
+    this.openModal(LoginComponent);
+
+    this.modal.afterOpen.subscribe(() => {
+      const component = this.modal.getContentComponent();
+      component.logged.pipe(debounceTime(PLATFORM_DELAY))
+        .subscribe(() => {
+          this.modal.close();
+          send ? this.send() : this.request(this.image);
+        });
+    });
+  }
+
+  clear() {
+    this.content = '';
+    this.images = [];
+  }
+
   send() {
     if (this.me.logged) {
-      this.messagesService.create(this.id, new MessageCreate({
+      const message = new MessageCreate({
         content: this.content,
         images: this.images.map(image => image['response'].id)
-      })).subscribe(() => {
-        this.content = '';
-        this.images = [];
       });
+      this.messagesService.create(this.id, message).subscribe(() => this.clear());
     } else {
       // setTimeout needed for avoid error from modal service
-      setTimeout(() => {
-        this.login();
-        this.modal.afterOpen.subscribe(() => {
-          this.modal.getContentComponent().logged
-            .pipe(debounceTime(PLATFORM_DELAY))
-            .subscribe(() => this.send());
-        });
-      });
+      setTimeout(() => this.login(true));
     }
   }
 
@@ -100,25 +93,11 @@ export class CreateMessageComponent implements OnInit {
 
   checkAuth = () => {
     if (!this.me.logged) {
-      this.login();
-      this.modal.afterOpen.subscribe(() => {
-        this.modal.getContentComponent().logged
-          .pipe(debounceTime(PLATFORM_DELAY))
-          .subscribe(() => this.request(this.image));
-      });
+      this.login(false);
     }
 
     return () => this.me.logged;
   };
 
-  preview = file => {
-    this.modalService.closeAll();
-    this.modal = this.modalService.create({
-      nzTitle: '',
-      nzContent: ImagePreviewComponent,
-      nzComponentParams: {image: file['response'].url},
-      nzFooter: null,
-      nzWidth: 'fit-content'
-    });
-  };
+  preview = file => this.openModal(ImagePreviewComponent, {image: file['response'].url});
 }

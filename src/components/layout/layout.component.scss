@@ -3,6 +3,7 @@
 [header] {
   height: $header-height;
   padding: 0;
+  transition: all 0.1s;
 }
 
 [sider] {
@@ -15,8 +16,14 @@
   box-shadow: 10px 0 10px 0 $shadow-color;
   z-index: 1;
 
-  ::ng-deep.ant-layout-sider-zero-width-trigger {
-    display: none;
+  ::ng-deep {
+    .ant-layout-sider-zero-width-trigger {
+      display: none;
+    }
+
+    .ant-layout-sider-trigger {
+      display: none;
+    }
   }
 }
 
@@ -41,7 +48,7 @@
 [content] {
   background-color: white;
   margin-left: $sider-width;
-  padding-bottom: calc(#{$footer-height} + #{$gutter-big});
+  padding-bottom: calc(#{$footer-height} + 50px);
   transition: margin 0.2s;
 
   &[collapsed='true'] {

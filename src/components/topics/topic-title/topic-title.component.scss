@@ -9,7 +9,7 @@ $title-line-height: $line-height-base;
   overflow: auto;
   flex-direction: column;
   align-items: stretch;
-  transition: width 0.3s, top 0.1s;
+  transition: width 0.3s;
   background-color: white;
 
   &[collapsed='true'] {

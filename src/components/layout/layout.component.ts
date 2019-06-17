@@ -49,10 +49,6 @@ export class LayoutComponent implements OnInit {
 
     this.position$.pipe(pairwise(), throttleTime(SCROLL_DELAY))
       .subscribe(([start, end]) => {
-        console.group('coords');
-        console.log('Start: ', start);
-        console.log('End: ', end);
-        console.groupEnd();
         this.hide = !!start && end > start;
       });
   }

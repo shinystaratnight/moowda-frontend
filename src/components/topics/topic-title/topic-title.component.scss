@@ -5,15 +5,17 @@ $title-line-height: $line-height-base;
 :host {
   position: fixed;
   top: calc(#{$header-height} + 60px);
-  width: calc(100% - #{$sider-width});
+  left: $sider-width;
+  right: 0;
   overflow: auto;
   flex-direction: column;
   align-items: stretch;
-  transition: width 0.3s;
   background-color: white;
+  z-index: 2;
+  height: 60px;
 
   &[collapsed='true'] {
-    width: 100%;
+    left: 0;
   }
 }
 
@@ -22,15 +24,11 @@ $title-line-height: $line-height-base;
   border-bottom: 1px $gray-color solid;
   background-color: white;
   flex-wrap: nowrap;
+  height: 100%;
 
   [topic-title] {
     flex-wrap: nowrap;
     flex: 1;
-  }
-
-  [share] {
-    position: fixed;
-    right: 10px;
   }
 }
 

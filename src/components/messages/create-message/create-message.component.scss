@@ -1,7 +1,9 @@
 @import "variables";
 
 :host {
-  width: 100%;
+  display: block;
+  height: $footer-height;
+  padding: $gutter-small;
 }
 
 ::ng-deep {

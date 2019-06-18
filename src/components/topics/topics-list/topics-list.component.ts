@@ -1,10 +1,7 @@
 import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd';
-import { debounceTime, filter, finalize } from 'rxjs/operators';
-import { LoginComponent } from 'src/components/login/login.component';
-import { CreateTopicComponent } from 'src/components/topics/create-topic/create-topic.component';
-import { PLATFORM_DELAY } from 'src/consts';
+import { filter, finalize } from 'rxjs/operators';
 import { MeManager } from 'src/managers/me.manager';
 import { TopicCard, TopicCreatedEvent, TopicMessageAddedEvent } from 'src/models/topic';
 import { ITopicsService, topics_service } from 'src/services/topics/interface';

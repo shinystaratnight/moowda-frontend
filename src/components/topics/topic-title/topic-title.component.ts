@@ -1,12 +1,8 @@
 import { Component, EventEmitter, HostBinding, Inject, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd';
-import { debounceTime } from 'rxjs/operators';
 import { AppConfig } from 'src/app-config';
-import { LoginComponent } from 'src/components/login/login.component';
-import { CreateTopicComponent } from 'src/components/topics/create-topic/create-topic.component';
 import { ShareTopicComponent } from 'src/components/topics/share-topic/share-topic.component';
-import { PLATFORM_DELAY } from 'src/consts';
 import { MeManager } from 'src/managers/me.manager';
 import { Topic } from 'src/models/topic';
 import { ITopicsService, topics_service } from 'src/services/topics/interface';

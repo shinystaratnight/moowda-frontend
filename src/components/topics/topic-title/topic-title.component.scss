@@ -27,6 +27,11 @@ $title-line-height: $line-height-base;
     flex-wrap: nowrap;
     flex: 1;
   }
+
+  [share] {
+    position: fixed;
+    right: 10px;
+  }
 }
 
 [primary] {

@@ -10,7 +10,8 @@
 <ng-template #trigger>
   <i nz-icon type="up"></i>
 </ng-template>
-<div start-topic [style.top]="hide ? '0' : '50px'">
+<div start-topic [style.top]="hide ? '0' : '50px'"
+     [style.display]="collapsed && !config.device.mobile ? 'none' : 'flex'">
   <button primary nz-button nzType="default" nzShape="round" (click)="create()">
     <i nz-icon type="icons:message"></i>
     START TOPIC

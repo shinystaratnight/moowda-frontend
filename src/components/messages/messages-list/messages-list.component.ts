@@ -1,11 +1,11 @@
 import {
   AfterViewChecked,
   Component,
-  ElementRef,
+  ElementRef, HostListener,
   Inject,
   OnDestroy,
   OnInit,
-  QueryList,
+  QueryList, ViewChild,
   ViewChildren
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -17,6 +17,7 @@ import { MeManager } from 'src/managers/me.manager';
 import { MessageAddedEvent, MessageCard } from 'src/models/message';
 import { IMessagesService, messages_service } from 'src/services/messages/interface';
 import { MessagesSocketService } from 'src/services/messages/socket';
+import {ScrollManager} from "../../../managers/scroll.manager";
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_PAGE_SIZE = 10;
@@ -39,6 +40,12 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
   colors = [];
 
   @ViewChildren('messageView') messageViews: QueryList<any>;
+  @ViewChild('container') container: ElementRef;
+
+  @HostListener('scroll', ['$event.target'])
+  scrolled(target) {
+    this.scroll.position = target.scrollTop;
+  }
 
   set topic(topic: number) {
     if (!!topic && topic !== this._topic) {
@@ -56,6 +63,7 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
               private messagesSocket: MessagesSocketService,
               private host: ElementRef,
               private modalService: NzModalService,
+              private scroll: ScrollManager,
               public me: MeManager) {
   }
 
@@ -88,10 +96,10 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
   }
 
   scrollToBottom() {
-    if (!!this.host.nativeElement.parentElement) {
-      const height = this.host.nativeElement.parentElement.scrollHeight;
+    if (!!this.container) {
+      const height = this.container.nativeElement.scrollHeight;
       if (height !== this.height) {
-        this.host.nativeElement.parentElement.scrollIntoView(false);
+        this.container.nativeElement.scrollIntoView(false);
         this.height = height;
       }
     }

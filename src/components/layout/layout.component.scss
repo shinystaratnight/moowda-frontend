@@ -1,5 +1,10 @@
 @import "variables";
 
+:host {
+  display: block;
+  height: 100vh;
+}
+
 [start-topic] {
   background-color: white;
   position: fixed;
@@ -20,6 +25,10 @@
   transition: all 0.1s;
 }
 
+[layout] {
+  height: 100vh;
+}
+
 [sider] {
   overflow: auto;
   position: fixed;
@@ -28,7 +37,7 @@
   top: $header-height;
   background-color: white;
   box-shadow: 10px 0 10px 0 $shadow-color;
-  z-index: 1;
+  z-index: 3;
 
   ::ng-deep {
     .ant-layout-sider-zero-width-trigger {
@@ -41,29 +50,14 @@
   }
 }
 
-[footer] {
-  background-color: white;
-  margin-left: calc(#{$sider-width} + #{$gutter-big});
-  position: fixed;
-  height: $footer-height;
-  bottom: 0;
-  width: calc(100vw - #{$sider-width} - #{$gutter-big});
-  transition: margin 0.2s;
-  padding: $gutter-normal $gutter-normal $gutter-normal 0;
-  display: flex;
-
-  &[collapsed='true'] {
-    margin-left: 0;
-    width: 100%;
-    padding: $gutter-normal;
-  }
-}
-
 [content] {
   background-color: white;
   margin-left: $sider-width;
-  padding-bottom: calc(#{$footer-height} + 50px);
+  padding-bottom: $footer-height;
+  padding-top: 60px;
   transition: margin 0.2s;
+  min-height: calc(100vh - #{$footer-height});
+  height: calc(100vh - #{$footer-height});
 
   &[collapsed='true'] {
     margin-left: 0;
@@ -84,7 +78,11 @@
   [footer][collapsed='false'] {
     display: none;
   }
-  [content][collapsed='false'] {
-    display: none;
+  [content] {
+    padding-top: 120px;
+
+    &[collapsed='false'] {
+      display: none;
+    }
   }
 }

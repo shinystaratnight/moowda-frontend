@@ -2,12 +2,14 @@
   <ng-template #indicatorTemplate>
     <i nz-icon type="loading"></i>
   </ng-template>
-  <nz-spin nzSimple [nzIndicator]="indicatorTemplate" nz-row nzType="flex" nzAlign="middle" nzJustify="center" loading></nz-spin>
+  <div loading>
+    <nz-spin nzSimple [nzIndicator]="indicatorTemplate"></nz-spin>
+  </div>
 </ng-container>
 
 <ng-template #content>
   <ng-container *ngIf="messages.length; else noData">
-    <ul>
+    <ul #container>
       <li *ngFor="let message of messages" [attr.me]="me.user?.id === message.user.id" #messageView>
         <div username [ngStyle]="{'color': colors[message.user.id]}">{{message.user.username}}</div>
         <div content>
@@ -24,7 +26,9 @@
 </ng-template>
 
 <ng-template #noData>
-  <nz-empty [nzNotFoundContent]="contentTpl" nodata></nz-empty>
+  <div nodata>
+    <nz-empty [nzNotFoundContent]="contentTpl"></nz-empty>
+  </div>
 </ng-template>
 
 <ng-template #contentTpl>

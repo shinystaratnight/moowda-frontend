@@ -21,7 +21,7 @@
     "@angular/router": "~7.2.0",
     "core-js": "^2.5.4",
     "hammerjs": "^2.0.8",
-    "junte-angular": "0.0.13",
+    "junte-angular": "0.0.16",
     "ng-zorro-antd": "^7.4.1",
     "rxjs": "~6.3.3",
     "serialize-ts": "^2.5.4",

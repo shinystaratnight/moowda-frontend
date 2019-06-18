@@ -1,6 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpService } from 'junte-angular';
+import {
+  ApplicationError,
+  Error,
+  FatalError,
+  ForbiddenError,
+  HttpService,
+  InvalidField,
+  InvalidGrantError,
+  NetworkError,
+  NotFoundError
+} from 'junte-angular';
 import { NzModalService } from 'ng-zorro-antd';
 import { filter } from 'rxjs/operators';
 import { AppConfig } from 'src/app-config';
@@ -22,14 +32,25 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.http.error$.pipe(filter(error => !!error))
       .subscribe(error => {
-        const messages = error.reasons.map(reason => reason.message);
-        const real = messages.filter(message => message.length > 1);
-        const content = !!real.length ? messages[messages.length - 1] : messages.join('');
-
+        console.log(error);
         this.modalService.error({
           nzTitle: 'Error',
-          nzContent: content
+          nzContent: this.getMessage(error)
         });
       });
+  }
+
+  getMessage(error: Error) {
+    if (error instanceof NetworkError) {
+      return 'Please, check your internet connection';
+    } else if (error instanceof FatalError) {
+      return 'Error, please refresh page';
+    } else if (error instanceof ForbiddenError || error instanceof NotFoundError
+      || error instanceof InvalidGrantError || error instanceof ApplicationError) {
+      return error.reasons
+        .filter(reason => !(reason instanceof InvalidField))
+        .map(reason => reason.message)
+        .join(', ');
+    }
   }
 }

@@ -3,10 +3,10 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import {debounceTime, filter, pairwise, throttleTime} from 'rxjs/operators';
 import { AppConfig } from 'src/app-config';
+import { PLATFORM_DELAY } from 'src/consts';
 import { MeManager } from 'src/managers/me.manager';
 import {CreateTopicComponent} from "../topics/create-topic/create-topic.component";
 import {LoginComponent} from "../login/login.component";
-import {PLATFORM_DELAY} from "../../consts";
 import {NzModalService} from "ng-zorro-antd";
 
 const SCROLL_OFFSET = 100;

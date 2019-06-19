@@ -19,14 +19,15 @@
           </li>
         </ng-container>
         <ng-template #noLogged>
-          <li nz-menu-item (click)="login()">
-            <i nz-icon type="login"></i>Login
-          </li>
           <li nz-menu-item (click)="registration()">
-            <i nz-icon type="user-add"></i>Register
+            <i nz-icon type="user-add"></i>Sign up
           </li>
+          <li nz-menu-item (click)="login()">
+            <i nz-icon type="login"></i>Log in
+          </li>
+          
           <li nz-menu-item (click)="restore()">
-            <i nz-icon type="unlock"></i>Restore password
+            <i nz-icon type="unlock"></i>Forgotten my password
           </li>
         </ng-template>
       </ul>

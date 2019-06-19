@@ -14,14 +14,18 @@
   }
 }
 
-input {
-  border: 0;
-  border-bottom: 1px solid $gray-light-color;
-  font-size: $font-size-big;
-  margin-bottom: $gutter-huge;
+form {
+  text-align: center;
 
-  &:focus {
-    outline: 0;
+  input {
+    border: 0;
+    border-bottom: 1px solid $gray-light-color;
+    font-size: $font-size-big;
+    margin-bottom: $gutter-huge;
+
+    &:focus {
+      box-shadow: none;
+    }
   }
 }
 

@@ -1,5 +1,7 @@
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { validate } from 'junte-angular';
 import { NzModalRef, NzModalService, UploadXHRArgs } from 'ng-zorro-antd';
 import { debounceTime } from 'rxjs/operators';
 import { AppConfig } from 'src/app-config';
@@ -19,10 +21,13 @@ import { IMessagesService, messages_service } from 'src/services/messages/interf
 export class CreateMessageComponent implements OnInit {
 
   private modal: NzModalRef;
-  content: string;
   images: any[] = [];
   image: UploadXHRArgs;
   id: number;
+
+  messageForm: FormGroup = this.builder.group({
+    content: [null, [Validators.required]]
+  });
 
   @HostListener('keydown.enter') onEnter() {
     this.send();
@@ -33,6 +38,7 @@ export class CreateMessageComponent implements OnInit {
               private me: MeManager,
               private config: AppConfig,
               private modalService: NzModalService,
+              private builder: FormBuilder,
               private upload: FileUploadService) {
   }
 
@@ -65,17 +71,19 @@ export class CreateMessageComponent implements OnInit {
   }
 
   clear() {
-    this.content = '';
+    this.messageForm.reset();
     this.images = [];
   }
 
   send() {
     if (this.me.logged) {
-      const message = new MessageCreate({
-        content: this.content,
-        images: this.images.map(image => image['response'].id)
-      });
-      this.messagesService.create(this.id, message).subscribe(() => this.clear());
+      if ((validate(this.messageForm) || !!this.images.length)) {
+        const message = new MessageCreate({
+          content: this.messageForm.get('content').value,
+          images: this.images.map(image => image['response'].id)
+        });
+        this.messagesService.create(this.id, message).subscribe(() => this.clear());
+      }
     } else {
       // setTimeout needed for avoid error from modal service
       setTimeout(() => this.login(true));

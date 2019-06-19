@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { LinkifyPipe } from 'src/components/messages/messages.pipe';
 import { TopicsModule } from 'src/components/topics/topics.module';
@@ -20,7 +20,7 @@ import { MessagesListComponent } from './messages-list/messages-list.component';
   imports: [
     CommonModule,
     NgZorroAntdModule,
-    FormsModule,
+    ReactiveFormsModule,
 
     TopicsModule
   ],

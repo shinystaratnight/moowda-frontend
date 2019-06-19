@@ -7,6 +7,7 @@
     <nz-sider [nzBreakpoint]="'sm'" [nzCollapsedWidth]="0.01"
               nzCollapsible [(nzCollapsed)]="collapsed"
               [attr.collapsed]="collapsed"
+              [nzTrigger]="null"
               [nzWidth]="350" sider>
       <div start-topic>
         <button primary nz-button nzType="default" nzShape="round" (click)="create()">
@@ -14,8 +15,7 @@
           START TOPIC
         </button>
       </div>
-      <moo-topics-list (haveMessages)="haveMessages = $event"
-                       [attr.collapsed]="collapsed">
+      <moo-topics-list (haveMessages)="haveMessages = $event">
       </moo-topics-list>
     </nz-sider>
     <nz-layout body [attr.collapsed]="collapsed">

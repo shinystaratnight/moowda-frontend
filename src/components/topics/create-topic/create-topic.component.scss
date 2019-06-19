@@ -5,11 +5,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: stretch;
-  min-height: 250px;
-  min-width: 230px;
-  padding: 50px;
+  min-height: 300px;
+  min-width: 300px;
 
-  @media (max-width: 768px) {
+  @media (max-width: $mobile) {
     width: 100vw;
   }
 }

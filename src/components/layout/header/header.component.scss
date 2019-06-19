@@ -2,13 +2,12 @@
 
 :host {
   background-color: $primary-color;
-  height: 100%;
-  width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: $gutter-small;
   align-items: center;
+  padding: 0 $gutter-small;
   color: white;
+  height: 100%;
 }
 
 [logo] {
@@ -21,7 +20,6 @@
 
 [messages] {
   position: relative;
-  line-height: 0;
   margin-right: $gutter-large;
   margin-left: $gutter-tiny;
 

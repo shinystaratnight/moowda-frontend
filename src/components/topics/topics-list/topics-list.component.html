@@ -1,20 +1,18 @@
-<div menu>
-  <ul nz-menu>
-    <li *ngFor="let topic of topics" nz-menu-item
-        [routerLink]="['..', topic.id]"
-        [attr.active]="current === topic.id" item>
-      <div topic>
-        <span title>{{topic.title}}</span>
-        <div message>
-          <i nz-icon type="icons:message" icon></i>
-          <ng-container *ngIf="!!topic.unreadMessagesCount">
-            <span new-messages>{{topic.unreadMessagesCount}}</span>
-            <div have-messages></div>
-          </ng-container>
-        </div>
+<ul nz-menu>
+  <li *ngFor="let topic of topics" nz-menu-item
+      [routerLink]="['..', topic.id]"
+      [attr.active]="current === topic.id" item>
+    <div topic>
+      <span title>{{topic.title}}</span>
+      <div message>
+        <i nz-icon type="icons:message" icon></i>
+        <ng-container *ngIf="!!topic.unreadMessagesCount">
+          <span new-messages>{{topic.unreadMessagesCount}}</span>
+          <div have-messages></div>
+        </ng-container>
       </div>
-    </li>
-  </ul>
-</div>
+    </div>
+  </li>
+</ul>
 
 

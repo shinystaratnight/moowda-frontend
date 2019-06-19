@@ -1,21 +1,22 @@
-<nz-input-group [nzSuffix]="after"
-                [nzAddOnBefore]="before"
-                nzSize="large">
-  <input type="text" nz-input placeholder="Type something..." [(ngModel)]="content" input/>
-</nz-input-group>
-<ng-template #before>
-  <nz-upload class="upload-list-inline"
-             nzListType="picture"
-             [(nzFileList)]="images"
-             [nzPreview]="preview"
-             [nzBeforeUpload]="checkAuth"
-             [nzCustomRequest]="request">
-    <button nz-button nzType="default" nzShape="circle" add-picture>
-      <i nz-icon type="plus"></i>
-    </button>
-  </nz-upload>
-</ng-template>
-<ng-template #after>
-  <i nz-icon nz-tooltip type="icons:send-message" send-message (click)="send()"></i>
-</ng-template>
-
+<form nz-form [formGroup]="messageForm">
+  <nz-input-group [nzSuffix]="after"
+                  [nzAddOnBefore]="before"
+                  nzSize="large">
+    <input type="text" nz-input placeholder="Type something..." formControlName="content" input/>
+  </nz-input-group>
+  <ng-template #before>
+    <nz-upload class="upload-list-inline"
+               nzListType="picture"
+               [(nzFileList)]="images"
+               [nzPreview]="preview"
+               [nzBeforeUpload]="checkAuth"
+               [nzCustomRequest]="request">
+      <button nz-button nzType="default" nzShape="circle" add-picture type="button">
+        <i nz-icon type="plus"></i>
+      </button>
+    </nz-upload>
+  </ng-template>
+  <ng-template #after>
+    <i nz-icon nz-tooltip type="icons:send-message" send-message (click)="send()"></i>
+  </ng-template>
+</form>

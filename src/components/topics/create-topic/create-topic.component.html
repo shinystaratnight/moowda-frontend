@@ -1,7 +1,21 @@
-<input [(ngModel)]="title" placeholder="yay! Let’s talk about...">
+<form nz-form [formGroup]="topicForm" (ngSubmit)="create()">
+  <nz-form-item>
+    <nz-form-control>
+      <nz-input-group>
+        <input nz-input formControlName="title" type="text" placeholder="yay! Let’s talk about...">
+      </nz-input-group>
+      <nz-form-explain *ngIf="topicForm.get('title')?.dirty && topicForm.get('title')?.errors">
+        Please input topic title
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
 
-<button primary nz-button nzType="default" nzShape="round"
-        nz-dropdown (click)="create()">
-  <i nz-icon type="icons:message"></i>
-  START
-</button>
+  <nz-form-item>
+    <nz-form-control>
+      <button primary nz-button nzType="default" nzShape="round"
+              nz-dropdown type="submit">
+        <i nz-icon type="icons:message"></i> START
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+</form>

@@ -20,7 +20,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
 
   collapsed = false;
   haveMessages = false;
-  hide = false;
+  extend = false;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -41,7 +41,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       pairwise(),
       throttleTime(SCROLL_DELAY),
       filter(() => this.config.device.mobile)
-    ).subscribe(([start, end]) => this.hide = !!start && end > start);
+    ).subscribe(([start, end]) => this.extend = !!start && end > start);
   }
 
   private openModal(content: any) {

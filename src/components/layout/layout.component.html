@@ -1,34 +1,29 @@
-<nz-sider [nzBreakpoint]="'sm'" [nzCollapsedWidth]="0.01"
-          nzCollapsible [(nzCollapsed)]="collapsed"
-          [attr.collapsed]="collapsed"
-          [nzTrigger]="trigger"
-          [nzWidth]="350" sider>
-  <moo-topics-list (haveMessages)="haveMessages = $event"
-                   [attr.collapsed]="collapsed">
-  </moo-topics-list>
-</nz-sider>
-<ng-template #trigger>
-  <i nz-icon type="up"></i>
-</ng-template>
-<div start-topic [style.top]="(hide && collapsed) ? '0' : '50px'"
-     [style.display]="collapsed && !config.device.mobile ? 'none' : 'flex'">
-  <button primary nz-button nzType="default" nzShape="round" (click)="create()">
-    <i nz-icon type="icons:message"></i>
-    START TOPIC
-  </button>
-</div>
-<nz-layout layout>
-  <nz-affix [nzOffsetTop]="0" [style.height]="(hide && collapsed) ? '0' : '50px'">
-    <nz-header header [style.display]="(hide && collapsed) ? 'none' : 'block'">
-      <moo-header [haveMessages]="haveMessages"></moo-header>
-    </nz-header>
-  </nz-affix>
-  <nz-content [attr.collapsed]="collapsed" content>
-    <moo-topic-title [attr.collapsed]="collapsed"
-                     [(collapsed)]="collapsed"
-                     [style.top]="config.device.mobile ? (hide ? '60px' : '110px') : '50px'">
-    </moo-topic-title>
-    <router-outlet></router-outlet>
-    <moo-create-message></moo-create-message>
-  </nz-content>
+<nz-layout>
+  <nz-header header [style.display]="(hide && collapsed) ? 'none' : 'block'">
+    <moo-header [haveMessages]="haveMessages"></moo-header>
+  </nz-header>
+
+  <nz-layout>
+    <nz-sider [nzBreakpoint]="'sm'" [nzCollapsedWidth]="0.01"
+              nzCollapsible [(nzCollapsed)]="collapsed"
+              [attr.collapsed]="collapsed"
+              [nzWidth]="350" sider>
+      <div start-topic>
+        <button primary nz-button nzType="default" nzShape="round" (click)="create()">
+          <i nz-icon type="icons:message"></i>
+          START TOPIC
+        </button>
+      </div>
+      <moo-topics-list (haveMessages)="haveMessages = $event"
+                       [attr.collapsed]="collapsed">
+      </moo-topics-list>
+    </nz-sider>
+    <nz-layout body [attr.collapsed]="collapsed">
+      <moo-topic-title [attr.collapsed]="collapsed" [(collapsed)]="collapsed"></moo-topic-title>
+      <nz-content content>
+        <router-outlet></router-outlet>
+        <moo-create-message></moo-create-message>
+      </nz-content>
+    </nz-layout>
+  </nz-layout>
 </nz-layout>

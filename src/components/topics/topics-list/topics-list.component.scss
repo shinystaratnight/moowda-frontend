@@ -3,11 +3,17 @@
 :host {
   display: flex;
   flex-direction: column;
+  overflow: auto;
+  height: 100%;
+}
+
+[menu] {
+  overflow: auto;
+  height: calc(100% - 60px);
 }
 
 ul {
   border: 0;
-  padding-top: 60px;
   [item] {
     height: 50px;
     margin: 0;
@@ -68,7 +74,7 @@ ul {
     }
 
     &[active='true'] {
-      background-color: $primary-color;
+      background-color: $primary-light-color;
       outline: 1px $secondary-color solid;
       color: white;
 

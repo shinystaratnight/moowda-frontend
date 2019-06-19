@@ -44,11 +44,11 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     ).subscribe(([start, end]) => this.hide = !!start && end > start);
   }
 
-  private openModal(component: any) {
+  private openModal(content: any) {
     this.modalService.closeAll();
     const modal = this.modalService.create({
       nzTitle: '',
-      nzContent: component,
+      nzContent: content,
       nzFooter: null,
       nzWidth: 'fit-content'
     });

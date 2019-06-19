@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Config } from 'junte-angular';
+import {Injectable} from '@angular/core';
+import {Config} from 'junte-angular';
 
 const APP_VERSION = '1.0.0';
-const MOBILE_REGEX = /(iPhone|iPad|iPod|Android|webOS|BlackBerry|Windows Phone|Opera Mini)/ig;
 const BACKEND_ENDPOINT = 'http://moowda.com/api';
 const WS_ENDPOINT = 'ws://moowda.com';
 const MOCKS_PATH = './assets/mocks';
@@ -11,6 +10,12 @@ const MOCKS_PATH = './assets/mocks';
 export class AppConfig extends Config {
 
   version = APP_VERSION;
+  mocksPath = MOCKS_PATH;
+  wsEndpointPrefix = 'ws';
+
+  device = {
+    mobile: (() => window.innerWidth <= 768)()
+  };
 
   set backendEndpoint(backendEndpoint: string) {
     if (!!backendEndpoint) {
@@ -24,14 +29,6 @@ export class AppConfig extends Config {
     return localStorage.backendEndpoint !== undefined
       ? localStorage.backendEndpoint : BACKEND_ENDPOINT;
   }
-
-  mocksPath = MOCKS_PATH;
-
-  device = {
-    mobile: (() => window.innerWidth <= 768)()
-  };
-
-  wsEndpointPrefix: string = 'ws';
 
   get wsEndpoint() {
     return localStorage.backendEndpoint !== undefined

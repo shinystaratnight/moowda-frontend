@@ -1,5 +1,5 @@
 <nz-layout>
-  <nz-header header [style.display]="(hide && collapsed) ? 'none' : 'block'">
+  <nz-header header [style.display]="(extend && collapsed) ? 'none' : 'block'">
     <moo-header [haveMessages]="haveMessages"></moo-header>
   </nz-header>
 
@@ -18,7 +18,7 @@
       <moo-topics-list (haveMessages)="haveMessages = $event">
       </moo-topics-list>
     </nz-sider>
-    <nz-layout body [attr.collapsed]="collapsed">
+    <nz-layout body [attr.collapsed]="collapsed" [attr.extend]="extend">
       <moo-topic-title [attr.collapsed]="collapsed" [(collapsed)]="collapsed"></moo-topic-title>
       <nz-content content>
         <router-outlet></router-outlet>

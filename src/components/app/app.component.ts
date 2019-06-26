@@ -45,8 +45,9 @@ export class AppComponent implements OnInit {
       return 'Please, check your internet connection';
     } else if (error instanceof FatalError) {
       return 'Error, please refresh page';
-    } else if (error instanceof ForbiddenError || error instanceof NotFoundError
-      || error instanceof InvalidGrantError || error instanceof ApplicationError) {
+    } else if (error instanceof InvalidGrantError) {
+      return 'Authentication failed.';
+    } else if (error instanceof ForbiddenError || error instanceof NotFoundError || error instanceof ApplicationError) {
       return error.reasons
         .filter(reason => !(reason instanceof InvalidField))
         .map(reason => reason.message)

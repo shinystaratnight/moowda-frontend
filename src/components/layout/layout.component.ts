@@ -1,15 +1,13 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import {debounceTime, filter, pairwise, throttleTime} from 'rxjs/operators';
-import {AppConfig} from 'src/app-config';
-import {PLATFORM_DELAY} from 'src/consts';
-import {MeManager} from 'src/managers/me.manager';
-import {CreateTopicComponent} from "../topics/create-topic/create-topic.component";
-import {LoginComponent} from "../login/login.component";
-import {NzModalService} from "ng-zorro-antd";
-import {ScrollManager} from "../../managers/scroll.manager";
-
-const SCROLL_DELAY = 1000;
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { NzModalService } from 'ng-zorro-antd';
+import { debounceTime, filter, pairwise } from 'rxjs/operators';
+import { AppConfig } from 'src/app-config';
+import { PLATFORM_DELAY } from 'src/consts';
+import { MeManager } from 'src/managers/me.manager';
+import { ScrollManager } from 'src/managers/scroll.manager';
+import { LoginComponent } from '../login/login.component';
+import { CreateTopicComponent } from '../topics/create-topic/create-topic.component';
 
 @Component({
   selector: 'moo-layout',
@@ -39,9 +37,10 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.scroll.position$.pipe(
       pairwise(),
-      throttleTime(SCROLL_DELAY),
       filter(() => this.config.device.mobile)
-    ).subscribe(([start, end]) => this.extend = !!start && end > start);
+    ).subscribe(([start, end]) => {
+      this.extend = !!start && end > start;
+    });
   }
 
   private openModal(content: any) {

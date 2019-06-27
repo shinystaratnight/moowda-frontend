@@ -46,6 +46,7 @@ export class AppComponent implements OnInit {
     } else if (error instanceof FatalError) {
       return 'Error, please refresh page';
     } else if (error instanceof InvalidGrantError) {
+      this.config.authorization = null;
       return 'Authentication failed.';
     } else if (error instanceof ForbiddenError || error instanceof NotFoundError || error instanceof ApplicationError) {
       return error.reasons

@@ -118,8 +118,9 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
   }
 
   load() {
-    this.messagesSocket.topic = this.topic;
+    this.show = false;
     this.loading = true;
+    this.messagesSocket.topic = this.topic;
     this.messagesService.list(this.topic, this.page, this.pageSize)
       .pipe(finalize(() => this.loading = false))
       .subscribe(paging => {

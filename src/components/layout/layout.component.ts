@@ -18,7 +18,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
 
   collapsed = false;
   haveMessages = false;
-  extend = false;
+  extended = false;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -39,7 +39,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       pairwise(),
       filter(() => this.config.device.mobile)
     ).subscribe(([start, end]) => {
-      this.extend = !!start && end > start;
+      this.extended = !!start && end > start;
     });
   }
 

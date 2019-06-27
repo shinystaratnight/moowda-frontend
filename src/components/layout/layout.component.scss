@@ -9,6 +9,13 @@
   line-height: 0;
   padding: 0;
   transition: all 0.1s;
+  display: block;
+
+  &[extended='true'] {
+    &[collapsed='true'] {
+      display: none;
+    }
+  }
 }
 
 [sider] {
@@ -20,6 +27,7 @@
   box-shadow: 10px 10px 10px 0 $shadow-color;
   overflow: hidden;
   transition: all .2s cubic-bezier(0.65, 0.05, 0.36, 1);
+
   [start-topic] {
     background-color: white;
     display: flex;
@@ -31,12 +39,15 @@
 [body] {
   padding-left: $sider-width;
   height: calc(100vh - #{$header-height});
+
   &[collapsed='true'] {
     padding-left: 0;
   }
-  &[extend="true"] {
+
+  &[extended="true"] {
     height: 100vh;
   }
+
   [content] {
     background-color: white;
     display: flex;

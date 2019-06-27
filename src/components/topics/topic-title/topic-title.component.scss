@@ -16,6 +16,8 @@ $title-line-height: $line-height-base;
   line-height: inherit;
   > .anticon {
     line-height: 0;
+    position: relative;
+    left: -1px;
   }
 }
 

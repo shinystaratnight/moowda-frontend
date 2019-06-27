@@ -2,6 +2,19 @@
 
 :host {
   display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+[layout] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
 
 [header] {
@@ -38,14 +51,10 @@
 
 [body] {
   padding-left: $sider-width;
-  height: calc(100vh - #{$header-height});
+  transition: all .3s;
 
   &[collapsed='true'] {
     padding-left: 0;
-  }
-
-  &[extended="true"] {
-    height: 100vh;
   }
 
   [content] {

@@ -1,4 +1,4 @@
-<nz-layout>
+<nz-layout layout>
   <nz-header header [attr.extended]="extended" [attr.collapsed]="collapsed">
     <moo-header [haveMessages]="haveMessages"></moo-header>
   </nz-header>
@@ -18,11 +18,9 @@
       <moo-topics-list (haveMessages)="haveMessages = $event">
       </moo-topics-list>
     </nz-sider>
-    <nz-layout body [attr.collapsed]="collapsed" [attr.extended]="extended">
-      <moo-topic-title [attr.collapsed]="collapsed" [(collapsed)]="collapsed"></moo-topic-title>
+    <nz-layout body [attr.collapsed]="collapsed">
       <nz-content content>
         <router-outlet></router-outlet>
-        <moo-create-message></moo-create-message>
       </nz-content>
     </nz-layout>
   </nz-layout>

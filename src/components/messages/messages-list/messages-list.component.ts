@@ -41,13 +41,9 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
   loading = false;
   colors = [];
   show = false;
+  collapsed = false;
 
   @ViewChild('container') container: ElementRef;
-
-  @HostListener('scroll', ['$event.target'])
-  scrolled(target) {
-    this.scroll.position = target.scrollTop;
-  }
 
   set topic(topic: number) {
     if (!!topic && topic !== this._topic) {
@@ -65,7 +61,7 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
               private messagesSocket: MessagesSocketService,
               private host: ElementRef,
               private modalService: NzModalService,
-              private scroll: ScrollManager,
+              public scroll: ScrollManager,
               public me: MeManager) {
   }
 
@@ -105,7 +101,6 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
       if (height !== this.height) {
         this.container.nativeElement.scrollIntoView(false);
         this.height = height;
-        console.log('show');
         this.show = true;
       }
     }

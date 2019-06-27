@@ -1,4 +1,4 @@
-<moo-topic-title [attr.collapsed]="collapsed" [(collapsed)]="collapsed"></moo-topic-title>
+<moo-topic-title [attr.collapsed]="collapsed"></moo-topic-title>
 
 <div message>
   <div message-list #list (scroll)="scroll.position = list.scrollTop">
@@ -20,7 +20,7 @@
         <ul #container [attr.show]="show">
           <li *ngFor="let message of messages" [attr.me]="me.user?.id === message.user.id" #messageView>
             <div [ngStyle]="{'color': colors[message.user.id]}">{{message.user.username}}</div>
-            <div *ngIf="!!message.content" text><span [innerHTML]="message.content | linkify"></span></div>
+            <div *ngIf="!!message.content" text><span [innerHTML]="message.content | sanitize"></span></div>
             <div *ngIf="!!message.images.length" image>
               <img *ngFor="let image of message.images"
                    [src]="image.image.url"

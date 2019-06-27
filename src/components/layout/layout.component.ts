@@ -37,7 +37,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd && this.config.device.mobile)
-    ).subscribe(() => this.collapsed = true);
+    ).subscribe(() => this.signal.signal(new CollapsedSignal(true)));
 
     this.signal.signals$.pipe(filter(signal => signal instanceof CollapsedSignal))
       .subscribe((signal: CollapsedSignal) => this.collapsed = signal.collapsed);

@@ -11,13 +11,15 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { debounceTime, finalize } from 'rxjs/operators';
+import {debounceTime, filter, finalize} from 'rxjs/operators';
 import { ImagePreviewComponent } from 'src/components/messages/image-preview/image-preview.component';
 import { MeManager } from 'src/managers/me.manager';
 import { ScrollManager } from 'src/managers/scroll.manager';
 import { MessageAddedEvent, MessageCard } from 'src/models/message';
 import { IMessagesService, messages_service } from 'src/services/messages/interface';
 import { MessagesSocketService } from 'src/services/messages/socket';
+import {SignalsService} from "junte-angular";
+import {CollapsedSignal} from "../../../models/signal";
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_PAGE_SIZE = 10;
@@ -61,6 +63,7 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
               private messagesSocket: MessagesSocketService,
               private host: ElementRef,
               private modalService: NzModalService,
+              private signal: SignalsService,
               public scroll: ScrollManager,
               public me: MeManager) {
   }
@@ -71,6 +74,9 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
       this.page = +page || DEFAULT_PAGE;
       this.pageSize = +pageSize || DEFAULT_PAGE_SIZE;
     });
+
+    this.signal.signals$.pipe(filter(signal => signal instanceof CollapsedSignal))
+      .subscribe((signal: CollapsedSignal) => this.collapsed = signal.collapsed);
 
     this.scroll$.pipe(debounceTime(SCROLL_DELAY)).subscribe(() => this.scrollToBottom());
 

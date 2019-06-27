@@ -1,4 +1,4 @@
-import {Component, EventEmitter, HostBinding, Inject, Input, OnInit, Output} from '@angular/core';
+import {Component, HostBinding, Inject, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {NzModalService} from 'ng-zorro-antd';
 import {AppConfig} from 'src/app-config';
@@ -8,6 +8,7 @@ import {Topic} from 'src/models/topic';
 import {ITopicsService, topics_service} from 'src/services/topics/interface';
 import {SignalsService} from "junte-angular";
 import {CollapsedSignal} from "../../../models/signal";
+import {filter} from "rxjs/operators";
 
 @Component({
   selector: 'moo-topic-title',
@@ -18,10 +19,9 @@ export class TopicTitleComponent implements OnInit {
 
   private _id: number;
   private _topic: Topic;
+  collapsed: boolean = this.config.device.mobile;
 
   @HostBinding('style.display') display = 'none';
-  @Output() collapsedChange = new EventEmitter<boolean>();
-  @Input() collapsed: boolean;
 
   @Input() set id(id: number) {
     if (!!id && id !== this._id) {
@@ -55,6 +55,9 @@ export class TopicTitleComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(({topic}) => this.id = +topic || null);
+
+    this.signal.signals$.pipe(filter(signal => signal instanceof CollapsedSignal))
+      .subscribe((signal: CollapsedSignal) => this.collapsed = signal.collapsed);
   }
 
   private openModal(component: any, title: string = '') {
@@ -84,7 +87,7 @@ export class TopicTitleComponent implements OnInit {
   }
 
   trigger() {
-    this.collapsedChange.emit(!this.collapsed);
-    this.signal.signal(new CollapsedSignal(this.collapsed))
+    console.log(this.collapsed);
+    this.signal.signal(new CollapsedSignal(!this.collapsed));
   }
 }

@@ -1,38 +1,48 @@
-<ng-template #indicatorTemplate>
-  <i nz-icon type="loading"></i>
-</ng-template>
+<moo-topic-title [attr.collapsed]="collapsed" [(collapsed)]="collapsed"></moo-topic-title>
 
-<ng-container *ngIf="loading; else content">
-  <div loading *ngIf="loading || !show">
-    <nz-spin nzSimple [nzIndicator]="indicatorTemplate"></nz-spin>
-  </div>
-</ng-container>
+<div message>
+  <div message-list #list (scroll)="scroll.position = list.scrollTop">
+    <ng-template #indicatorTemplate>
+      <i nz-icon type="loading"></i>
+    </ng-template>
 
-<ng-template #content>
-  <ng-container *ngIf="messages.length; else noData">
-    <div loading *ngIf="!show">
-      <nz-spin nzSimple [nzIndicator]="indicatorTemplate"></nz-spin>
-    </div>
-    <ul #container>
-      <li *ngFor="let message of messages" [attr.me]="me.user?.id === message.user.id">
-        <div [ngStyle]="{'color': colors[message.user.id]}">{{message.user.username}}</div>
-        <div *ngIf="!!message.content" text><span [innerHTML]="message.content | linkify"></span></div>
-        <div *ngIf="!!message.images.length" image>
-          <img *ngFor="let image of message.images"
-               [src]="image.image.url"
-               (click)="preview(image.image.url)"/>
+    <ng-container *ngIf="loading; else content">
+      <div loading *ngIf="loading || !show">
+        <nz-spin nzSimple [nzIndicator]="indicatorTemplate"></nz-spin>
+      </div>
+    </ng-container>
+
+    <ng-template #content>
+      <ng-container *ngIf="messages.length; else noData">
+        <div loading *ngIf="!show">
+          <nz-spin nzSimple [nzIndicator]="indicatorTemplate"></nz-spin>
         </div>
-      </li>
-    </ul>
-  </ng-container>
-</ng-template>
+        <ul #container [attr.show]="show">
+          <li *ngFor="let message of messages" [attr.me]="me.user?.id === message.user.id" #messageView>
+            <div [ngStyle]="{'color': colors[message.user.id]}">{{message.user.username}}</div>
+            <div *ngIf="!!message.content" text><span [innerHTML]="message.content | linkify"></span></div>
+            <div *ngIf="!!message.images.length" image>
+              <img *ngFor="let image of message.images"
+                   [src]="image.image.url"
+                   (click)="preview(image.image.url)"/>
+            </div>
+          </li>
+        </ul>
+      </ng-container>
+    </ng-template>
 
-<ng-template #noData>
-  <div nodata>
-    <nz-empty [nzNotFoundContent]="contentTpl"></nz-empty>
+    <ng-template #noData>
+      <div nodata>
+        <nz-empty [nzNotFoundContent]="contentTpl"></nz-empty>
+      </div>
+    </ng-template>
+
+    <ng-template #contentTpl>
+      <span> No messages yet </span>
+    </ng-template>
   </div>
-</ng-template>
+  <moo-create-message></moo-create-message>
+</div>
 
-<ng-template #contentTpl>
-  <span> No messages yet </span>
-</ng-template>
+
+

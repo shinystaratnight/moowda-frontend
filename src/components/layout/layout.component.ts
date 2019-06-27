@@ -8,6 +8,8 @@ import { MeManager } from 'src/managers/me.manager';
 import { ScrollManager } from 'src/managers/scroll.manager';
 import { LoginComponent } from '../login/login.component';
 import { CreateTopicComponent } from '../topics/create-topic/create-topic.component';
+import { SignalsService } from "junte-angular";
+import { CollapsedSignal } from "../../models/signal";
 
 @Component({
   selector: 'moo-layout',
@@ -22,9 +24,10 @@ export class LayoutComponent implements OnInit, AfterViewInit {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              public config: AppConfig,
               private modalService: NzModalService,
               private scroll: ScrollManager,
+              private signal: SignalsService,
+              public config: AppConfig,
               public me: MeManager) {
   }
 
@@ -32,6 +35,9 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd && this.config.device.mobile)
     ).subscribe(() => this.collapsed = true);
+
+    this.signal.signals$.pipe(filter(signal => signal instanceof CollapsedSignal))
+      .subscribe((signal: CollapsedSignal) => this.collapsed = signal.collapsed);
   }
 
   ngAfterViewInit() {

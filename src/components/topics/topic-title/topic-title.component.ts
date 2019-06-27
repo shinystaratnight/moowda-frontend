@@ -1,11 +1,13 @@
-import { Component, EventEmitter, HostBinding, Inject, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { NzModalService } from 'ng-zorro-antd';
-import { AppConfig } from 'src/app-config';
-import { ShareTopicComponent } from 'src/components/topics/share-topic/share-topic.component';
-import { MeManager } from 'src/managers/me.manager';
-import { Topic } from 'src/models/topic';
-import { ITopicsService, topics_service } from 'src/services/topics/interface';
+import {Component, EventEmitter, HostBinding, Inject, Input, OnInit, Output} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {NzModalService} from 'ng-zorro-antd';
+import {AppConfig} from 'src/app-config';
+import {ShareTopicComponent} from 'src/components/topics/share-topic/share-topic.component';
+import {MeManager} from 'src/managers/me.manager';
+import {Topic} from 'src/models/topic';
+import {ITopicsService, topics_service} from 'src/services/topics/interface';
+import {SignalsService} from "junte-angular";
+import {CollapsedSignal} from "../../../models/signal";
 
 @Component({
   selector: 'moo-topic-title',
@@ -46,6 +48,7 @@ export class TopicTitleComponent implements OnInit {
   constructor(@Inject(topics_service) private topicsService: ITopicsService,
               private modalService: NzModalService,
               private route: ActivatedRoute,
+              private signal: SignalsService,
               public config: AppConfig,
               public me: MeManager) {
   }
@@ -78,5 +81,10 @@ export class TopicTitleComponent implements OnInit {
 
   share() {
     this.openModal(ShareTopicComponent, 'Share with friends');
+  }
+
+  trigger() {
+    this.collapsedChange.emit(!this.collapsed);
+    this.signal.signal(new CollapsedSignal(this.collapsed))
   }
 }

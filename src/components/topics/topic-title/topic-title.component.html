@@ -1,6 +1,6 @@
 <div nz-row nzType="flex" nzAlign="middle" topic-title>
   <i nz-icon [type]="(collapsed && !config.device.mobile) ? 'arrow-right' : 'arrow-left'"
-     (click)="collapsedChange.emit(!collapsed)" trigger>
+     (click)="trigger()" trigger>
   </i>
   <span title>Topic: {{topic?.title}}</span>
 </div>

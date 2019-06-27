@@ -15,6 +15,7 @@
   [message-list] {
     position: relative;
     overflow-y: auto;
+    overflow-x: hidden;
     flex: 1;
   }
 }

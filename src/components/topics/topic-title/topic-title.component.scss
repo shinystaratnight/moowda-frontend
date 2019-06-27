@@ -12,6 +12,13 @@ $title-line-height: $line-height-base;
   background-color: white;
 }
 
+.ant-btn::ng-deep {
+  line-height: inherit;
+  > .anticon {
+    line-height: 0;
+  }
+}
+
 [topic-title] {
   flex-wrap: nowrap;
   flex: 1;

@@ -1,26 +1,27 @@
 import {
   AfterViewChecked,
   Component,
-  ElementRef, HostListener,
+  ElementRef,
+  HostListener,
   Inject,
   OnDestroy,
   OnInit,
-  QueryList, ViewChild,
-  ViewChildren
+  ViewChild
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd';
-import { Subscription } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { debounceTime, finalize } from 'rxjs/operators';
 import { ImagePreviewComponent } from 'src/components/messages/image-preview/image-preview.component';
 import { MeManager } from 'src/managers/me.manager';
+import { ScrollManager } from 'src/managers/scroll.manager';
 import { MessageAddedEvent, MessageCard } from 'src/models/message';
 import { IMessagesService, messages_service } from 'src/services/messages/interface';
 import { MessagesSocketService } from 'src/services/messages/socket';
-import {ScrollManager} from "../../../managers/scroll.manager";
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_PAGE_SIZE = 10;
+const SCROLL_DELAY = 1000;
 
 @Component({
   selector: 'moo-messages-list',
@@ -32,14 +33,15 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
   private _topic: number;
   private height: number;
   private subscriptions = new Subscription();
+  private scroll$ = new BehaviorSubject(false);
 
   messages: MessageCard[] = [];
   page: number = DEFAULT_PAGE;
   pageSize: number = DEFAULT_PAGE_SIZE;
   loading = false;
   colors = [];
+  show = false;
 
-  @ViewChildren('messageView') messageViews: QueryList<any>;
   @ViewChild('container') container: ElementRef;
 
   @HostListener('scroll', ['$event.target'])
@@ -74,6 +76,8 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
       this.pageSize = +pageSize || DEFAULT_PAGE_SIZE;
     });
 
+    this.scroll$.pipe(debounceTime(SCROLL_DELAY)).subscribe(() => this.scrollToBottom());
+
     this.subscriptions.add(this.messagesSocket.event$.subscribe(event => {
       if (event instanceof MessageAddedEvent) {
         this.setColor(event.message.user.id);
@@ -81,13 +85,13 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
         if (this.me.logged) {
           this.messagesService.read(this.topic, event.message.id).subscribe();
         }
-        this.scrollToBottom();
+        this.scroll$.next(true);
       }
     }));
   }
 
   ngAfterViewChecked() {
-    setTimeout(() => this.scrollToBottom());
+    this.scroll$.next(true);
   }
 
   ngOnDestroy() {
@@ -101,6 +105,8 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
       if (height !== this.height) {
         this.container.nativeElement.scrollIntoView(false);
         this.height = height;
+        console.log('show');
+        this.show = true;
       }
     }
   }

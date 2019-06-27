@@ -9,8 +9,8 @@
 
 <ng-template #content>
   <ng-container *ngIf="messages.length; else noData">
-    <ul #container>
-      <li *ngFor="let message of messages" [attr.me]="me.user?.id === message.user.id" #messageView>
+    <ul #container [style.opacity]="show ? '1' : '0'">
+      <li *ngFor="let message of messages" [attr.me]="me.user?.id === message.user.id">
         <div [ngStyle]="{'color': colors[message.user.id]}">{{message.user.username}}</div>
         <div *ngIf="!!message.content" text><span [innerHTML]="message.content | linkify"></span></div>
         <div *ngIf="!!message.images.length" image>

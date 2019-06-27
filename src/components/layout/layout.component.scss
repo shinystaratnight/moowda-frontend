@@ -21,12 +21,11 @@
   height: $header-height;
   line-height: 0;
   padding: 0;
-  transition: all 0.1s;
-  display: block;
+  transition: all 0.2s;
 
   &[extended='true'] {
     &[collapsed='true'] {
-      display: none;
+      height: 0;
     }
   }
 }

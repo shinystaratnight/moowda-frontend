@@ -1,25 +1,16 @@
-import {
-  AfterViewChecked,
-  Component,
-  ElementRef,
-  HostListener,
-  Inject,
-  OnDestroy,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { SignalsService } from 'junte-angular';
 import { NzModalService } from 'ng-zorro-antd';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import {debounceTime, filter, finalize} from 'rxjs/operators';
+import { debounceTime, filter, finalize } from 'rxjs/operators';
 import { ImagePreviewComponent } from 'src/components/messages/image-preview/image-preview.component';
 import { MeManager } from 'src/managers/me.manager';
 import { ScrollManager } from 'src/managers/scroll.manager';
 import { MessageAddedEvent, MessageCard } from 'src/models/message';
 import { IMessagesService, messages_service } from 'src/services/messages/interface';
 import { MessagesSocketService } from 'src/services/messages/socket';
-import {SignalsService} from "junte-angular";
-import {CollapsedSignal} from "../../../models/signal";
+import { CollapsedSignal } from '../../../models/signal';
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_PAGE_SIZE = 10;
@@ -107,8 +98,8 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
       if (height !== this.height) {
         this.container.nativeElement.scrollIntoView(false);
         this.height = height;
-        this.show = true;
       }
+      this.show = true;
     }
   }
 
@@ -126,6 +117,10 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
       .pipe(finalize(() => this.loading = false))
       .subscribe(paging => {
         this.messages = paging.results;
+
+        if (!this.messages.length) {
+          this.show = true;
+        }
 
         this.messages.forEach(message => this.setColor(message.user.id));
         if (!!this.messages.length && this.me.logged) {

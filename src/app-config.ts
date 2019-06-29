@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {Config} from 'junte-angular';
 
 const APP_VERSION = '1.0.0';
-const BACKEND_ENDPOINT = 'http://moowda.com/api';
-const WS_ENDPOINT = 'ws://moowda.com';
+const BACKEND_ENDPOINT = 'https://moowda.com/api';
+const WS_ENDPOINT = 'wss://moowda.com';
 const MOCKS_PATH = './assets/mocks';
 
 @Injectable({providedIn: 'root'})

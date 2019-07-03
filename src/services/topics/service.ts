@@ -3,7 +3,7 @@ import { HttpService } from 'junte-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { deserialize } from 'serialize-ts';
-import { Topic, TopicCard } from 'src/models/topic';
+import { CreateTopicCredentials, Topic, TopicCard } from 'src/models/topic';
 import { ITopicsService } from 'src/services/topics/interface';
 
 @Injectable({providedIn: 'root'})
@@ -22,8 +22,8 @@ export class TopicsService implements ITopicsService {
       .pipe(map(obj => deserialize(obj, Topic)));
   }
 
-  create(title: string): Observable<Topic> {
-    return this.http.post<Topic>('topics', {title: title})
+  create(credentials: CreateTopicCredentials): Observable<Topic> {
+    return this.http.post<Topic>('topics', credentials)
       .pipe(map(obj => deserialize(obj, Topic)));
   }
 }

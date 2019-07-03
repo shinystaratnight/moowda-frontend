@@ -1,4 +1,4 @@
-import { deserialize, Field, Name } from 'serialize-ts/dist';
+import { deserialize, Field, Model, Name } from 'serialize-ts/dist';
 
 const TOPIC_MESSAGE_ADDED = 'topic_message_added';
 const TOPIC_CREATED = 'topic_created';
@@ -58,5 +58,17 @@ export class TopicCreatedEvent extends TopicEvent {
   constructor(topic: TopicCard) {
     super();
     this.topic = topic;
+  }
+}
+
+@Model()
+export class CreateTopicCredentials {
+  @Field()
+  title: string;
+
+  constructor(defs: CreateTopicCredentials = null) {
+    if (!!defs) {
+      Object.assign(this, defs);
+    }
   }
 }

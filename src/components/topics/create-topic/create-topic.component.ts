@@ -2,7 +2,7 @@ import { Component, EventEmitter, HostBinding, Inject, Output } from '@angular/c
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { validate } from 'junte-angular';
 import { AppConfig } from 'src/app-config';
-import { Topic } from 'src/models/topic';
+import { CreateTopicCredentials, Topic } from 'src/models/topic';
 import { ITopicsService, topics_service } from 'src/services/topics/interface';
 
 const MOBILE_HEADER_HEIGHT = 80;
@@ -33,7 +33,8 @@ export class CreateTopicComponent {
 
   create() {
     if (validate(this.topicForm)) {
-      this.topicsService.create(this.topicForm.value).subscribe(() => this.created.emit());
+      this.topicsService.create(new CreateTopicCredentials(this.topicForm.value))
+        .subscribe(() => this.created.emit());
     }
   }
 }

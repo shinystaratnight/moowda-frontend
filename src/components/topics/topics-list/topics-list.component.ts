@@ -67,9 +67,6 @@ export class TopicsListComponent implements OnInit {
       .subscribe(topics => {
         this.topics = topics;
         this.haveMessages.emit(!!this.topics.find(topic => !!topic.unreadMessagesCount));
-        if (!this.current) {
-          this.router.navigate([topics[0].id], {relativeTo: this.route});
-        }
       });
   }
 }

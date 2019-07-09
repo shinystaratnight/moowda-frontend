@@ -1,6 +1,6 @@
 <ul nz-menu>
   <li *ngFor="let topic of topics" nz-menu-item
-      [routerLink]="['..', topic.id]"
+      [routerLink]="['/chat/topics', topic.id]"
       [attr.active]="current === topic.id" item>
     <div topic>
       <span title>{{topic.title}}</span>

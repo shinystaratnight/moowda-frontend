@@ -1,15 +1,15 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import {NzModalService} from 'ng-zorro-antd';
-import {debounceTime, filter} from 'rxjs/operators';
-import {AppConfig} from 'src/app-config';
-import {PLATFORM_DELAY} from 'src/consts';
-import {MeManager} from 'src/managers/me.manager';
-import {ScrollManager} from 'src/managers/scroll.manager';
-import {LoginComponent} from '../login/login.component';
-import {CreateTopicComponent} from '../topics/create-topic/create-topic.component';
-import {SignalsService} from "junte-angular";
-import {CollapsedSignal} from "../../models/signal";
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { SignalsService } from 'junte-angular';
+import { NzModalService } from 'ng-zorro-antd';
+import { debounceTime, filter } from 'rxjs/operators';
+import { AppConfig } from 'src/app-config';
+import { PLATFORM_DELAY } from 'src/consts';
+import { MeManager } from 'src/managers/me.manager';
+import { ScrollManager } from 'src/managers/scroll.manager';
+import { CollapsedSignal } from 'src/models/signal';
+import { LoginComponent } from '../login/login.component';
+import { CreateTopicComponent } from '../topics/create-topic/create-topic.component';
 
 const SCROLL_OFFSET = 60;
 

@@ -34,7 +34,7 @@ export class CreateTopicComponent {
   create() {
     if (validate(this.topicForm)) {
       this.topicsService.create(new CreateTopicCredentials(this.topicForm.value))
-        .subscribe(() => this.created.emit());
+        .subscribe(topic => this.created.emit(topic));
     }
   }
 }

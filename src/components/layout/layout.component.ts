@@ -70,7 +70,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
         case 'CreateTopicComponent': {
           (component as CreateTopicComponent).created.subscribe(topic => {
             modal.close();
-            this.router.navigate(['..', topic.id], {relativeTo: this.route});
+            this.router.navigate(['/chat/topics', topic.id], {relativeTo: this.route});
           });
           break;
         }

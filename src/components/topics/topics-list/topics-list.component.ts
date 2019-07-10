@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SignalsService } from 'junte-angular';
 import { NzModalService } from 'ng-zorro-antd';
 import { filter, finalize } from 'rxjs/operators';
 import { MeManager } from 'src/managers/me.manager';
+import { CollapsedSignal } from 'src/models/signal';
 import { TopicCard, TopicCreatedEvent, TopicMessageAddedEvent } from 'src/models/topic';
 import { ITopicsService, topics_service } from 'src/services/topics/interface';
 import { TopicsSocketService } from 'src/services/topics/socket';
@@ -39,6 +41,7 @@ export class TopicsListComponent implements OnInit {
               private modalService: NzModalService,
               private router: Router,
               private route: ActivatedRoute,
+              private signal: SignalsService,
               public me: MeManager) {
   }
 
@@ -67,6 +70,9 @@ export class TopicsListComponent implements OnInit {
       .subscribe(topics => {
         this.topics = topics;
         this.haveMessages.emit(!!this.topics.find(topic => !!topic.unreadMessagesCount));
+        if (!this.current) {
+          this.signal.signal(new CollapsedSignal(false));
+        }
       });
   }
 }

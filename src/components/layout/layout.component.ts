@@ -66,21 +66,16 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     modal.afterOpen.subscribe(() => {
       const component = modal.getContentComponent();
 
-      switch (component.constructor.name) {
-        case 'CreateTopicComponent': {
-          (component as CreateTopicComponent).created.subscribe(topic => {
-            modal.close();
-            this.router.navigate(['/chat/topics', topic.id], {relativeTo: this.route});
-          });
-          break;
-        }
-        case 'LoginComponent': {
-          (component as LoginComponent).logged.pipe(debounceTime(PLATFORM_DELAY)).subscribe(() => {
-            modal.close();
-            this.create();
-          });
-          break;
-        }
+      if (component instanceof CreateTopicComponent) {
+        (component as CreateTopicComponent).created.subscribe(topic => {
+          modal.close();
+          this.router.navigate(['/chat/topics', topic.id], {relativeTo: this.route});
+        });
+      } else if (component instanceof LoginComponent) {
+        (component as LoginComponent).logged.pipe(debounceTime(PLATFORM_DELAY)).subscribe(() => {
+          modal.close();
+          this.create();
+        });
       }
     });
   }

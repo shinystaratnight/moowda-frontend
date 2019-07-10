@@ -87,7 +87,6 @@ export class TopicTitleComponent implements OnInit {
   }
 
   trigger() {
-    console.log(this.collapsed);
     this.signal.signal(new CollapsedSignal(!this.collapsed));
   }
 }

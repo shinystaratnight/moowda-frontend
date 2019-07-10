@@ -10,11 +10,11 @@ import { ScrollManager } from 'src/managers/scroll.manager';
 import { MessageAddedEvent, MessageCard } from 'src/models/message';
 import { IMessagesService, messages_service } from 'src/services/messages/interface';
 import { MessagesSocketService } from 'src/services/messages/socket';
-import { CollapsedSignal } from '../../../models/signal';
+import { CollapsedSignal } from 'src/models/signal';
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_PAGE_SIZE = 10;
-const SCROLL_DELAY = 1000;
+const SCROLL_DELAY = 500;
 
 @Component({
   selector: 'moo-messages-list',

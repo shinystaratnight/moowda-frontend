@@ -57,8 +57,6 @@ export class TopicsListComponent implements OnInit {
           const found = this.topics.findIndex(topic => topic.id === event.topic.id);
           this.topics[found] = event.topic;
         }
-      } else if (event instanceof TopicCreatedEvent) {
-        this.topics.unshift(event.topic);
       }
     });
   }

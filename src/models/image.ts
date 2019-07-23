@@ -6,6 +6,10 @@ export class Image {
   id: number;
   @Field()
   url: string;
+  @Field()
+  height: number;
+  @Field()
+  width: number;
 }
 
 @Model()

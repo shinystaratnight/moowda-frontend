@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
-import {Config} from 'junte-angular';
+import { Injectable } from '@angular/core';
+import { Config } from 'junte-angular';
 
 const APP_VERSION = '1.0.0';
 const BACKEND_ENDPOINT = 'https://moowda.com/api';

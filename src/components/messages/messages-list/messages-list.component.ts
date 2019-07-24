@@ -68,7 +68,7 @@ export class MessagesListComponent implements OnInit, OnDestroy {
     this.signal.signals$.pipe(filter(signal => signal instanceof CollapsedSignal))
       .subscribe((signal: CollapsedSignal) => this.collapsed = signal.collapsed);
 
-    this.scroll$.subscribe(() => this.scrollToBottom());
+    this.scroll$.subscribe(() => setTimeout(() => this.scrollToBottom()));
 
     this.subscriptions.add(this.messagesSocket.event$.subscribe(event => {
       if (event instanceof MessageAddedEvent) {
@@ -119,7 +119,7 @@ export class MessagesListComponent implements OnInit, OnDestroy {
         if (!!this.messages.length && this.me.logged) {
           this.messagesService.read(this.topic, this.messages[this.messages.length - 1].id).subscribe();
         }
-        setTimeout(() => this.scrollToBottom());
+        this.scroll$.next(true);
       });
   }
 

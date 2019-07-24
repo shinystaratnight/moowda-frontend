@@ -1,27 +1,26 @@
-import { AfterViewChecked, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SignalsService } from 'junte-angular';
 import { NzModalService } from 'ng-zorro-antd';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { debounceTime, filter, finalize } from 'rxjs/operators';
+import { filter, finalize } from 'rxjs/operators';
 import { ImagePreviewComponent } from 'src/components/messages/image-preview/image-preview.component';
 import { MeManager } from 'src/managers/me.manager';
 import { ScrollManager } from 'src/managers/scroll.manager';
 import { MessageAddedEvent, MessageCard } from 'src/models/message';
+import { CollapsedSignal } from 'src/models/signal';
 import { IMessagesService, messages_service } from 'src/services/messages/interface';
 import { MessagesSocketService } from 'src/services/messages/socket';
-import { CollapsedSignal } from 'src/models/signal';
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_PAGE_SIZE = 10;
-const SCROLL_DELAY = 500;
 
 @Component({
   selector: 'moo-messages-list',
   templateUrl: './messages-list.component.html',
   styleUrls: ['./messages-list.component.scss']
 })
-export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestroy {
+export class MessagesListComponent implements OnInit, OnDestroy {
 
   private _topic: number;
   private height: number;
@@ -69,7 +68,7 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
     this.signal.signals$.pipe(filter(signal => signal instanceof CollapsedSignal))
       .subscribe((signal: CollapsedSignal) => this.collapsed = signal.collapsed);
 
-    this.scroll$.pipe(debounceTime(SCROLL_DELAY)).subscribe(() => this.scrollToBottom());
+    this.scroll$.subscribe(() => this.scrollToBottom());
 
     this.subscriptions.add(this.messagesSocket.event$.subscribe(event => {
       if (event instanceof MessageAddedEvent) {
@@ -83,10 +82,6 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
     }));
   }
 
-  ngAfterViewChecked() {
-    this.scroll$.next(true);
-  }
-
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
     this.messagesSocket.close();
@@ -95,10 +90,8 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
   scrollToBottom() {
     if (!!this.container) {
       const height = this.container.nativeElement.scrollHeight;
-      if (height !== this.height) {
-        this.container.nativeElement.scrollIntoView(false);
-        this.height = height;
-      }
+      this.container.nativeElement.scrollIntoView(false);
+      this.height = height;
       this.show = true;
     }
   }
@@ -126,6 +119,7 @@ export class MessagesListComponent implements OnInit, AfterViewChecked, OnDestro
         if (!!this.messages.length && this.me.logged) {
           this.messagesService.read(this.topic, this.messages[this.messages.length - 1].id).subscribe();
         }
+        setTimeout(() => this.scrollToBottom());
       });
   }
 

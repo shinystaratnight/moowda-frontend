@@ -21,8 +21,7 @@
             <div *ngIf="!!message.images.length" image>
               <img *ngFor="let image of message.images"
                    [src]="image.image.url"
-                   [style.height]="image.image.height + 'px'"
-                   [style.width]="image.image.width + 'px'"
+                   [style.height]="image.image.height | imgHeight: image.image.width"
                    (click)="preview(image.image.url)"/>
             </div>
           </li>

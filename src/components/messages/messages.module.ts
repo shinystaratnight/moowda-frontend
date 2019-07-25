@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
-import { SanitizePipe } from 'src/components/messages/messages.pipe';
+import { ImageHeightPipe, SanitizePipe } from 'src/components/messages/messages.pipe';
 import { TopicsModule } from 'src/components/topics/topics.module';
 import { MessagesServiceProvider, messagesSocketServiceProvider } from 'src/services/messages/provider';
 import { TopicsServiceProvider } from 'src/services/topics/provider';
@@ -15,7 +15,8 @@ import { MessagesListComponent } from './messages-list/messages-list.component';
     MessagesListComponent,
     CreateMessageComponent,
     ImagePreviewComponent,
-    SanitizePipe
+    SanitizePipe,
+    ImageHeightPipe
   ],
   imports: [
     CommonModule,
